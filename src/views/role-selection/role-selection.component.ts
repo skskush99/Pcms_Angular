@@ -25,11 +25,11 @@ export class RoleSelectionComponent {
   ip : string = '';
   colDefs: ColDef[] = [
     { field: 'srNo', headerName: 'Sr No' ,  sortable : false , valueGetter: 'node.rowIndex + 1', width: 80},
-    { field: '', headerName: 'Role Name' , autoHeight : true ,  width: 190 , filter : false , valueGetter : e => e.data?.loginUserData?.roleName},
-    { field: '', headerName: 'Name' , width: 190 , autoHeight : true , filter : false , valueGetter : e => e.data?.loginUserData?.name},
-    { field: '', headerName: 'Department Name', minWidth:190 , flex : 1 , autoHeight : true , filter : false , valueGetter : e => e.data?.loginUserData?.departmentName},
-    { field: '', headerName: 'HoD/Unit Name', width: 180 , filter : false , autoHeight : true , valueGetter : e => e.data?.loginUserData?.unitName},
-    { field: '', headerName: 'Office Name'  , autoHeight : true , filter : false , valueGetter : e => e.data?.loginUserData?.officeName
+    { field: '', headerName: 'Role Name' , autoHeight : true ,  width: 190 , filter : false , valueGetter : (e: any) => e.data?.loginUserData?.roleName},
+    { field: '', headerName: 'Name' , width: 190 , autoHeight : true , filter : false , valueGetter : (e: any) => e.data?.loginUserData?.name},
+    { field: '', headerName: 'Department Name', minWidth:190 , flex : 1 , autoHeight : true , filter : false , valueGetter : (e: any) => e.data?.loginUserData?.departmentName},
+    { field: '', headerName: 'HoD/Unit Name', width: 180 , filter : false , autoHeight : true , valueGetter : (e: any) => e.data?.loginUserData?.unitName},
+    { field: '', headerName: 'Office Name'  , autoHeight : true , filter : false , valueGetter : (e: any) => e.data?.loginUserData?.officeName
     },
     {
       field: 'action',
