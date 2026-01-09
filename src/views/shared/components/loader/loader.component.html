@@ -1,0 +1,8 @@
+<!-- @if (isLoading) {
+<div class="loader"></div>
+} -->
+<div *ngIf="isLoading | async" class="loader-overlay">
+<!-- <div class="overlay"> -->
+<div class="loader" ></div>
+<!-- </div> -->
+</div>

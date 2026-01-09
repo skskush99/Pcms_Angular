@@ -1,0 +1,243 @@
+/* Side Navigation Component Styles */
+
+.childrenCls {
+  overflow: hidden;
+}
+
+.sidebar {
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(
+    180deg,
+    rgba(117, 159, 206, 0.95) 0%,
+    rgba(107, 155, 200, 0.95) 50%,
+    rgba(90, 139, 184, 0.95) 100%
+  );
+}
+
+/* Navbar animations */
+.nav {
+  transition: transform 0.3s ease;
+}
+
+/* Slide out to the left (-100%) */
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Slide in from the left (back to 0) */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Initial state: hide */
+.hide {
+  animation: slideOut 0.3s ease forwards;
+}
+
+/* Show state */
+.show {
+  animation: slideIn 0.3s ease forwards;
+}
+
+/* Styling for nav links */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  cursor: pointer;
+}
+
+/* Rotate icon for expandable items */
+.ifChildren i {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.activeSub {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Padding for nested items */
+.pl-5 {
+  padding-left: 1.25rem;
+}
+
+/* Ensure list items have no bullets */
+li {
+  list-style: none;
+}
+
+/* Active link styling */
+.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-left: 3px solid white;
+}
+
+/* Main menu item hover effect */
+.main:hover {
+  transform: translateX(4px);
+}
+
+/* Submenu item styling */
+.subMenu {
+  position: relative;
+}
+
+.subMenu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: white;
+  border-radius: 0 2px 2px 0;
+  transition: height 0.3s ease;
+}
+
+.subMenu:hover::before {
+  height: 100%;
+}
+
+/* Logo section enhancement */
+.logo {
+  position: relative;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Smooth transitions for all interactive elements */
+.main,
+.subMenu,
+li {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon container styling */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Submenu children animation */
+.subChildren {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Active state enhancement */
+li[ngClass*='active'] {
+  background: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Hover effect for submenu items */
+.subChildren li:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Close button enhancement */
+button:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .sidebar {
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Focus states for accessibility */
+.main:focus-visible,
+.subMenu:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Smooth icon rotation */
+.fa-chevron-right {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced group hover effects */
+.group:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Text shadow for better readability */
+.main span {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Submenu item dot indicator */
+.subChildren li .w-1\.5 {
+  transition: all 0.2s ease;
+}
+
+.subChildren li:hover .w-1\.5 {
+  transform: scale(1.3);
+  background: white;
+}

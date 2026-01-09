@@ -1,0 +1,43 @@
+<div class="layout h-screen flex justify-center items-start mt-12 px-4 sm:px-8 md:px-12">
+    <form [formGroup]="loginForm" class="loginForm grid grid-cols-12 w-full max-w-3xl gap-6 bg-white py-8 rounded-lg h-auto">
+  
+      <!-- Logo Section -->
+      <div class="logo col-span-12 place-self-center">
+        <!-- <img src="../../assets/lites_new.jpeg" alt="Logo" class="h-32 mx-auto"> -->
+        <img src="assets/pamc_logo.jpeg" alt="Logo" class="h-32 mx-auto">
+      </div>
+  
+      <!-- Welcome Text -->
+      <div class="col-span-12 place-self-center text-center">
+        <h2 class="text-2xl md:text-xl font-bold">Welcome To PAMC</h2>
+        <p class="text-lg md:text-xl">Sign In </p>
+      </div>
+  
+      <!-- Form Fields -->
+      <div class="fields col-span-12 flex flex-col gap-2 justify-center items-center">
+        <div class="userName flex flex-col gap-2 w-full max-w-md">
+          <label for="userName" class="text-left">User Name</label>
+          <div class="border border-[#c7c8c9] w-full rounded-md overflow-hidden py-1 bg-white">
+            <input type="text" formControlName="userName" id="userName" class="w-full outline-none px-2 py-1 font-normal" placeholder="Enter User Name">
+          </div>
+        </div>
+  
+        <div class="password flex flex-col gap-2 w-full max-w-md">
+          <label for="password" class="text-left">Password</label>
+          <div class="border border-[#c7c8c9] w-full rounded-md overflow-hidden py-1 bg-white">
+            <input type="password" formControlName="password" id="password" class="w-full outline-none px-2 py-1 font-normal" placeholder="Enter Password">
+          </div>
+          <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            <p class="ml-1 text-red-500">Password is required</p>
+          </div>
+        </div>
+  
+        <!-- Action Button -->
+        <div class="actionBtn mt-5">
+          <button type="submit" class="bg-blue-500 w-full rounded-lg flex items-center text-sm px-4 py-1.5 text-white  font-semibold outline-none" (click)="onSignIn()">Sign In</button>
+        </div>
+      </div>
+  
+    </form>
+  </div>
+  

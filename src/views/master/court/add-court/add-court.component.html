@@ -1,0 +1,156 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <!-- Header -->
+          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
+              <div class="flex items-center gap-3">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                 </svg>
+                 <h2 class="text-xl font-bold text-white">{{editCourt ? 'Edit/Update' : 'Add'}} Court</h2>
+              </div>
+              <button class="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110" (click)="onCancel()">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+              </button>
+          </div>
+
+          <!-- Form -->
+          <div>
+              <form [formGroup]="addCourtForm" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <!-- Court English Name -->
+                      <div class="form-group">
+                        <label for="courtEng" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                          Court English Name
+                          <sup class="text-red-500 text-base ml-0.5">*</sup>
+                        </label>
+                        <input type="text" id="adminDept"
+                            (keypress)="restrictChar.onlyAlphabets($event)" 
+                            formControlName="courtEng" 
+                            placeholder="Enter Court English Name"
+                            autocomplete="off"
+                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                        <div *ngIf="addCourtForm.get('courtEng')?.hasError('required') && addCourtForm.get('courtEng')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Court English Name is required
+                        </div>
+                        <div *ngIf="addCourtForm.get('courtEng')?.hasError('pattern') && addCourtForm.get('courtEng')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Court English Name should only contain alphabets
+                        </div>
+                      </div>
+
+                      
+
+                      <!-- Court Hindi Name -->
+                      <div class="form-group">
+                          <label for="courtHin" class="block text-sm font-semibold text-gray-700 mb-2.5">Court Hindi Name</label>
+                          <input type="text" autocomplete="off" 
+                              id="courtHin" (keypress)="restrictChar.onlyAlphabets($event)"
+                              formControlName="courtHin"
+                              placeholder="Enter Court Hindi Name"
+                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                          <div *ngIf="addCourtForm.get('courtHin')?.hasError('required') && addCourtForm.get('courtHin')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Court Hindi Name is required
+                          </div>
+                          <div *ngIf="addCourtForm.get('courtHin')?.hasError('pattern') && addCourtForm.get('courtHin')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Court Hindi Name should only contain alphabets
+                          </div>
+                      </div>
+
+                      <!-- <div class="">
+                        <app-date-picker formControlName="date" [min]="'2025-05-01'"></app-date-picker>
+                    </div> -->
+
+
+                
+      <!-- Division -->
+      <div class="form-group">
+        <label for="division" class="block text-sm font-semibold text-gray-700 mb-2.5">
+          Division
+          <sup class="text-red-500 text-base ml-0.5">*</sup>
+        </label>
+
+        <ng-select 
+        [items]="divisionDropdown"
+        bindLabel="text"
+        (change)="getDistrictDropdown()"
+        bindValue="value"
+        [compareWith]="compareWithFunc"
+        placeholder="Select Division"
+        formControlName="division"
+        class="custom-ng-select"
+        id="division"
+        >
+        </ng-select>
+        <div *ngIf="addCourtForm.get('division')?.hasError('required') && addCourtForm.get('division')?.touched" 
+            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Division is required
+        </div>
+      </div>
+         
+          <!-- District -->
+      <div class="form-group">
+        <label for="district" class="block text-sm font-semibold text-gray-700 mb-2.5">
+          District
+          <sup class="text-red-500 text-base ml-0.5">*</sup>
+        </label>
+
+        <ng-select 
+        [items]="districtDropdown"
+        bindLabel="text"
+        bindValue="value"
+        [compareWith]="compareWithFunc"
+        placeholder="Select District"
+        formControlName="district"
+        class="custom-ng-select"
+        id="district"
+        >
+        </ng-select>
+        <div *ngIf="addCourtForm.get('district')?.hasError('required') && addCourtForm.get('district')?.touched" 
+            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            District is required
+        </div>
+      </div>
+
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="flex justify-end mt-4  gap-4">
+                     
+                      <app-button (clicked)="onSave()" bgType="5" label="Save"></app-button>
+                      <app-button (clicked)="onCancel()" bgType="4" label="Cancel"></app-button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  <!-- </div> -->
+</div>
+
+
+
+
+<!-- <div class="bg-gray-200 w-[300px] h-[20px]">
+    <app-date-picker></app-date-picker>
+</div> -->

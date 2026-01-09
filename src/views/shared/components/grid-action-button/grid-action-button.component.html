@@ -1,0 +1,11 @@
+<div class="btns flex items-center justify-center gap-5 h-full" *ngIf="!Type">
+    <i class="fa-solid fa-pen-to-square h-6 w-6 flex items-center justify-center bg-yellow-500 text-white rounded-md cursor-pointer" (click)="edit()" title="Click to Active"></i>
+    <i class="fa-solid fa-trash h-6 w-6 flex items-center justify-center bg-red-500 text-white rounded-md cursor-pointer" (click)="delete()" title="Click to Edit"></i>
+</div>
+
+
+@if (Type == 'permissionMappingApprove') {
+    <div class="flex items-center justify-center">
+        <button (click)="permissionMappingApprove()" class="py-2 w-32  rounded-lg " [ngClass]="!params.data?.UserMapped ? 'bg-green-600 text-white' : 'bg-white border-1 border-black pointer-events-none text-black cursor-not-allowed'">{{params.data?.UserMapped == 1 ? 'Approved' : params.data?.UserMapped == 2 ? 'Rejected' : 'Approve'}}</button>
+    </div>
+}

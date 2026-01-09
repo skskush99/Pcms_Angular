@@ -1,0 +1,135 @@
+<nav class="z-50 w-full px-4 lg:px-6 top-0 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] shadow-lg border-b border-white/20 backdrop-blur-sm relative">
+    <div class="py-4">
+       <div class="flex items-center justify-between">
+          <div class="flex items-center justify-start gap-4">
+            <!-- @if (showHamBurger) { -->
+             <button (click)="toggleSidebarVisibility()"
+                class="toggleBtn text-white hover:text-white cursor-pointer p-2.5 hover:bg-white/20 focus:bg-white/20 focus:ring-2 focus:ring-white/30 rounded-lg focus:text-white transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg">
+                <svg id="toggleSidebarMobileHamburger" class="w-6 h-6" fill="currentColor"
+                   viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                   <path fill-rule="evenodd"
+                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"></path>
+                </svg>
+                <svg id="toggleSidebarMobileClose" class="w-6 h-6 hidden" fill="currentColor"
+                   viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                   <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                </svg>
+
+             </button>
+
+
+             <div class="searchBar border-2 border-white/30 rounded-xl bg-white/95 backdrop-blur-sm flex items-center w-72 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-white/50 focus-within:border-[#496D7E] focus-within:ring-2 focus-within:ring-[#496D7E]/20">
+               <div class="flex items-center justify-center ml-3 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+               </div>
+               <input type="text" (keypress)="wordRestrict.onlyNumber($event)" name="" id="" class="w-full outline-none rounded-xl ml-2 py-2.5 pr-3 text-gray-700 placeholder-gray-400" placeholder="Enter Case No. For Search">
+            </div>
+            <!-- } -->
+            
+             
+             <!-- @if (userDetails?.roleId == 1) {
+               <p class="text-white ml-4 uppercase font-medium">
+                  Welcome To The Justice Department
+               </p>  
+             }@else {
+             <p class="text-white ml-4 uppercase font-medium">
+                Welcome To The {{userDetails?.officeName || userDetails?.unitName || userDetails?.departmentName}}
+             </p>
+            } -->
+          </div>
+        
+        
+         
+         
+          <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
+               <p class="text-white font-bold text-sm uppercase tracking-wide">
+                  Welcome To PCMS
+               </p>
+            </div>
+             <button id="toggleSidebarMobileSearch" type="button"
+                class="lg:hidden text-white hover:text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 hover:scale-110">
+                <span class="sr-only">Search</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                   xmlns="http://www.w3.org/2000/svg">
+                   <path fill-rule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clip-rule="evenodd"></path>
+                </svg>
+             </button>
+             <div id="userDetailDropdown" class="relative rounded-full w-11 h-11 flex items-center justify-center z-[10000]">
+             <a id="userDetailDropdown" (click)="openDetailDropdown()"
+                class="hidden sm:inline-flex rounded-full w-11 h-11 text-[#004560] hover:text-white bg-white hover:bg-[#004560] cursor-pointer font-semibold hover:border-2 hover:border-white/50 text-sm justify-center items-center duration-300 shadow-lg hover:shadow-xl transition-all hover:scale-110 relative z-[10001]">
+                <i id="userDetailDropdown" class="fa-solid fa-user text-lg"></i>
+               </a>
+               @if (openUserDetails) {
+               <div [@onOff] id="userDetailDropdown" class="font-semibold text-sm useDetails w-80 bg-white text-gray-800 rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
+                 
+                 
+                   <div id="userDetailDropdown" class="ssoid flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#759fce] to-[#6b9bc8] text-white">
+                    <p id="userDetailDropdown" class="font-semibold">SSO ID</p>
+                    <p id="userDetailDropdown" class="text-pretty font-bold">{{currentUser?.loginUserData?.ssoid || ''}}</p>
+                 </div>
+                 <div class="border-b border-gray-200"></div>
+                 <div class="switchLanguage px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors duration-200 cursor-pointer group">
+                  <p class="switchLangArrow text-gray-400 group-hover:text-[#4E57A3] transition-transform duration-300"><i class="fa-solid fa-angle-right"></i></p>
+                  <p class="font-medium text-sm text-gray-700">Switch Language</p>
+                     <div class="selectLang flex-col font-normal bg-white border border-gray-200 rounded-lg shadow-xl min-w-[120px]">
+                        <p class="hover:from-[#759fce] to-[#6b9bc8] hover:bg-gradient-to-r hover:text-white h-full p-3 duration-300 rounded-t-lg cursor-pointer transition-colors" (click)="changeLang('en')">English</p>
+                        <div class="border-t border-gray-200"></div>
+                        <p class="hover:from-[#759fce] to-[#6b9bc8] hover:bg-gradient-to-r hover:text-white p-3 duration-300 rounded-b-lg cursor-pointer transition-colors" (click)="changeLang('hi')">Hindi</p>
+                     </div>
+                 </div>
+                 <div class="border-b border-gray-200"></div>
+                 <!--<div *ngIf="userDetails?.name" class="ssoid flex items-center justify-between px-3 py-2" id="userDetailDropdown">
+                    <p id="userDetailDropdown">Name : </p>
+                    <p id="userDetailDropdown" class="text-pretty">{{userDetails?.name}}</p>
+                 </div>
+                 <hr class="" id="userDetailDropdown" *ngIf="userDetails?.departmentName">
+                 <div *ngIf="userDetails?.departmentName" class="ssoid flex items-center justify-between px-3 py-2 flex-wrap gap-3" id="userDetailDropdown">
+                    <p id="userDetailDropdown">Departement : </p>
+                    <p id="userDetailDropdown" class="text-pretty">{{userDetails?.departmentName}}</p>
+                 </div>
+                 <hr class="" *ngIf="userDetails?.unitName">
+                 <div *ngIf="userDetails?.unitName" id="userDetailDropdown" class="ssoid flex items-center justify-between px-3 py-2 ">
+                    <p id="userDetailDropdown">HoD/Unit : </p>
+                    <p id="userDetailDropdown" class="text-pretty">{{userDetails?.unitName}}</p>
+                 </div>
+                 <hr *ngIf="userDetails?.officeName">
+                 <div *ngIf="userDetails?.officeName" id="userDetailDropdown" class="ssoid flex items-center justify-between px-3 py-2">
+                    <p id="userDetailDropdown">Office : </p>
+                    <p id="userDetailDropdown" class="text-pretty">{{userDetails?.officeName}}</p>
+                 </div>
+                 <hr *ngIf="userDetails?.userName">
+                 <div *ngIf="userDetails?.userName" id="userDetailDropdown" class="ssoid flex items-center justify-between px-3 py-2">
+                    <p id="userDetailDropdown">LITES ID : </p>
+                    <p id="userDetailDropdown" class="text-pretty">{{userDetails?.userName}}</p>
+                 </div>
+                 <hr class="" id="userDetailDropdown"> -->
+                 <div id="userDetailDropdown" class="ssoid" (click)="backToSso()">
+                   <form #redirectBackToSSO ngNoForm method="post" class="flex items-center gap-3 px-4 py-3 hover:bg-gradient-to-r hover:from-[#004560] hover:to-[#005a7a] hover:text-white text-gray-600 cursor-pointer transition-all duration-300 group">
+                  <input type="text" class="hidden" id="backToSsoBtn" [ngModel]="sToken">
+                  <i id="userDetailDropdown" class="fa-solid fa-right-from-bracket text-gray-400 group-hover:text-white transition-colors"></i>
+                    <button id="userDetailDropdown" class="outline-none font-medium">Back To SSO</button>
+                  </form>
+                 </div>
+                 <div class="border-b border-gray-200"></div>
+                 <div id="userDetailDropdown" (click)="logout()">
+                  <form #logoutBackToSSO ngNoForm method="post" class="flex items-center gap-3 px-4 py-3 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white text-gray-600 cursor-pointer transition-all duration-300 group rounded-b-xl">
+                     <input type="text" class="hidden" id="backToSsoBtnlogout">
+                     <i id="userDetailDropdown" class="fa-solid fa-right-from-bracket text-gray-400 group-hover:text-white transition-colors"></i>
+                       <button id="userDetailDropdown" class="outline-none font-medium">Logout</button>
+                     </form>
+                 </div> 
+               </div>
+            }
+            </div>
+          </div>
+       </div>
+    </div>
+ </nav>

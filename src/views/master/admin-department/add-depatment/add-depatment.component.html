@@ -1,0 +1,121 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <!-- Header -->
+          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
+              <div class="flex items-center gap-3">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                 </svg>
+                 <h2 class="text-xl font-bold text-white">{{editAdminDept ? 'Edit/Update' : 'Add'}} Administrative Department</h2>
+              </div>
+              <button class="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110" (click)="onCancel()">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+              </button>
+          </div>
+
+          <!-- Form -->
+          <div>
+              <form [formGroup]="addAdminDeptForm" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <!-- Admin Department -->
+                      <div class="form-group">
+                        <label for="adminDept" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                          Administrative Department
+                          <sup class="text-red-500 text-base ml-0.5">*</sup>
+                        </label>
+                        <input type="text" id="adminDept"
+                            (keypress)="restrictChar.onlyAlphabets($event)" 
+                            formControlName="adminDept" 
+                            placeholder="Enter Admin Department"
+                            autocomplete="off"
+                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                        <div *ngIf="addAdminDeptForm.get('adminDept')?.hasError('required') && addAdminDeptForm.get('adminDept')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Administrative Department Name is required
+                        </div>
+                        <div *ngIf="addAdminDeptForm.get('adminDept')?.hasError('pattern') && addAdminDeptForm.get('adminDept')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Administrative Department Name should only contain alphabets
+                        </div>
+                      </div>
+
+                      <!-- Major / Minor -->
+                      <div class="form-group">
+                          <label for="majorMinor" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                            Major / Minor
+                            <sup class="text-red-500 text-base ml-0.5">*</sup>
+                          </label>
+                          <select id="majorMinor" 
+                              formControlName="majorMinor"
+                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
+                              <option value="">Select</option>
+                              <option value="Major">Major</option>
+                              <option value="Minor">Minor</option>
+                          </select>
+                          <div *ngIf="addAdminDeptForm.get('majorMinor')?.invalid && addAdminDeptForm.get('majorMinor')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Major/Minor is required
+                          </div>
+                      </div>
+
+                      <!-- Short Name -->
+                      <div class="form-group">
+                          <label for="shortName" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                            Short Name
+                            <sup class="text-red-500 text-base ml-0.5">*</sup>
+                          </label>
+                          <input type="text" autocomplete="off" 
+                              id="shortName" (keypress)="restrictChar.onlyAlphabets($event)"
+                              formControlName="shortName"
+                              placeholder="Enter Short Name"
+                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                          <div *ngIf="addAdminDeptForm.get('shortName')?.hasError('required') && addAdminDeptForm.get('shortName')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Short Name is required
+                          </div>
+                          <div *ngIf="addAdminDeptForm.get('shortName')?.hasError('pattern') && addAdminDeptForm.get('shortName')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Short Name should only contain alphabets
+                          </div>
+                      </div>
+
+                      <!-- <div class="">
+                        <app-date-picker formControlName="date" [min]="'2025-05-01'"></app-date-picker>
+                    </div> -->
+                    <div class="flex justify-end mt-8  gap-4">
+                        <app-button (clicked)="onSave()" bgType="4" label="Save"></app-button>
+                        <app-button (clicked)="onCancel()" bgType="5" label="Cancel"></app-button>
+                    </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                
+              </form>
+          </div>
+      </div>
+  <!-- </div> -->
+</div>
+
+
+
+
+<!-- <div class="bg-gray-200 w-[300px] h-[20px]">
+    <app-date-picker></app-date-picker>
+</div> -->

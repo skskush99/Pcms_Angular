@@ -1,0 +1,242 @@
+/* Add Office Component Styles */
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Form group styling */
+.form-group {
+  position: relative;
+}
+
+/* Input field enhancements */
+input[type="text"] {
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:hover {
+  border-color: #d1d5db;
+}
+
+input[type="text"]:focus {
+  box-shadow: 0 0 0 3px rgba(73, 109, 126, 0.1);
+}
+
+/* NG-Select customization */
+::ng-deep .custom-ng-select .ng-select-container {
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  min-height: 42px;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .custom-ng-select .ng-select-container:hover {
+  border-color: #d1d5db;
+}
+
+::ng-deep .custom-ng-select.ng-select-focused .ng-select-container {
+  border-color: #496D7E;
+  box-shadow: 0 0 0 3px rgba(73, 109, 126, 0.1);
+}
+
+::ng-deep .custom-ng-select .ng-select-container .ng-value-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+::ng-deep .custom-ng-select .ng-placeholder {
+  color: #9ca3af;
+
+}
+
+::ng-deep .custom-ng-select .ng-input input {
+  padding: 0.625rem 1rem;
+}
+
+/* Card shadow enhancements */
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Focus visible improvements */
+*:focus-visible {
+  outline: 2px solid #496D7E;
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Label styling */
+label {
+  color: #374151;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Error message styling */
+.text-red-600 {
+  font-weight: 500;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Required field indicator */
+sup.text-red-500 {
+  font-weight: 600;
+}
+
+/* Button hover effects */
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group.md\:col-span-3 {
+    grid-column: span 1;
+  }
+  
+  .flex.justify-end {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  
+  .flex.justify-end > * {
+    width: 100%;
+  }
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bg-white {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Header gradient text shadow */
+h2 {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon container styling */
+svg {
+  transition: transform 0.2s ease;
+}
+
+button:hover svg {
+  transform: scale(1.1);
+}
+
+/* Enhanced border radius */
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+/* Glassmorphic effect for header */
+.bg-gradient-to-r.from-\[#759fce\] {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Back button styling */
+button:has(svg) {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Form section styling */
+form {
+  position: relative;
+}
+
+/* Border separator styling */
+.border-t {
+  border-color: #e5e7eb;
+}
+
+/* Placeholder styling */
+input::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+input:focus::placeholder {
+  color: #d1d5db;
+}
+
+/* Input field focus ring */
+input:focus {
+  ring-offset-width: 2px;
+  ring-color: #496D7E;
+}
+
+/* Error icon animation */
+.text-red-600 svg {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Form validation visual feedback */
+input.ng-invalid.ng-touched {
+  border-color: #ef4444;
+}
+
+input.ng-valid.ng-touched {
+  border-color: #10b981;
+}
+
+/* Grid gap adjustments */
+.grid {
+  gap: 1.5rem;
+}
+
+/* Action buttons container */
+.flex.justify-end {
+  gap: 1rem;
+}
+

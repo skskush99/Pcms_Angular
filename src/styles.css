@@ -1,0 +1,36 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ /* .bg-wrapper{
+    background: linear-gradient(15deg, #ff0057, #ff9900, #00ccff, #00ff88);
+ } */
+  body { background: #dde2ec !important;}
+body.mat-typography p,
+body.mat-typography h2 {
+  margin-bottom: 0 !important;
+}
+
+
+
+
+.ag-cell {
+  user-select: text !important;
+  height: 100% !important;
+}
+
+
+
+.ag-cell-value {
+  line-height: 20px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-size: 13px;
+}
+

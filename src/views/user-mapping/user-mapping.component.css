@@ -1,0 +1,126 @@
+/* 🌈 Animated Gradient Background */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(15deg, #ff0057, #ff9900, #00ccff, #00ff88);
+      background-size: 400% 400%;
+      animation: vipColors 50s ease infinite;
+      transition: background 90s ease-in-out;
+      padding: 20px;
+    }
+
+    @keyframes vipColors {
+      0%   { background-position: 0% 50%; }
+      25%  { background-position: 100% 50%; }
+      50%  { background-position: 50% 100%; }
+      75%  { background-position: 100% 0%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Main Container */
+    .main-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Sidebar */
+    .profile-sidebar {
+      background: rgba(250, 250, 250, 0.98);
+      flex: 1 1 300px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .profile-sidebar img {
+      border-radius: 50%;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 4px solid #ff0057;
+      box-shadow: 0 0 15px rgba(255, 0, 87, 0.5);
+    }
+
+    .profile-sidebar h5 {
+      font-weight: 400;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Form Area */
+    .main-content {
+      flex: 2 1 600px;
+      padding: 2rem 2.5rem;
+      background-color: #ffffff;
+    }
+
+    .step-number {
+      background: #ff0057;
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      
+      
+    }
+
+    .btn-green {
+      background-color: #00cc66;
+      color: #fff;
+      font-weight: 600;
+      transition: 0.3s ease;
+      border-radius: 6px;
+    }
+    .btn-blue {
+      background-color: #00ccff;
+      color: #fff;
+      font-weight: 600;
+      transition: 0.3s ease;
+      border-radius: 6px;
+    }
+    .btn-green:hover {
+      background-color: #00994d;
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      font-weight: 600;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .main-wrapper {
+        flex-direction: column;
+        margin: 15px;
+      }
+      .profile-sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .main-content {
+        padding: 1.5rem;
+      }
+    }

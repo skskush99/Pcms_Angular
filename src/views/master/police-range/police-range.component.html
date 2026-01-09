@@ -1,0 +1,93 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-6 overflow-hidden">
+      <!-- Header with Toggle Button -->
+      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
+        <div class="flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          <h2 class="text-lg font-bold text-white">Police Range Filter</h2>
+        </div>
+        <app-button [label]="buttonText" bgType="6" class="btn" (clicked)="toggleForm()"></app-button>
+      </div>
+
+      <!-- Filter Form -->
+      <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <form [formGroup]="policeRangeFilterForm" class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+           
+      <!-- District -->
+      <div class="form-group">
+        <label for="district" class="block text-sm font-semibold text-gray-700 mb-2.5">
+          District 
+        </label>
+
+        <ng-select 
+        [items]="districtDropdown"
+        bindLabel="text"
+        bindValue="value"
+        placeholder="Select District"
+        formControlName="district"
+        class="custom-ng-select"
+        id="district"
+        >
+        </ng-select>
+      </div>
+
+            <!-- Search Button -->
+            <div class="flex items-end gap-3">
+              <app-button label="Search" bgType="4" (clicked)="onSearch()"></app-button>
+              <app-button label="Reset" bgType="5" (clicked)="resetFilter()"></app-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results Table Section -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
+        <div class="flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p class="text-lg font-bold text-white">Police Range List</p>
+        </div>
+        <div class="flex gap-3 text-sm">
+          <app-button (clicked)="exportExcel()" label="Export To Excel" bgType="7"></app-button>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
+          <ag-grid-angular class="ag-theme-quartz" style="height: 500px; width: 100%;" 
+            [rowData]="policeRangeList"
+            [columnDefs]="colDef"
+            [pagination]="false">
+          </ag-grid-angular>
+        </div>
+
+        <div class="flex items-center justify-between mt-6 px-2 py-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div class="flex items-center gap-3">
+            <label for="pageSize" class="text-sm font-semibold text-gray-700">Show:</label>
+            <select (change)="onPageSizeChanged($event)" id="pageSize"
+              class="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+            <span class="text-sm text-gray-600 font-medium">entries</span>
+          </div>
+          <app-pagination 
+            [currentPage]="currentPage" 
+            [limit]="pageSize" 
+            [total]="totalRecords"
+            (changePage)="changePage($event)">
+          </app-pagination>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</div>

@@ -1,0 +1,21 @@
+
+<div *ngIf="show"  [ngClass]="big ? 'h-16' : 'h-12'" 
+     class="notification  w-[550px] right-1/2 top-0 rounded-md flex flex-col   opacity-100 z-[1000] fixed" [ngStyle]="{'background-color': getBackgroundColor().bg , 'color' : getBackgroundColor().text}"
+     >
+    <div class="Type relative flex h-full  ">
+        <!-- <p class="text-white text-center mt-1">{{ type | titlecase }}...</p> -->
+        <div class="flex items-center gap-3 ml-3" [ngStyle]="{'color' : getBackgroundColor().text}">
+            <div class="h-6 w-6 mt-1 p-1 border-2  flex items-center justify-center rounded-[50%] " [ngStyle]="{'border-color' : getBackgroundColor().text}">
+        <i class="{{getBackgroundColor().icon}} text-xs"></i>
+    </div>
+        <!-- <p class="text-white text-sm mt-1">Success...</p> -->
+        <p class=" mt-1 font-semibold" [ngClass]="big ? '' : 'text-sm'">{{ msg }}</p>
+    </div>
+        <span class="absolute right-1 top-0  h-full content-center text-white cursor-pointer mr-2" (click)="show = false" [ngStyle]="{'color' : getBackgroundColor().text}">X</span>
+    </div>
+    
+    <!-- <div class="message p-3">
+        <p class="text-white text-sm text-center"></p>
+        <p class="text-white text-sm text-center">Updated Succesfully</p>
+    </div> -->
+</div>

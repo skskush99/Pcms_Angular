@@ -1,0 +1,50 @@
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+.content-expanded {
+  margin-left: 18rem; /* Adjust according to the width of the sidenav */
+}
+
+.content-collapsed {
+  margin-left: 1rem;
+}
+
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slide-in 1s ease forwards;
+}
+
+
+
+
+
+.animated-content {
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.animated-content.ng-enter {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.animated-content.ng-leave {
+  transform: translateX(-100%);
+  /* opacity: 0; */
+}
+
+select { background-image: none;}
+.custom-ng-select .ng-placeholder { padding-left: 0px !important;}

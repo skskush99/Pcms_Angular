@@ -1,0 +1,81 @@
+
+ <aside 
+[ngClass]="{'translate-x-[-100%] opacity-0 ': !isSideNav, 'translate-x-0 opacity-100 ': isSideNav}"
+class="fixed h-full top-0 left-0 w-64 lg:w-64 xl:w-64 flex-shrink-0 flex-col sidebar transform transition-all duration-500 ease-in-out overflow-y-auto border-r border-gray-200/30 bg-gradient-to-br from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] shadow-2xl z-50"
+>
+    
+<div class="text-end mt-3 px-4"><button class="lg:hidden text-white font-semibold text-xl bg-white/20 backdrop-blur-sm hover:bg-white/30 px-3 pb-2 pt-1 leading-none rounded-lg transition-all duration-200 hover:scale-110 shadow-lg" (click)="closeSideNav()">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+</button></div>
+    <div class="logo flex items-center justify-center gap-3 px-4 py-4 mb-4 border-b border-white/20">
+        <div class="bg-white/20 backdrop-blur-sm p-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <img src="assets/pcms_logo_sidenav.jpeg" class="h-14 w-14 cursor-pointer rounded-lg" alt="" routerLink="dashboard">
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg">
+            <p class="text-white font-bold text-lg tracking-wide">SA</p>
+        </div>
+    </div>
+    <div class="items flex-grow px-3 pb-4">
+        <ul class="space-y-2">
+            <ng-container *ngFor="let item of nav; let i = index" class="">
+                <li>
+                    <div class="text-sm text-white hover:bg-white/20 hover:text-white main font-medium overflow-hidden cursor-pointer rounded-xl flex items-center p-3 transition-all duration-200 hover:shadow-lg group"  
+                         [ngClass]="{'bg-white/25 shadow-lg': activeIndex === i || currentSelectedMenu === item.linkPage}"
+                         (click)="item.subMenus?.length > 0 ? toggleChildren(i) : navigateToLink(item.linkPage , item)"  
+                         routerLinkActive="active">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 group-hover:bg-white/20 transition-all duration-200">
+                            <i class="{{item.icon}} text-base"></i>
+                        </div>
+                        <span class="ml-3 flex-1 whitespace-nowrap font-medium">{{item.englishName}}</span>
+                        <ng-container *ngIf="item.subMenus?.length > 0">
+                            <div class="ifChildren ml-auto">
+                                <i class="fa-solid fa-chevron-right text-xs transition-transform duration-300" [ngClass]="{'rotate-90': activeIndex === i}"></i>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <ng-container  *ngIf="item.subMenus?.length > 0 && activeIndex === i" class="childrenCls childList mt-2 mb-2 overflow-hidden">
+                        <div @onOff>
+                        <ul class="flex flex-col bg-white/10 backdrop-blur-sm rounded-xl p-2 space-y-1 border border-white/20">
+                            <li *ngFor="let child of item.subMenus; let j = index" 
+                                class="rounded-lg transition-all duration-200 hover:bg-white/20" 
+                                [ngClass]="{'bg-white/25 shadow-md': (currentSelectedMenu == child.linkPage) && !child.subMenus?.length}" >
+                                <div class="subMenu text-sm flex cursor-pointer items-center p-2.5 text-white font-medium" 
+                                     (click)="child.subMenus?.length > 0 ? toggleSubChildren(j) : navigateToLink(child.linkPage , child)">
+                                <div class="icon flex items-center justify-center w-6 h-6 rounded-md bg-white/10 mr-2">
+                                    <i class="{{child.icon}} text-xs"></i>
+                                </div>
+                                <span class="flex-1">{{ child.englishName }}</span>
+                                <ng-container *ngIf="child.subMenus">
+                                    <div class="ifChildren ml-auto">
+                                        <i class="fa-solid fa-chevron-right text-xs transition-transform duration-300" [ngClass]="{'rotate-90': activeSubIndex === j}"></i>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                                <ng-container  *ngIf="child.subMenus  && activeSubIndex === j" class="duration-700">
+                                    <ul @onOff class="ml-4 subChildren flex flex-col gap-1.5 mt-2 pl-3 border-l-2 border-white/20"> 
+                                        <li *ngFor="let subChild of child.subMenus; let k = index" 
+                                            class="flex items-center gap-3 text-xs cursor-pointer p-2 rounded-lg hover:bg-white/20 hover:text-white transition-all duration-200 group" 
+                                            (click)="onSubChildClick(subChild.linkPage , $event)" 
+                                            [ngClass]="{'bg-white/25 shadow-sm': currentSelectedMenu == subChild.linkPage}" >
+                                        <div class="w-1.5 h-1.5 rounded-full bg-white/40 group-hover:bg-white transition-all duration-200"></div>
+                                        <i class="{{subChild.icon}} text-xs"></i>
+                                        <p class="font-medium">{{subChild.englishName}}</p>
+                                      </li>
+                                    </ul>
+                                  </ng-container>
+    
+                                
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    </ng-container>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+    
+</aside>

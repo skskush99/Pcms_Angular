@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <!-- Header -->
+          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
+              <div class="flex items-center gap-3">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                 </svg>
+                 <h2 class="text-xl font-bold text-white">{{editCourtType ? 'Edit/Update' : 'Add'}} Court Type</h2>
+              </div>
+              <button class="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110" (click)="onCancel()">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+              </button>
+          </div>
+
+          <!-- Form -->
+          <div>
+              <form [formGroup]="addCourtTypeForm" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <!-- Court Type Name -->
+                      <div class="form-group">
+                        <label for="courtTypeName" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                          Court Type Name
+                          <sup class="text-red-500 text-base ml-0.5">*</sup>
+                        </label>
+                        <input type="text" id="courtTypeName"
+                            (keypress)="restrictChar.onlyAlphabets($event)" 
+                            formControlName="courtTypeName" 
+                            placeholder="Enter Court Type Name"
+                            autocomplete="off"
+                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                        <div *ngIf="addCourtTypeForm.get('courtTypeName')?.hasError('required') && addCourtTypeForm.get('courtTypeName')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Court Type Name is required
+                        </div>
+                        <div *ngIf="addCourtTypeForm.get('courtTypeName')?.hasError('pattern') && addCourtTypeForm.get('courtTypeName')?.touched"
+                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Court Type Name should only contain alphabets
+                        </div>
+                      </div>
+
+                      <!-- Court Type Short Name -->
+                      <div class="form-group">
+                          <label for="courtTypeShortName" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                            Court Type Short Name
+                            <sup class="text-red-500 text-base ml-0.5">*</sup>
+                          </label>
+                          <input type="text" autocomplete="off" 
+                              id="courtTypeShortName" 
+                              (keypress)="restrictChar.onlyAlphabets($event)"
+                              formControlName="courtTypeShortName"
+                              placeholder="Enter Court Type Short Name"
+                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                          <div *ngIf="addCourtTypeForm.get('courtTypeShortName')?.hasError('required') && addCourtTypeForm.get('courtTypeShortName')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Court Type Short Name is required
+                          </div>
+                          <div *ngIf="addCourtTypeForm.get('courtTypeShortName')?.hasError('pattern') && addCourtTypeForm.get('courtTypeShortName')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Court Type Short Name should only contain alphabets
+                          </div>
+                      </div>
+                     
+                      <!-- Display Order -->
+                      <div class="form-group">
+                          <label for="orderNo" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                            Display Order
+                            <sup class="text-red-500 text-base ml-0.5">*</sup>
+                          </label>
+                          <input type="text" autocomplete="off" 
+                              id="orderNo" 
+                              (keypress)="restrictChar.onlyNumber($event)"
+                              formControlName="orderNo"
+                              placeholder="Enter Display Order"
+                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
+                          <div *ngIf="addCourtTypeForm.get('orderNo')?.hasError('required') && addCourtTypeForm.get('orderNo')?.touched" 
+                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              Display Order is required
+                          </div>
+                      </div>
+                      <div class="flex justify-end mt-8 gap-4">
+                        <app-button (clicked)="onSave()" bgType="4" label="Save"></app-button>
+                        <app-button (clicked)="onCancel()" bgType="5" label="Cancel"></app-button>
+                    </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                 
+              </form>
+          </div>
+      </div>
+</div>
+
+
+
+
+<!-- <div class="bg-gray-200 w-[300px] h-[20px]">
+    <app-date-picker></app-date-picker>
+</div> -->

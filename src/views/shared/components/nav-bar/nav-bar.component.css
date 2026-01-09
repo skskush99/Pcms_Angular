@@ -1,0 +1,273 @@
+.switchLanguage {
+  position: relative;
+  cursor: pointer;
+}
+
+.selectLang {
+  position: absolute;
+  top: 0;
+  right: calc(100% - 5px); /* Minimal gap */
+  background: white;
+  padding: 0;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 10000 !important;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.switchLanguage:hover .selectLang,
+.selectLang:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Nav bar enhancements */
+nav {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: visible !important;
+  position: relative;
+  z-index: 50;
+}
+
+/* Search bar enhancements */
+.searchBar {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.searchBar input::placeholder {
+  color: #9ca3af;
+  transition: color 0.2s ease;
+}
+
+.searchBar:focus-within input::placeholder {
+  color: #6b7280;
+}
+
+.searchBar input:focus {
+  color: #1f2937;
+}
+
+/* Toggle button enhancements */
+.toggleBtn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggleBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.toggleBtn:active {
+  transform: scale(0.95);
+}
+
+/* User dropdown enhancements */
+div[id="userDetailDropdown"]:not(.useDetails) {
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 10000 !important;
+}
+
+/* Ensure dropdown container has high z-index */
+div[id="userDetailDropdown"].useDetails {
+  z-index: 99999 !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 0.5rem) !important;
+  margin-top: 0.5rem;
+}
+
+.useDetails {
+  animation: slideDownFade 0.3s ease-out;
+  border-radius: 0.75rem;
+  overflow: visible ;
+  z-index: 99999 !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 0.5rem) !important;
+  margin-top: 0.5rem;
+}
+
+/* Ensure nav bar and parent containers don't clip the dropdown */
+nav {
+  overflow: visible !important;
+}
+
+/* Ensure parent containers allow overflow */
+nav > div {
+  overflow: visible !important;
+}
+
+nav > div > div {
+  overflow: visible !important;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Dropdown item hover effects */
+
+
+/* Form button hover effects */
+form:hover {
+  transform: translateX(4px);
+}
+
+form:active {
+  transform: translateX(2px);
+}
+
+/* User avatar button */
+a[id="userDetailDropdown"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+a[id="userDetailDropdown"]:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Welcome text styling */
+p {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Language selector improvements */
+
+
+/* Mobile search button */
+#toggleSidebarMobileSearch {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+#toggleSidebarMobileSearch:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+a,
+form {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Icon animations */
+.fa-right-from-bracket {
+  transition: transform 0.2s ease;
+}
+
+form:hover .fa-right-from-bracket {
+  transform: translateX(2px);
+}
+
+/* Dropdown divider styling */
+.border-b {
+  border-color: rgba(229, 231, 235, 0.8);
+}
+
+/* Enhanced shadow for dropdown */
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .searchBar {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Glassmorphic effect for welcome text */
+.bg-white\/20 {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Smooth input focus */
+input:focus {
+  outline: none;
+}
+
+/* Enhanced user dropdown header */
+.ssoid {
+  background: linear-gradient(135deg, #759fce 0%, #6b9bc8 100%);
+}
+
+/* Logout button special styling */
+form[ngNoForm]:last-child:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+/* Language selector arrow animation */
+.switchLangArrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Search icon color transition */
+.searchBar svg {
+  transition: color 0.2s ease;
+}
+
+.searchBar:focus-within svg {
+  color: #496D7E;
+}
+
+/* Smooth scale animation for buttons */
+button,
+a {
+  will-change: transform;
+}
+
+/* Prevent text selection on buttons */
+button,
+a {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Enhanced backdrop blur */
+nav {
+  background: linear-gradient(
+    135deg,
+    rgba(117, 159, 206, 0.95) 0%,
+    rgba(107, 155, 200, 0.95) 50%,
+    rgba(90, 139, 184, 0.95) 100%
+  );
+}
