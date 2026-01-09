@@ -52,7 +52,7 @@ export class UserMappingComponent implements OnInit{
 
   ngOnInit(): void {
     this.mappingReqData = history.state?.mappingReqData;
-    this.ssoId = history.state?.ssoId || this.mappingReqData[0]?.rssoid || 'RTSP.TEST';
+    this.ssoId = history.state?.ssoId || this.mappingReqData?.[0]?.rssoid || 'RTSP.TEST';
     this.userMappedRequested = history.state?.userMappedRequest || false;
     console.log(this.mappingReqData);
     console.log(this.userMappedRequested);
@@ -294,6 +294,8 @@ export class UserMappingComponent implements OnInit{
       }
     })
   }
+
+  
 
 
 
