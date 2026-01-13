@@ -1,4 +1,4 @@
-<!-- -------------------------------------------------------------------------------------------------- -->
+<!------------------------------------------------------------------------------------------------------>
 <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"></div>
 <main class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
    <div class="p-3 lg:px-3 h-full">
@@ -9,14 +9,14 @@
       <div class="space-y-3">
          <!-- top 4 number data cards -->
         
-            <div class="filterToggle flex items-center justify-between shadow-xl p-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] rounded-2xl backdrop-blur-sm border border-white/20">
+            <div class="flex items-center justify-between bg-transparent pb-2 rounded-0 border-gray-200 border-b">
                <div class="flex items-center gap-3">
-                  <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                  <div class="bg-blue-50 p-2 rounded-lg">
                      <img src="assets/dash_icon.jpg" class="w-6 h-6 object-contain" alt="">
                   </div>
-                  <p class="text-xl ml-1 tracking-wide font-bold text-white drop-shadow-md">{{'SIDEBAR.DASHBOARD' | translate}}</p>
+                  <p class="text-xl ml-1 tracking-wide font-bold text-gray-800">{{'SIDEBAR.DASHBOARD' | translate}}</p>
                </div>
-               <button type="button" (click)="toggleDashFilters()" class="bg-white/20 backdrop-blur-sm border-2 border-white/50 text-white px-6 py-2.5 rounded-lg hover:bg-white/30 hover:border-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2">
+               <button type="button" (click)="toggleDashFilters()" class="bg-gradient-to-r from-[#759fce] to-[#5a7ba8] hover:from-[#5a7ba8] hover:to-[#4a6b98] text-white rounded-lg px-6 py-2.5 rounded-lg transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center gap-2">
                   <span class="flex items-center gap-2">
                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
