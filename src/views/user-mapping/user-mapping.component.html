@@ -4,7 +4,7 @@
   <div class="flex  bg-white shadow-lg rounded-lg" [ngClass]="userMappedRequested ? 'w-full max-w-6xl' : 'w-[80%]'">
     <!-- Left Sidebar -->
     <div
-      class="w-1/3 bg-gray-50 p-6 border-r bg-gradient-to-br from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] text-white"
+      class=" rounded-l-lg w-1/3 bg-gray-50 p-6 border-r bg-gradient-to-br from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] text-white"
     >
       <div class="userDetails text-center flex flex-col mb-2 gap-1">
         <p class="text-xl font-semibold mb-0 userName">{{ssoDetails?.displayName}}</p>
@@ -73,8 +73,8 @@
       </div>
       <!-- <hr class="mb-2.5"> -->
 
-      <form [formGroup]="roleMappingForm">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <form [formGroup]="roleMappingForm" class="mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-12">
           <!-- Level -->
           <!-- <div>
             <label class="block text-sm font-medium mb-1">
@@ -129,7 +129,7 @@
 
           <!-- Division -->
           <div>
-            <label class="block text-sm font-semibold  mb-1">
+            <label class="block text-sm font-semibold  mb-2">
               संभाग | Division <span class="text-red-500">*</span>
             </label>
             <ng-select

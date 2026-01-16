@@ -280,7 +280,7 @@ const navData = [
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Case Registration',
-        linkPage: 'case-management/case-list'
+        linkPage: 'case/case-registration'
       },
     //   {
     //     // icon : 'fa-solid fa-file',

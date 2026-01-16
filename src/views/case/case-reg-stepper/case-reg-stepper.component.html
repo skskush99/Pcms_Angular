@@ -1,0 +1,45 @@
+<div class="tabs text-sm bg-white p-2  rounded-md m-3 "> 
+    <div class="switchTabs flex items-center   my-4 justify-between " >
+        
+        @for (item of formsName; track $index) {
+        <button class="z-20 bg-white py-2 w-40 text-center rounded-md outline-non border-[#73A0CB] border- text-[#73A0CB] flex flex-col items-center " (click)="toggleForm($index + 1)" ><p class="h-6 w-6 rounded-full inline-flex items-center justify-center" [ngClass]="{'active' : currentForm == $index + 1 }">{{$index + 1}}</p> {{item}}</button>
+            @if ($index < formsName.length - 1) {
+            <div class="flex-1 h-0.5 bg-gray-300 w-full"></div>
+            }
+        }
+        <!-- <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(2)" [ngClass]="{'active' : currentForm == 2 }">FIR & Charge Sheet</button>
+        <div class="flex-1 h-px bg-gray-400"></div>
+        <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(3)" [ngClass]="{'active' : currentForm == 3 }">Parties</button>
+        <div class="flex-1 h-px bg-gray-400"></div>
+        <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(4)" [ngClass]="{'active' : currentForm == 4 }">Review & Submit</button> -->
+        
+        <!-- <div class="border-1  border-gray-400 absolute w-full z-10"></div> -->
+    </div>
+
+</div>
+    <div class="forms py-4 px-3 mx-3 bg-white rounded-lg">
+
+        @if (currentForm == 1) {
+            <app-case-identification ></app-case-identification>
+        }
+        
+        
+        @if (currentForm == 2) {
+            <app-fir-charges-sheet ></app-fir-charges-sheet>
+        }
+        
+        
+        
+        @if (currentForm == 3) {
+            <app-case-parties ></app-case-parties>
+        }
+        
+        
+        @if (currentForm == 4) {
+            <app-case-review-submit ></app-case-review-submit>
+        }
+
+    </div>
+
+
+
