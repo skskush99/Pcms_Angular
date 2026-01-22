@@ -88,6 +88,46 @@ export const routes: Routes = [
     loadComponent: () => import('../views/master/police-station/police-station.component').then(m => m.PoliceStationComponent),
     canActivate: []
     },
+    {
+    path: 'crime-classification',
+    loadComponent: () => import('../views/master/crime-classification/crime-classification.component').then(m => m.CrimeClassificationComponent),
+    canActivate: []
+    },
+    {
+    path: 'add-crime-classification',
+    loadComponent: () => import('../views/master/crime-classification/add-crime-classification/add-crime-classification.component').then(m => m.AddCrimeClassificationComponent),
+    canActivate: []
+    },
+    {
+    path: 'crime-act',
+    loadComponent: () => import('../views/master/crime-act/crime-act.component').then(m => m.CrimeActComponent),
+    canActivate: []
+    },
+    {
+    path: 'add-crime-act',
+    loadComponent: () => import('../views/master/crime-act/add-crime-act/add-crime-act.component').then(m => m.AddCrimeActComponent),
+    canActivate: []
+    },
+    {
+    path: 'crime-sub-act',
+    loadComponent: () => import('../views/master/crime-sub-act/crime-sub-act.component').then(m => m.CrimeSubActComponent),
+    canActivate: []
+    },
+    {
+    path: 'add-crime-sub-act',
+    loadComponent: () => import('../views/master/crime-sub-act/add-crime-sub-act/add-crime-sub-act.component').then(m => m.AddCrimeSubActComponent),
+    canActivate: []
+    },
+    {
+    path: 'fir-status',
+    loadComponent: () => import('../views/master/fir-status/fir-status.component').then(m => m.FirStatusComponent),
+    canActivate: []
+    },
+    {
+    path: 'add-fir-status',
+    loadComponent: () => import('../views/master/fir-status/add-fir-status/add-fir-status.component').then(m => m.AddFirStatusComponent),
+    canActivate: []
+    },
 ]
 
 

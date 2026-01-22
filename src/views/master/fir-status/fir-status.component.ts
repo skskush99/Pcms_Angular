@@ -1,29 +1,30 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DropdownListInterface } from '../../shared/model/shared.model';
 import { ApiService } from '../../shared/services/api.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UrlService } from '../../shared/services/url.service';
 import constants from '../../shared/utils/constants';
-import { ColDef, Column, GridReadyEvent, ProvidedColumnGroup } from 'ag-grid-community';
-import { AgGridAngular } from 'ag-grid-angular';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
-import { MatDialog } from '@angular/material/dialog';
+import { AgGridAngular } from 'ag-grid-angular';
+import { ColDef, Column, GridReadyEvent, ProvidedColumnGroup } from 'ag-grid-community';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
-import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
 
 @Component({
-  selector: 'app-admin-department',
+  selector: 'app-fir-status',
   standalone: true,
-  imports: [AgGridAngular, ReactiveFormsModule, PaginationComponent],
-  templateUrl: './admin-department.component.html',
-  styleUrl: './admin-department.component.css'
+  imports: [PaginationComponent, AgGridAngular, NgSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
+  templateUrl: './fir-status.component.html',
+  styleUrl: './fir-status.component.css'
 })
-export class AdminDepartmentComponent {
+export class FirStatusComponent {
 
-
-  adminDeptList: any[] = [];
-  adminDeptListPageInfo: [] = [];
+  firStatusList: any[] = [];
   pageSize: number = 10;
   currentPage: number = 1;
   totalRecords: number = 0;
@@ -37,15 +38,7 @@ export class AdminDepartmentComponent {
   
 
 
-  adminFilterForm : FormGroup = new FormGroup({
-    majorMinor : new FormControl('' , {nonNullable : true})
-  })
 
-
-  // gridOptions = {
-  //   theme: myTheme
-  // };  
-   
 
   constructor(
     private notify: NotificationService,
@@ -53,10 +46,6 @@ export class AdminDepartmentComponent {
     private api: ApiService,
     private dialog : MatDialog,
     private url: UrlService,
-    // private dialog : MatDialog,
-    // private excelService : XlsxService,
-    // private accessPermission : RoleWisePermissionService,
-    // private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +56,7 @@ export class AdminDepartmentComponent {
     // })
     //console.log(this.permissionByRole);
     this.createGrid();
-    this.getAdminDeptList();
+    this.getFirStatusList();
   }
 
 
@@ -82,8 +71,8 @@ export class AdminDepartmentComponent {
       width: 80,
     },
     {
-      field: 'AdmDeptName',
-      headerName: 'Administrative Department Name',
+      field: 'FirStatusNameEnglish',
+      headerName: 'FIR Status English Name ',
       width: 260,
       autoHeight: true,
       wrapHeaderText: true, 
@@ -94,15 +83,13 @@ export class AdminDepartmentComponent {
       
     },
     {
-      field: 'AdmDeptShortName',
-      headerName: 'Administrative Department Short Name',
+      field: 'FirStatusNameHindi',
+      headerName: 'FIR Status Hindi Name',
       width: 300,
       filter : false,
       wrapHeaderText: true, 
       autoHeaderHeight: true,
     },
-    { field: 'MajorMinor', headerName: 'Major/Minor', width: 120 , wrapHeaderText: true, 
-      autoHeaderHeight: true, },
     {
       field: 'IsActive',
       headerName: 'Action',
@@ -112,10 +99,10 @@ export class AdminDepartmentComponent {
       cellRenderer: GridActionButtonComponent,
       cellRendererParams: {
         delete: (field: any) => {
-          this.confirActiveDeactiveAdminDept(field);
+          this.confirActiveDeactiveFirStatus(field);
         },
         edit: (field: any) => {
-          this.editAdminDept(field);
+          this.editFirStatus(field);
         },
         permission : this.permissionByRole
       },
@@ -135,45 +122,39 @@ export class AdminDepartmentComponent {
     // this.accessPermission.registerGrid(params.api);
   }
 
-  getAdminDeptList() {
+  getFirStatusList() {
     let reqParam = {
       pageNo: this.currentPage,
       pageSize: this.pageSize,
-      majorMinor : this.adminFilterForm.value.majorMinor,
       sortBy: this.sortColumn,
       isSortByDesc: this.sortBy == '0' ? false : true
     };
 
-    this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
+    this.api.post(this.url.getFirStatusList(), reqParam).subscribe({
       next: (res: any) => {
         console.log(res);
-        // this.adminDeptList = convertObjectValuesToPascalCase(res.data);
-        this.adminDeptList = res.data;
+        this.firStatusList = res.data;
         this.totalRecords = res.pagination[0].totalRecords;
       },
       error: (err) => {
-        //console.log(err);
+        console.log(err);
       },
     });
   }
 
 
-  resetFilters() : void {
-    this.adminFilterForm.controls['MajorMinor'].setValue('');
-    this.getAdminDeptList();
-  }
 
 
 
-  editAdminDept(e: any) {
-    this._router.navigateByUrl('master/add-admin-dept', {
-      state: { addEditAdminDept: e },
+  editFirStatus(e: any) {
+    this._router.navigateByUrl('master/add-fir-status', {
+      state: { addEditFirStatus: e },
     });
   }
 
 
 
-  confirActiveDeactiveAdminDept(e : any){
+  confirActiveDeactiveFirStatus(e : any){
     let dialogRef : any = this.dialog.open(ConfirmationPopUpComponent , {
       width : '350px',
       height : '170px',
@@ -181,42 +162,40 @@ export class AdminDepartmentComponent {
         msg : constants.confirmDelete
       }
     })
-
-
-
-
-
     dialogRef.afterClosed().subscribe({
       next : (res : any) => {
         if(res){
-          this.activeDeactiveAdminDept(e)
+          this.activeDeactiveFirStatus(e)
         }
       }
     })
   }
 
 
-   activeDeactiveAdminDept(e: any) {
+   activeDeactiveFirStatus(e: any) {
     console.log(e);
 
     let reqParam = {
-      admDeptId: e.AdmDeptId,
-      active: !e.IsActive,
+      firStatusId: e?.FirStatusId,
+      isActive: !e.IsActive,
       updatedBy: 0,
     };
-    console.log(reqParam);
     
 
-    this.api.post(this.url.activeDeaciveAdminDept(), reqParam).subscribe({
+    this.api.post(this.url.activeDeactiveFirStatus(), reqParam).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.notify.showNotification('delete', res.msg || res.message);
-        window.scrollTo(0, 0);
-        this.getAdminDeptList();
+        if(res.status){
+          this.notify.showNotification('delete', res.msg || res.message);
+          
+          this.getFirStatusList();
+        }else this.notify.showNotification('error' , res.message)
       },
       error: (err) => {
         console.log(err);
-        this.notify.showNotification('error', 'Something Went Wrong');
+        this.notify.showNotification('error', constants.apiError);
+      },
+      complete() {
         window.scrollTo(0, 0);
       },
     });
@@ -238,13 +217,13 @@ export class AdminDepartmentComponent {
           this.sortColumn = column.getColDef().field
           this.sortBy = '0'
           this.currentPage = 1
-          this.getAdminDeptList()
+          this.getFirStatusList()
         } else if (sort === 'desc') {
 
           this.sortColumn = column.getColDef().field
           this.sortBy = '1'
           this.currentPage = 1;
-          this.getAdminDeptList()
+          this.getFirStatusList()
         } else {
           //console.log(sort);
           
@@ -261,12 +240,12 @@ export class AdminDepartmentComponent {
   //   let reqParam = {
   //     pageNo: 1,
   //     pageSize: 99999,
-  //     majorMinor : this.adminFilterForm.value.majorMinor,
+  //     majorMinor : this.crimeClassificationForm.value.majorMinor,
   //     sortBy: this.sortColumn,
   //     isSortByDesc: this.sortBy == '0' ? false : true
   //   };
 
-  //   this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
+  //   this.api.post(this.url.getFirStatusList(), reqParam).subscribe({
   //     next: (res: any) => {
   //       if(res.data?.length){
   //         const columnHeaders: { [key: string]: string } = {
@@ -304,7 +283,7 @@ export class AdminDepartmentComponent {
 
 
 
-  // activeDeactiveAdminDept(e: any) {
+  // activeDeactiveFirStatus(e: any) {
   //   //console.log(e);
 
   //   let reqParam = {
@@ -318,7 +297,7 @@ export class AdminDepartmentComponent {
   //       //console.log(res);
   //       this.notify.showNotification('delete', res.msg || res.message);
   //       window.scrollTo(0, 0);
-  //       this.getAdminDeptList();
+  //       this.getFirStatusList();
   //     },
   //     error: (err) => {
   //       //console.log(err);
@@ -329,7 +308,7 @@ export class AdminDepartmentComponent {
   // }
 
 
-  // confirActiveDeactiveAdminDept(e : any){
+  // confirActiveDeactiveFirStatus(e : any){
   //   let dialogRef : any = this.dialog.open(ConfirmationPopupComponent , {
   //     width : '350px',
   //     height : '170px',
@@ -345,14 +324,14 @@ export class AdminDepartmentComponent {
   //   dialogRef.afterClosed().subscribe({
   //     next : (res : any) => {
   //       if(res){
-  //         this.activeDeactiveAdminDept(e)
+  //         this.activeDeactiveFirStatus(e)
   //       }
   //     }
   //   })
   // }
 
-  addNewAdminDept() {
-    this._router.navigateByUrl('master/add-admin-dept');
+  addNewFirStatus() {
+    this._router.navigateByUrl('master/add-fir-status');
   }
 
   onPageSizeChanged(event: any) {
@@ -361,14 +340,14 @@ this.currentPage = 1;
     if (this.currentPage > this.totalRecords / this.pageSize) {
       this.currentPage = Math.floor(this.totalRecords / this.pageSize) || 1;
     }
-    this.getAdminDeptList();
+    this.getFirStatusList();
   }
 
   // to handle pagination
   changePage(page: number): void {
     //console.log(page);
     this.currentPage = page;
-    this.getAdminDeptList();
+    this.getFirStatusList();
   }
 
   // exportPDF() {
@@ -388,6 +367,6 @@ this.currentPage = 1;
   //     { header: 'Major Minor', dataKey: 'majorMinor' }
   //   ];
 
-  //   this.excelService.exportAllJsonPDF(headers, columns, this.adminDeptList, 'adminDeptList',true);
+  //   this.excelService.exportAllJsonPDF(headers, columns, this.firStatusList, 'firStatusList',true);
   // }
 }

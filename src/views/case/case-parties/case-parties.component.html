@@ -1,124 +1,208 @@
 <div class="mx-2">
-    <form [formGroup]="pariesForm">
-        <div class="accused" formArrayName="accused">
+    <!-- <form [formGroup]="pariesForm"> -->
+        <div class="accused">
+            <form [formGroup]="accusedForm">
             <div class="heading flex items-center justify-between">
                 <p class="text-base font-semibold tracking-wider">अभियुक्त विवरण (Accused)</p>
-                <button class="flex items-center gap-2 bg-[#9333EA] text-white rounded-2xl px-2.5 py-1.5 font-400" (click)="addAccused()"><i class="fa-solid fa-plus"></i>Add Accused</button>
+                
+                
+                <!-- Govt. Accused -->
+                 <div class="flex items-center gap-3">
+              <label class="text-sm font-semibold text-gray-700"
+                >Govt. Accused</label
+              >
+              <input
+                type="checkbox"
+                formControlName="govtAccused"
+                
+                class="w-4 h-4 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]"
+              />
             </div>
 
-            <div *ngFor="let accuse of accused.controls; let i=index"  [formGroupName]="i" class="accused-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
 
-                <!-- Name -->
-                <div class="form-group ">
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                    Name<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="name"
-                    formControlName="accusedName" 
-                    placeholder="Enter Name"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-                
-                
-                <!-- Address -->
-                <div class="form-group ">
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                    Address<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="name"
-                    formControlName="accusedAddress" 
-                    placeholder="Enter Address"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <!-- Age / Gender -->
-                    <div class="form-group w-full">
-                        <label for="accusedAge" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            Age<sup class="text-red-500 text-lg font-semibold">*</sup>
+            </div>
+            
+                <div class="accused-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
+
+                    <!-- Name -->
+                    <div class="form-group ">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        Name<sup class="text-red-500 text-lg font-semibold">*</sup>
                         </label>
-                        <input type="text" id="accusedAge"
-                        formControlName="accusedAge" 
-                        placeholder="Enter Age"
-                        (keypress)="restrictKeys.onlyNumber($event)"
+                        <input type="text" id="name"
+                        formControlName="accusedName" 
+                        placeholder="Enter Name"
+                        autocomplete="off"
+                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
+                    </div>
+                    
+                    
+                    <!-- Address -->
+                    <div class="form-group ">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        Address<sup class="text-red-500 text-lg font-semibold">*</sup>
+                        </label>
+                        <input type="text" id="name"
+                        formControlName="accusedAddress" 
+                        placeholder="Enter Address"
+                        autocomplete="off"
+                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <!-- Age / Gender -->
+                        <div class="form-group w-full">
+                            <label for="accusedAge" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                                Age<sup class="text-red-500 text-lg font-semibold">*</sup>
+                            </label>
+                            <input type="text" id="accusedAge"
+                            formControlName="accusedAge" 
+                            placeholder="Enter Age"
+                            (keypress)="restrictKeys.onlyNumber($event)"
+                            autocomplete="off"
+                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
+                        </div>
+
+                        <div class="form-group w-full">
+                            <label for="accusedGender" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                                Gender<sup class="text-red-500 text-lg font-semibold">*</sup>
+                            </label>
+                            <select type="text" id="accusedGender"
+                            formControlName="accusedGender" 
+                            placeholder="Gender"
+                            autocomplete="off"
+                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm"> 
+                                <option value="">--Select Gender--</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <option value="O">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="form-group ">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        Status<sup class="text-red-500 text-lg font-semibold">*</sup>
+                        </label>
+                        <ng-select 
+                            [items]="statusDropdown"
+                            bindLabel="text"
+                            bindValue="value"
+                            placeholder="Select Year of FIR"
+                            formControlName="accusedStatus"
+                            class="custom-ng-select"
+                            id="firYear"
+                            >
+                        </ng-select>       
+                    </div>
+
+                    <!-- Remark -->
+                    <div class="form-group ">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        Remark<sup class="text-red-500 text-lg font-semibold">*</sup>
+                        </label>
+                        <input type="text" id="name"
+                        formControlName="accusedRemark" 
+                        placeholder="Enter Remark"
                         autocomplete="off"
                         class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
                     </div>
 
-                    <div class="form-group w-full">
-                        <label for="accusedGender" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            Gender<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <select type="text" id="accusedGender"
-                        formControlName="accusedGender" 
-                        placeholder="Gender"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm"> 
-                            <option value="">--Select Gender--</option>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                            <option value="O">Other</option>
-                        </select>
+                    <div class="accuse-remove flex items-end justify-start">
+                        <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="addAccused()"><i class="fa-solid fa-plus"></i>Add</button>
                     </div>
-                </div>
-                
-                <!-- Status -->
-                <div class="form-group ">
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                    Status<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <ng-select 
-                        [items]="statusDropdown"
-                        bindLabel="text"
-                        bindValue="value"
-                        placeholder="Select Year of FIR"
-                        formControlName="accusedStatus"
-                        class="custom-ng-select"
-                        id="firYear"
-                        >
-                    </ng-select>       
-                </div>
-
-                <!-- Remark -->
-                <div class="form-group ">
-                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                    Remark<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="name"
-                    formControlName="accusedRemark" 
-                    placeholder="Enter Remark"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-
-                <div class="accuse-remove flex items-end justify-start">
-                    <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="removeAccused(i)"><i class="fa-solid fa-minus"></i>Remove</button>
-                </div>
 
 
-            </div>
+
+                    <div class="table col-span-full">
+                        @if (accusedList.length) {
+                    <div class="adhikariTable col-span-full">
+                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+
+                            <thead>
+                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
+
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Sr No.</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Name</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Address</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Age/gender</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Status</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Remark</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Action</th>
+
+                                </tr>
+
+
+                            </thead>
+
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @for (item of accusedList; track $index) {
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                <th class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base text-pretty">{{$index + 1}}</th>
+                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.name}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.address}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.age}}/{{item?.gender}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.status}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.remark}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base"><i (click)="removeAccused($index)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i></td>
+
+
+                                <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->
+                                </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                    </div>
+
+
+                </div>
+            </form>
         </div>
-        
-        
-        
-        <!-- VICTIM  -->
-        <div class="victim my-5" formArrayName="victims">
-            <div class="heading flex items-center justify-between">
-                <p class="text-base font-semibold tracking-wider">पीड़ित / परिवादी विवरण (Victim)</p>
-                <button class="flex items-center gap-2 bg-[#BE123C] text-white rounded-2xl px-2.5 py-1.5 font-400" (click)="addVictim()"><i class="fa-solid fa-plus"></i>Add Accused</button>
-            </div>
 
-            <div *ngFor="let victim of victims.controls; let i = index" [formGroupName]="i" class="victim-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
+
+
+
+
+
+
+        <!-- VICTIM  -->
+        <div class="victim my-5" >
+            <form [formGroup]="victimWitnessForm">
+            <div class="heading flex items-center gap-10">
+                <p class="text-base font-semibold tracking-wider">पीड़ित / परिवादी विवरण (Victim)</p>
+
+
+                
+              <div class="font-semibold">
+                <!-- <label class="block text-sm font-semibold text-gray-700 mb-2">Victim/Witness</label> -->
+                <div class="flex gap-6">
+                  <label class="inline-flex items-center">
+                    <input type="radio" formControlName="isVictim" [value]="true" 
+                          class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]">
+                    <span class="ml-2 text-sm">Victim</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="radio" formControlName="isVictim" [value]="false" 
+                          class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]">
+                    <span class="ml-2 text-sm">Witness</span>
+                  </label>
+                </div>
+              </div>
+              </div>
+            
+            <div class="victim-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
 
                 <!-- Name -->
                 <div class="form-group ">
-                    <label for="victimName" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                    <label for="victimWitnessName" class="block text-sm font-semibold text-gray-700 mb-2.5">
                     Name<sup class="text-red-500 text-lg font-semibold">*</sup>
                     </label>
-                    <input type="text" id="victimName"
-                    formControlName="victimName" 
+                    <input type="text" id="victimWitnessName"
+                    formControlName="victimWitnessName" 
                     placeholder="Enter Name"
                     autocomplete="off"
                     class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
@@ -127,11 +211,11 @@
                 
                 <!-- Address -->
                 <div class="form-group ">
-                    <label for="victimAddress" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                    <label for="victimWitnessAddress" class="block text-sm font-semibold text-gray-700 mb-2.5">
                     Address<sup class="text-red-500 text-lg font-semibold">*</sup>
                     </label>
-                    <input type="text" id="victimAddress"
-                    formControlName="victimAddress" 
+                    <input type="text" id="victimWitnessAddress"
+                    formControlName="victimWitnessAddress" 
                     placeholder="Enter Address"
                     autocomplete="off"
                     class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
@@ -141,11 +225,11 @@
                 <!-- Age / Gender -->
                  <div class="flex items-center gap-3">
                     <div class="form-group w-full">
-                        <label for="victimAge" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        <label for="victimWitnessAge" class="block text-sm font-semibold text-gray-700 mb-2.5">
                         Age<sup class="text-red-500 text-lg font-semibold">*</sup>
                         </label>
-                        <input type="text" id="victimAge"
-                        formControlName="victimAge" 
+                        <input type="text" id="victimWitnessAge"
+                        formControlName="victimWitnessAge" 
                         placeholder="Enter Age"
                         autocomplete="off"
                         class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
@@ -153,7 +237,7 @@
                     
                     
                     <div class="form-group w-full">
-                        <label for="victimGender" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                        <label for="victimWitnessGender" class="block text-sm font-semibold text-gray-700 mb-2.5">
                         Gender<sup class="text-red-500 text-lg font-semibold">*</sup>
                         </label>
                         <!-- <input type="text" id="victimGender"
@@ -161,8 +245,8 @@
                         placeholder="Gender"
                         autocomplete="off"
                         class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">  -->
-                        <select type="text" id="victimGender"
-                        formControlName="victimGender" 
+                        <select type="text" id="victimWitnessGender"
+                        formControlName="victimWitnessGender" 
                         placeholder="Gender"
                         autocomplete="off"
                         class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm"> 
@@ -176,7 +260,7 @@
                 
                 <!-- Status -->
                 <div class="form-group ">
-                    <label for="victimStatus" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                    <label for="victimWitnessStatus" class="block text-sm font-semibold text-gray-700 mb-2.5">
                     Status<sup class="text-red-500 text-lg font-semibold">*</sup>
                     </label>
                     <ng-select 
@@ -184,31 +268,78 @@
                         bindLabel="text"
                         bindValue="value"
                         placeholder="Select Year of FIR"
-                        formControlName="victimStatus"
+                        formControlName="victimWitnessStatus"
                         class="custom-ng-select"
-                        id="victimStatus"
+                        id="victimWitnessStatus"
                         >
                     </ng-select>       
                 </div>
 
                 <!-- Remark -->
                 <div class="form-group ">
-                    <label for="victimRemark" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                    <label for="victimWitnessRemark" class="block text-sm font-semibold text-gray-700 mb-2.5">
                     Remark<sup class="text-red-500 text-lg font-semibold">*</sup>
                     </label>
-                    <input type="text" id="victimRemark"
-                    formControlName="victimRemark" 
+                    <input type="text" id="victimWitnessRemark"
+                    formControlName="victimWitnessRemark" 
                     placeholder="Enter Remark"
                     autocomplete="off"
                     class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
                 </div>
 
                 <div class="accuse-remove flex items-end justify-start">
-                    <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="removeVictim(i)"><i class="fa-solid fa-minus"></i>Remove</button>
+                    <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="addVictimWitness()"><i class="fa-solid fa-plus"></i>Add {{victimWitnessForm.value.isVictim ? 'Victim' : 'Witness'}}</button>
                 </div>
 
 
+
+                @if (victimWitnessList.length) {
+                    <div class="adhikariTable col-span-full">
+                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+
+                            <thead>
+                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
+
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Sr No.</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Name</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Address</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Age/gender</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Status</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Remark</th>
+                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Action</th>
+
+                                </tr>
+
+
+                            </thead>
+
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @for (item of victimWitnessList; track $index) {
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                <th class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base text-pretty">{{$index + 1}}</th>
+                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.name}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.address}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.age}}/{{item?.gender}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.status}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.remark}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base"><i (click)="removeVictimWitness($index)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i></td>
+
+
+                                <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->
+                                </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
             </div>
+            </form>
         </div>
-    </form>
+        
+        
+        
+        
+    <!-- </form> -->
 </div>
