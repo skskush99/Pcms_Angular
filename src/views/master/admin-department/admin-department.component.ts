@@ -11,12 +11,11 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
 import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
-import { ButtonComponent } from "../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-admin-department',
   standalone: true,
-  imports: [AgGridAngular, ReactiveFormsModule, PaginationComponent, ButtonComponent],
+  imports: [AgGridAngular, ReactiveFormsModule, PaginationComponent],
   templateUrl: './admin-department.component.html',
   styleUrl: './admin-department.component.css'
 })
