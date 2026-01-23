@@ -138,6 +138,26 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/police-station'
       },
+      {
+        englishName: 'Crime Classification',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/crime-classification'
+      },
+      {
+        englishName: 'Crime Act',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/crime-act'
+      },
+      {
+        englishName: 'Crime Sub Act',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/crime-sub-act'
+      },
+      {
+        englishName: 'FIR Status',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/fir-status'
+      },
     //   {
     //     englishName: 'Court Place',
     //     icon: 'fa fa-angle-double-right',
@@ -280,7 +300,12 @@ const navData = [
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Case Registration',
-        linkPage: 'case-management/case-list'
+        linkPage: 'case/case-registration'
+      },
+      {
+        icon: 'fa fa-angle-double-right',
+        englishName: 'Complaint Register',
+        linkPage: 'case/complaint-register'
       },
     //   {
     //     // icon : 'fa-solid fa-file',

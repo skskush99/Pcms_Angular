@@ -265,4 +265,78 @@ export class UrlService {
     return `${this.masterUrl}/Level/ActiveDeactive`
   }
 
+
+  getCrimeClassificationList(){
+    return `${this.masterUrl}/CrimeClassification/Get`
+  }
+  
+  
+  getCrimeClassificationDropdown(){
+    return `${this.masterUrl}/CrimeClassification/Dropdown`
+  }
+
+  addEditCrimeClassification(){
+    return `${this.masterUrl}/CrimeClassification/AddEdit`
+  }
+  
+  
+  activeDeactiveCrimeClassification(){
+    return `${this.masterUrl}/CrimeClassification/ActiveDeactive`
+  }
+  
+  
+  getCrimeActList(){
+    return `${this.masterUrl}/CrimeAct/Get`
+  }
+  
+  
+  getCrimeActDropdown(){
+    return `${this.masterUrl}/CrimeAct/Dropdown`
+  }
+
+  addEditCrimeAct(){
+    return `${this.masterUrl}/CrimeAct/AddEdit`
+  }
+  
+  
+  activeDeactiveCrimeAct(){
+    return `${this.masterUrl}/CrimeAct/ActiveDeactive`
+  }
+  
+  
+  getCrimeSubActList(){
+    return `${this.masterUrl}/CrimeSubAct/Get`
+  }
+  
+  
+  getCrimeSubActDropdown(){
+    return `${this.masterUrl}/CrimeSubAct/Dropdown`
+  }
+
+  addEditSubCrimeAct(){
+    return `${this.masterUrl}/CrimeSubAct/AddEdit`
+  }
+  
+  
+  activeDeactiveSubCrimeAct(){
+    return `${this.masterUrl}/CrimeSubAct/ActiveDeactive`
+  }
+  
+  
+  getFirStatusList(){
+    return `${this.masterUrl}/FirStatus/Get`
+  }
+  
+  getFirStatusDropdown(){
+    return `${this.masterUrl}/FirStatus/Dropdown`
+  }
+
+  addEditFirStatus(){
+    return `${this.masterUrl}/FirStatus/AddEdit`
+  }
+  
+  activeDeactiveFirStatus(){
+    return `${this.masterUrl}/FirStatus/ActiveDeactive`
+  }
+
 }
