@@ -1,0 +1,183 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { DatePickerComponent } from "../../shared/components/date-picker/date-picker.component";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DropdownListInterface } from '../../shared/model/shared.model';
+import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../shared/services/notification.service';
+import constants from '../../shared/utils/constants';
+import { ApiService } from '../../shared/services/api.service';
+import { UrlService } from '../../shared/services/url.service';
+
+@Component({
+  selector: 'app-fir-charges-sheet',
+  standalone: true,
+  imports: [DatePickerComponent , NgSelectModule , ReactiveFormsModule , CommonModule],
+  templateUrl: './fir-charges-sheet.component.html',
+  styleUrl: './fir-charges-sheet.component.css'
+})
+export class FirChargesSheetComponent implements OnInit{
+
+  notify = inject(NotificationService);
+  api = inject(ApiService);
+  url = inject(UrlService);
+
+  sectionsDropdown : DropdownListInterface[] = [];
+  actsDropdown : DropdownListInterface[] = [];
+  classificationDropdown : DropdownListInterface[] = [];
+  adhikaris : any[] = [];
+  chargeSheetCrimeList : any[] = [];
+
+  firDetailsForm : FormGroup = new FormGroup({
+    firNo : new FormControl(""),
+    adhiThana : new FormControl(''),
+    adhiDesignation : new FormControl(''),
+    adhiName : new FormControl(''),
+  })
+
+
+  chargeSheetForm : FormGroup = new FormGroup({
+    chargeSheetNo : new FormControl(""),
+    chartSheetDate : new FormControl(""),
+    dateFilingBeforeCourt : new FormControl(""),
+    investigatingOfficer : new FormControl(""),
+    caseTitle : new FormControl(""),
+    classification : new FormControl(null),
+    sections : new FormControl(null),
+    acts : new FormControl(null),
+  })
+
+
+
+  ngOnInit(): void {
+    this.getClassificationDropdown();
+  }
+
+
+  addAdhikari(){
+    let vals = this.firDetailsForm.value;
+    let reqFields : string[] = ['adhiName', 'adhiThana', 'adhiDesignation'];
+    if(!vals.adhiThana || !vals.adhiDesignation || !vals.adhiName){
+      reqFields.forEach(key => 
+        this.firDetailsForm.get(key)?.markAsTouched()
+      );
+      this.notify.showNotification('info' , constants.allFieldsReq)
+      return
+    }
+    this.adhikaris.push({
+      name : vals.adhiName,
+      designation : vals.adhiDesignation,
+      thana : vals.adhiThana
+    })
+    reqFields.forEach(i => this.firDetailsForm.controls[i].reset());
+  }
+
+
+  removeAdhikari(i : number){
+    // console.log(i);
+    this.adhikaris.splice(i , 1)
+    // console.log(this.adhikaris);
+    
+  }
+
+
+  getClassificationDropdown(){
+    this.api.get(this.url.getCrimeClassificationDropdown()).subscribe({
+      next : (res  : any) => {
+        console.log(res);
+        this.classificationDropdown = res.data;
+      },
+      error : (err : Error) => {
+        console.error(err);
+        
+      }
+    })
+  }
+
+
+  getActsDropdown(ifInit?:string){
+    if(!ifInit)this.chargeSheetForm.controls['acts'].setValue(null)
+      this.getCrimeSubActDropdown(ifInit ? 'init' : '');
+      if(!this.chargeSheetForm.value.classification){
+        this.actsDropdown = [];
+        return
+      }
+    let reqParam = {
+      CrimeClsId : this.chargeSheetForm.value.classification
+    }
+
+    this.api.get(this.url.getCrimeActDropdown() , reqParam).subscribe({
+      next : (res : any) => {
+        //console.log(res);
+        this.actsDropdown = res.data;
+      },
+      error : (err) => {
+        //console.log(err);
+
+      }
+    })
+  }
+
+  getCrimeSubActDropdown(ifInit?:string){
+    if(!ifInit)this.chargeSheetForm.controls['sections'].setValue(null);
+    if(!this.chargeSheetForm.value.acts){
+      this.sectionsDropdown = [];
+      return
+    }
+    let reqParam = {
+      CrimeActId : this.chargeSheetForm.value.acts,
+      CrimeClsId : this.chargeSheetForm.value.classification,
+    }
+
+    this.api.get(this.url.getCrimeSubActDropdown() , reqParam).subscribe({
+      next : (res : any) => {
+        //console.log(res);
+        this.sectionsDropdown = res.data
+
+      },
+      error : (err) =>{
+        //console.log(err);
+
+      }
+    })
+  }
+
+
+
+  addChargeSheetCrime(){
+    let form = this.chargeSheetForm.value;
+    
+    let reqFields : string[] = ['classification' , 'acts' , 'sections'];
+
+    if(!form.classification || !form.acts || !form.sections){
+      reqFields.forEach(key => 
+        this.chargeSheetForm.get(key)?.markAsTouched()
+      );
+      this.notify.showNotification('info' , constants.allFieldsReq)
+      return
+    }
+
+    let classification = this.classificationDropdown.find(i => i.value == form.classification);
+    let act = this.actsDropdown.find(i => i.value == form.acts);
+    let section = this.sectionsDropdown.find(i => i.value == form.sections);
+
+    this.chargeSheetCrimeList.push({
+      classification,
+      act,
+      section
+    })
+    
+    reqFields.forEach(i => this.chargeSheetForm.controls[i].reset());
+
+  }
+
+
+
+
+  removeChargeSheetCrime(index : number){
+    this.chargeSheetCrimeList.splice(index , 1);
+  }
+
+  
+
+}

@@ -7,6 +7,9 @@ module.exports = {
         "1" : "1px",
         "1.5" : "1.5px"
       },
+      fontWeight:{
+        '400':'400'
+      }
     },
   },
   plugins: [],
