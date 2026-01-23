@@ -4,7 +4,7 @@
   <div class="flex  bg-white shadow-lg rounded-lg" [ngClass]="userMappedRequested ? 'w-full max-w-6xl' : 'w-[80%]'">
     <!-- Left Sidebar -->
     <div
-      class="w-1/3 bg-gray-50 p-6 border-r bg-gradient-to-b from-[#4853e3] to-[#0daad5] text-white"
+      class=" rounded-l-lg w-1/3 bg-gray-50 p-6 border-r bg-gradient-to-br from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] text-white"
     >
       <div class="userDetails text-center flex flex-col mb-2 gap-1">
         <p class="text-xl font-semibold mb-0 userName">{{ssoDetails?.displayName}}</p>
@@ -45,7 +45,7 @@
           <p>{{ ssoDetails?.aadhaarId || "-" }}</p>
         </div>
       </div>
-      <button class="bg-white transition-colors duration-300 rounded-2xl w-full text-[#4853e3] py-1.5 mt-3 hover:bg-gradient-to-r hover:from-[#4853e3] hover:to-[#0daad5] hover:text-white">
+      <button (click)="backToSso()" class="bg-white transition-colors duration-300 rounded-2xl w-full text-[#4853e3] py-1.5 mt-3 hover:bg-gradient-to-r hover:from-[#4853e3] hover:to-[#0daad5] hover:text-white">
         <span
     class="absolute inset-0 bg-purple-500 scale-x-0 group-hover:scale-x-100 
            transition-transform duration-300 origin-center">
@@ -73,8 +73,8 @@
       </div>
       <!-- <hr class="mb-2.5"> -->
 
-      <form [formGroup]="roleMappingForm">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <form [formGroup]="roleMappingForm" class="mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-12">
           <!-- Level -->
           <!-- <div>
             <label class="block text-sm font-medium mb-1">
@@ -129,7 +129,7 @@
 
           <!-- Division -->
           <div>
-            <label class="block text-sm font-medium mb-1">
+            <label class="block text-sm font-semibold  mb-2">
               संभाग | Division <span class="text-red-500">*</span>
             </label>
             <ng-select
@@ -146,7 +146,7 @@
 
           <!-- District -->
           <div>
-            <label class="block text-sm font-medium mb-1">
+            <label class="block text-sm font-semibold  mb-1">
               जिला | District <span class="text-red-500">*</span>
             </label>
             <ng-select
@@ -162,7 +162,7 @@
 
           <!-- Office -->
           <div>
-            <label class="block text-sm font-medium mb-1">
+            <label class="block text-sm font-semibold  mb-1">
               कार्यालय | Prosecution Office
             </label>
             <ng-select
@@ -179,7 +179,7 @@
 
           <!-- Designation -->
           <div>
-            <label class="block text-sm font-medium mb-1">
+            <label class="block text-sm font-semibold  mb-1">
               पद | Designation
             </label>
             <ng-select
@@ -195,7 +195,7 @@
 
           <!-- Court -->
           <div>
-            <label class="block text-sm font-medium mb-1">
+            <label class="block text-sm font-semibold  mb-1">
               Judicial Court | अदालत
             </label>
             <ng-select
@@ -229,7 +229,7 @@
             type="button" (click)="onSave()"
             class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
           >
-            Save
+               Submit Request
           </button>
         </div>
 
@@ -273,7 +273,7 @@
     class="hidden items-center gap-2 px-3 py-2 hover:bg-[#004560] hover:text-white text-gray-400 cursor-pointer duration-500"
   >
     <input type="text" class="" id="backToSsoBtn" [ngModel]="sToken" />
-    <i id="userDetailDropdown" class="fa-solid fa-right-from-bracket"></i>
-    <button id="userDetailDropdown" class="outline-none">Back To SSO</button>
+    <i  class="fa-solid fa-right-from-bracket"></i>
+    <button  class="outline-none">Back To SSO</button>
   </form>
 </div>

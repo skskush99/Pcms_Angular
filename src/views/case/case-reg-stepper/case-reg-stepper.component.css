@@ -1,0 +1,10 @@
+.active{
+    background-color: #73A0CB;
+    color: white;
+}
+
+.form-complete{
+    background-color: green;
+    color: white;
+}
+

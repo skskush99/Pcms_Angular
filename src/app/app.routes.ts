@@ -44,4 +44,9 @@ export const routes: Routes = [
       loadChildren : () => import('./user.routes').then(m => m.UserRoutingModule),
     //   canActivate: [authGuard , noRoleFoundGuard]
     },
+    {
+      path : 'case',
+      loadChildren : () => import('./case.routes').then(m => m.CaseRoutingModule),
+    //   canActivate: [authGuard , noRoleFoundGuard]
+    },
 ];

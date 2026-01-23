@@ -28,18 +28,18 @@ export function configureNgSelect() {
   };
 }
 
-
+// ,
+//     {
+//       provide: APP_INITIALIZER,
+//       useFactory: configureNgSelect,
+//       multi: true
+//     }
 
 
 // encodeDecodeInterceptor
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes) ,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configureNgSelect,
-      multi: true
-    }
+  providers: [provideRouter(routes) 
     , provideHttpClient(
     withInterceptors([authInterceptor ] ,)
   ) , provideAnimations(), DatePipe , provideAnimationsAsync() ,
