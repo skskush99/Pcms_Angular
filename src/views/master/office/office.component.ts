@@ -359,8 +359,8 @@ export class OfficeComponent {
     const formattedDate = this.datePipe.transform(currentDate, 'dd/MM/yyyy hh:mm a');
     const headers = [
       'Government of Rajasthan',
-      'Justice Department',
-      '(Litigation Information Tracking & Evaluation System)',
+      'Prosecution Department',
+      '(Prosecution Case Management System)',
       'Office List',
       '( As on ' + formattedDate + ')',
     ]

@@ -56,8 +56,8 @@ export class XlsxService {
     // Headings
     const headings = [
       "Government of Rajasthan",
-      "Justice Department",
-      "(Litigation Information Tracking & Evaluation System)",
+      'Prosecution Department',
+      '(Prosecution Case Management System)',
       worksheetName + ' ' + formattedDate
     ];
     const headerKeys = Object.keys(columnHeaders);
@@ -191,7 +191,7 @@ export class XlsxService {
     const worksheet = workbook.addWorksheet('Report');
 
     // ✅ Header: Merge & Style
-    const headerText = 'Government of Rajasthan \n Justice Department \n (Litigation Information Tracking & Evaluation System) \n ' + reportTitle;
+    const headerText = 'Government of Rajasthan \n Prosecution Department \n (Prosecution Case Management System) \n ' + reportTitle;
     const columnCount = table.querySelectorAll('thead tr th').length || 8; // Default to 8 if uncertain
 
     // ✅ Merge Header Cells Correctly
@@ -289,7 +289,7 @@ async exportTableToExcelColSpan(tableId: string, fileName: string, reportTitle: 
     const worksheet = workbook.addWorksheet('Report');
     
     // ✅ Add the Main Header (Title)
-    const headerText = 'Government of Rajasthan \n Justice Department \n (Litigation Information Tracking & Evaluation System) \n ' + reportTitle;
+    const headerText = 'Government of Rajasthan \n Prosecution Department \n (Prosecution Case Management System) \n ' + reportTitle;
     const theadFirstRow = table.querySelector('thead tr');
     let columnCount = 0;
 
