@@ -1,10 +1,16 @@
-<nav class="z-50 w-full px-4 lg:px-6 top-0 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#5a8bb8] shadow-lg border-b border-white/20 backdrop-blur-sm relative">
-    <div class="py-4">
+<nav class="z-50 w-full px-4 lg:px-6 bg-gradient-to-r from-[#709bcd] via-[#709bcd] to-[#709bcd] relative fixed top-0 left-0 right-0">
+    <div class="py-2">
        <div class="flex items-center justify-between">
           <div class="flex items-center justify-start gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+               <div class="bg-white/20 backdrop-blur-sm rounded-lg p-2 shadow-sm border [#5a8bb8]">
+                  <img src="assets/pcms_logo_sidenav.jpeg" alt="PCMS Logo" class="h-8 w-8 object-contain">
+               </div>
+            </div>
             <!-- @if (showHamBurger) { -->
              <button (click)="toggleSidebarVisibility()"
-                class="toggleBtn text-white hover:text-white cursor-pointer p-2.5 hover:bg-white/20 focus:bg-white/20 focus:ring-2 focus:ring-white/30 rounded-lg focus:text-white transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg">
+                class="toggleBtn text-white hover:text-white cursor-pointer p-2.5 hover:bg-white/20 focus:bg-white/20 focus:ring-2 focus:ring-white/30 rounded-lg transition-all duration-200 hover:scale-110">
                 <svg id="toggleSidebarMobileHamburger" class="w-6 h-6" fill="currentColor"
                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                    <path fill-rule="evenodd"
@@ -17,7 +23,6 @@
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                       clip-rule="evenodd"></path>
                 </svg>
-
              </button>
 
 
@@ -46,11 +51,60 @@
         
          
          
-          <div class="flex items-center gap-4">
-            <div class="hidden md:flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
-               <p class="text-white font-bold text-sm uppercase tracking-wide">
-                  Welcome To PCMS
-               </p>
+         <div class="flex items-center gap-4">
+            <!-- Right section with dark theme and wider layout -->
+            <div class="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#4775a9] via-[#406ca3] to-[#406ca3] px-3 py-2 rounded-full min-w-[250px]">
+               <button type="button" class="text-white hover:text-white p-1.5 rounded-lg transition-all duration-200 hover:scale-110 relative">
+                  <span class="sr-only">Notifications</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                  </svg>
+               </button>
+               <div class="flex items-center gap-1.5 text-white">
+                  <span class="text-xs font-semibold uppercase tracking-wide">•</span>
+                  <span class="text-xs font-semibold uppercase tracking-wide">WELCOME</span>
+                  <span class="text-xs font-semibold uppercase tracking-wide">•</span>
+                  <span class="text-xs font-bold">PCMS</span>
+                  <span class="text-xs font-semibold uppercase tracking-wide">•</span>
+                  <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+               </div>
+               <div id="userDetailDropdown" class="relative rounded-full w-8 h-8 flex items-center justify-center z-[10000]">
+                  <a id="userDetailDropdown" (click)="openDetailDropdown()"
+                     class="inline-flex rounded-full w-8 h-8 text-gray-900 bg-white hover:bg-gray-50 cursor-pointer font-semibold text-[10px] justify-center items-center duration-300 shadow-sm hover:shadow-md transition-all hover:scale-110 relative z-[10001]">
+                     <span class="text-[10px] font-bold">SA</span>
+                  </a>
+                  @if (openUserDetails) {
+                  <div [@onOff] id="userDetailDropdown" class="font-semibold text-sm useDetails w-64 bg-white text-gray-800 rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
+                     <div class="switchLanguage px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition-colors duration-200 cursor-pointer group">
+                        <p class="switchLangArrow text-gray-400 group-hover:text-[#4E57A3] transition-transform duration-300"><i class="fa-solid fa-angle-right"></i></p>
+                        <p class="font-medium text-sm text-gray-700">Switch Language</p>
+                        <div class="selectLang flex-col font-normal bg-white border border-gray-200 rounded-lg shadow-xl min-w-[120px]">
+                           <p class="hover:from-[#759fce] to-[#6b9bc8] hover:bg-gradient-to-r hover:text-white h-full p-3 duration-300 rounded-t-lg cursor-pointer transition-colors" (click)="changeLang('en')">English</p>
+                           <div class="border-t border-gray-200"></div>
+                           <p class="hover:from-[#759fce] to-[#6b9bc8] hover:bg-gradient-to-r hover:text-white p-3 duration-300 rounded-b-lg cursor-pointer transition-colors" (click)="changeLang('hi')">Hindi</p>
+                        </div>
+                     </div>
+                     <div class="border-b border-gray-200"></div>
+                     <div id="userDetailDropdown" class="ssoid" (click)="backToSso()">
+                        <form #redirectBackToSSO ngNoForm method="post" class="flex items-center gap-3 px-4 py-3 hover:bg-gradient-to-r hover:from-[#004560] hover:to-[#005a7a] hover:text-white text-gray-600 cursor-pointer transition-all duration-300 group">
+                           <input type="text" class="hidden" id="backToSsoBtn" [ngModel]="sToken">
+                           <i id="userDetailDropdown" class="fa-solid fa-right-from-bracket text-gray-400 group-hover:text-white transition-colors"></i>
+                           <button id="userDetailDropdown" class="outline-none font-medium">Back To SSO</button>
+                        </form>
+                     </div>
+                     <div class="border-b border-gray-200"></div>
+                     <div id="userDetailDropdown" (click)="logout()">
+                        <form #logoutBackToSSO ngNoForm method="post" class="flex items-center gap-3 px-4 py-3 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white text-gray-600 cursor-pointer transition-all duration-300 group rounded-b-xl">
+                           <input type="text" class="hidden" id="backToSsoBtnlogout">
+                           <i id="userDetailDropdown" class="fa-solid fa-right-from-bracket text-gray-400 group-hover:text-white transition-colors"></i>
+                           <button id="userDetailDropdown" class="outline-none font-medium">Logout</button>
+                        </form>
+                     </div> 
+                  </div>
+                  }
+               </div>
             </div>
              <button id="toggleSidebarMobileSearch" type="button"
                 class="lg:hidden text-white hover:text-white hover:bg-white/20 p-2.5 rounded-lg transition-all duration-200 hover:scale-110">
@@ -62,10 +116,11 @@
                       clip-rule="evenodd"></path>
                 </svg>
              </button>
-             <div id="userDetailDropdown" class="relative rounded-full w-11 h-11 flex items-center justify-center z-[10000]">
+             <!-- Mobile user dropdown -->
+             <div id="userDetailDropdown" class="relative rounded-full w-8 h-8 flex items-center justify-center z-[10000] md:hidden">
              <a id="userDetailDropdown" (click)="openDetailDropdown()"
-                class="hidden sm:inline-flex rounded-full w-11 h-11 text-[#004560] hover:text-white bg-white hover:bg-[#004560] cursor-pointer font-semibold hover:border-2 hover:border-white/50 text-sm justify-center items-center duration-300 shadow-lg hover:shadow-xl transition-all hover:scale-110 relative z-[10001]">
-                <i id="userDetailDropdown" class="fa-solid fa-user text-lg"></i>
+                class="inline-flex rounded-full w-8 h-8 text-gray-800 bg-white hover:bg-gray-50 cursor-pointer font-semibold text-[10px] justify-center items-center duration-300 shadow-sm hover:shadow-md transition-all hover:scale-110 relative z-[10001]">
+                <span class="text-[10px] font-bold">SA</span>
                </a>
                @if (openUserDetails) {
                <div [@onOff] id="userDetailDropdown" class="font-semibold text-sm useDetails w-80 bg-white text-gray-800 rounded-xl shadow-2xl border border-gray-100 overflow-hidden">

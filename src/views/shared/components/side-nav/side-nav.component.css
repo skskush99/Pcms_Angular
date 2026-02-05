@@ -6,15 +6,8 @@
 
 .sidebar {
   transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(
-    180deg,
-    rgba(117, 159, 206, 0.95) 0%,
-    rgba(107, 155, 200, 0.95) 50%,
-    rgba(90, 139, 184, 0.95) 100%
-  );
+  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Navbar animations */
@@ -85,21 +78,28 @@ li {
 
 /* Active link styling */
 .active {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background: rgba(255, 255, 255, 0.18);
   color: white;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-left: 3px solid white;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
 
 /* Main menu item hover effect */
+.main {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.75rem;
+}
+
 .main:hover {
-  transform: translateX(4px);
+  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Submenu item styling */
 .subMenu {
   position: relative;
+  padding: 0.45rem 0.5rem;
+  border-radius: 0.65rem;
 }
 
 .subMenu::before {
@@ -194,7 +194,7 @@ li[ngClass*='active'] {
 /* Hover effect for submenu items */
 .subChildren li:hover {
   transform: translateX(4px);
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* Close button enhancement */
@@ -212,7 +212,7 @@ button:hover {
 /* Focus states for accessibility */
 .main:focus-visible,
 .subMenu:focus-visible {
-  outline: 2px solid white;
+  outline: 2px solid rgba(255, 255, 255, 0.8);
   outline-offset: 2px;
   border-radius: 0.5rem;
 }
