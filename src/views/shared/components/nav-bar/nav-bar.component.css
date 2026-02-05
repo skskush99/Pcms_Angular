@@ -30,9 +30,7 @@
 
 /* Nav bar enhancements */
 nav {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background: linear-gradient(90deg, #759fce 0%, #6b9bc8 50%, #5a8bb8 100%);  
   overflow: visible !important;
   position: relative;
   z-index: 50;
@@ -58,8 +56,7 @@ nav {
 
 /* Toggle button enhancements */
 .toggleBtn {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: transparent;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -156,8 +153,7 @@ p {
 
 /* Mobile search button */
 #toggleSidebarMobileSearch {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: transparent;
   transition: all 0.2s ease;
 }
 
@@ -175,7 +171,7 @@ form {
 /* Focus states for accessibility */
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid white;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
   border-radius: 0.5rem;
 }
@@ -212,11 +208,9 @@ form:hover .fa-right-from-bracket {
   }
 }
 
-/* Glassmorphic effect for welcome text */
-.bg-white\/20 {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* Welcome text styling - darker blue container */
+.bg-blue-600 {
+  background: #2563eb;
 }
 
 /* Smooth input focus */
@@ -262,12 +256,3 @@ a {
   -webkit-user-select: none;
 }
 
-/* Enhanced backdrop blur */
-nav {
-  background: linear-gradient(
-    135deg,
-    rgba(117, 159, 206, 0.95) 0%,
-    rgba(107, 155, 200, 0.95) 50%,
-    rgba(90, 139, 184, 0.95) 100%
-  );
-}

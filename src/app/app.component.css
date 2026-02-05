@@ -48,3 +48,29 @@
 
 select { background-image: none;}
 .custom-ng-select .ng-placeholder { padding-left: 0px !important;}
+
+/* Content area scrollbar styling */
+.content-scroll-area {
+  height: calc(100vh - 56px);
+  max-height: calc(100vh - 56px);
+  scrollbar-width: thin;
+  scrollbar-color: #759fce #f1f1f1;
+}
+
+.content-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-scroll-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.content-scroll-area::-webkit-scrollbar-thumb {
+  background: #759fce;
+  border-radius: 10px;
+}
+
+.content-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #5a8bb8;
+}
