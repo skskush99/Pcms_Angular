@@ -47,7 +47,7 @@ export class UserMappingComponent implements OnInit{
     office : new FormControl(null , [Validators.required]),
     designation : new FormControl(null , [Validators.required]),
     role : new FormControl(null , [Validators.required]),
-    level : new FormControl(null , [Validators.required]),
+    // level : new FormControl(null , [Validators.required]),
   })
 
   ngOnInit(): void {
@@ -240,7 +240,7 @@ export class UserMappingComponent implements OnInit{
         "rBhamashahId": this.ssoDetails?.bhamashahId || '',
         "rBhamashahMemberId": this.ssoDetails?.bhamashahMemberId || '',
         "rImage": this.ssoDetails?.jpegPhoto || "",
-        "levelId": this.roleMappingForm.value.level,
+        "levelId": this.roleMappingForm.value?.level || 0,
         "roleId": this.roleMappingForm.value.role,
         "divisionId": this.roleMappingForm.value.division,
         "districtId": this.roleMappingForm.value.district,

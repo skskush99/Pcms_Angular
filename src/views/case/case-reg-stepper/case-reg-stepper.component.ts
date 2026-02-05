@@ -14,7 +14,7 @@ import { CaseReviewSubmitComponent } from "../case-review-submit/case-review-sub
 })
 export class CaseRegStepperComponent {
 
-  currentForm : number = 2;
+  currentForm : number = 1;
   caseData : any;
   ifCaseRegisterd : boolean = false;
   withoutCaseNoReg: boolean = false;
