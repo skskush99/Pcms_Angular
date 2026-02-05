@@ -332,9 +332,9 @@ export class CourtComponent {
       const formattedDate = this.datePipe.transform(currentDate, 'dd/MM/yyyy hh:mm a');
       const headers = [
         'Government of Rajasthan',
-        'Justice Department',
-        '(Litigation Information Tracking & Evaluation System)',
-        'District List',
+        'Prosecution Department',
+        '(Prosecution Case Management System)',
+        'Court List',
         '( As on ' + formattedDate + ')',
       ]
 
