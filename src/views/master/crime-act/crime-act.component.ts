@@ -360,9 +360,9 @@ export class CrimeActComponent {
     const formattedDate = this.datePipe.transform(currentDate, 'dd/MM/yyyy hh:mm a');
     const headers = [
       'Government of Rajasthan',
-      'Justice Department',
-      '(Litigation Information Tracking & Evaluation System)',
-      'Office List',
+      'Prosecution Department',
+      '(Prosecution Case Management System)',
+      'Crime Act List',
       '( As on ' + formattedDate + ')',
     ]
 
