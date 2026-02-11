@@ -29,16 +29,26 @@
                   District
                 </label>
 
-                <ng-select
+                <!-- <ng-select
                 [items]="districtDropDown"
                 bindLabel="text"
                 bindValue="value"
                 placeholder="Select District"
                 formControlName="DistrictId"
                 class="custom-ng-select"
-                id="DistrictId"
-                >
-                </ng-select>
+                id="DistrictId"                >
+                </ng-select> -->
+
+                <ng-select
+  [items]="districtDropDown"
+  bindLabel="text"
+  bindValue="value"
+  placeholder="Select District"
+  formControlName="DistrictId"
+  class="custom-ng-select"
+  id="DistrictId"
+  appendTo="body">
+</ng-select>
               </div>
 
             <!-- Active Status -->
@@ -107,7 +117,7 @@
         <!-- } -->
         </div>
       </div>
-      
+
 
       <div class="p-6">
         <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">

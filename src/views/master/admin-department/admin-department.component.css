@@ -37,7 +37,8 @@ button:active {
 .ag-grid-container {
   background: white;
   border-radius: 0.5rem;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow: visible !important;
 }
 
 /* AG Grid theme customizations */

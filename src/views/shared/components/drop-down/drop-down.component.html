@@ -1,0 +1,10 @@
+<ng-select
+  [items]="districts"
+  bindLabel="text"
+  bindValue="value"
+  [formControl]="control"
+  [placeholder]="placeholder"
+  class="custom-ng-select"
+  [appendTo]="'body'"
+  (change)="onChange($event)">
+</ng-select>

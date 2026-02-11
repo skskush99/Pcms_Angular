@@ -1,5 +1,7 @@
 <div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <!-- <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden"> -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-visible">
+
           <!-- Header -->
           <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
               <div class="flex items-center gap-3">
@@ -121,6 +123,7 @@
                         formControlName="classification"
                         class="custom-ng-select"
                         id="district"
+                     
                         >
                         </ng-select>
                         <div *ngIf="addCrimeActForm.get('classification')?.hasError('required') && addCrimeActForm.get('classification')?.touched" 
