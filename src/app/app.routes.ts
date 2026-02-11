@@ -5,6 +5,7 @@ import { ListPageAdminComponent } from '../views/list-page-admin/list-page-admin
 import { SsoComponent } from '../views/sso/sso.component';
 import { RoleSelectionComponent } from '../views/role-selection/role-selection.component';
 import { DashboardComponent } from '../views/dashboard/dashboard.component';
+import { HomeComponent } from '../views/home/home.component';
 
 export const routes: Routes = [
 
@@ -17,6 +18,10 @@ export const routes: Routes = [
         path : '',
         redirectTo : 'dashboard',
         pathMatch : 'full'
+    },
+     {
+        path : 'home',
+        component : HomeComponent
     },
     {
         path : 'login',

@@ -315,8 +315,7 @@ export class UrlService {
 
   addEditSubCrimeAct(){
     return `${this.masterUrl}/CrimeSubAct/AddEdit`
-  }
-  
+  }  
   
   activeDeactiveSubCrimeAct(){
     return `${this.masterUrl}/CrimeSubAct/ActiveDeactive`
@@ -333,10 +332,24 @@ export class UrlService {
 
   addEditFirStatus(){
     return `${this.masterUrl}/FirStatus/AddEdit`
-  }
-  
+  }  
   activeDeactiveFirStatus(){
     return `${this.masterUrl}/FirStatus/ActiveDeactive`
   }
+
+  // Nodel Officer Details  // Start// 
+  getNodalOfficer(){
+    return `${this.masterUrl}/NodalOfficer/Get`
+  }    
+  getNodalOfficerDropdown(){
+    return `${this.masterUrl}/NodalOfficer/GetDropdown`
+  }
+  addEditNodalOfficer(){
+    return `${this.masterUrl}/NodalOfficer/AddEdit`
+  }   
+  activeDeactiveNodalOfficer(){
+    return `${this.masterUrl}/NodalOfficer/ActiveDeactive`
+  }
+  // Nodel Officer Details  // End // 
 
 }
