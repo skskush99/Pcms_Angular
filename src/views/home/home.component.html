@@ -1,0 +1,270 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="container topbar-row">
+    <div class="topbar-left">
+      <div class="control-group" aria-label="Font size controls">
+        <button type="button" class="icon-btn" (click)="decreaseFont()" aria-label="Decrease font size">A-</button>
+        <button type="button" class="icon-btn" (click)="resetFont()" aria-label="Reset font size">A</button>
+        <button type="button" class="icon-btn" (click)="increaseFont()" aria-label="Increase font size">A+</button>
+      </div>
+
+      <div class="control-group">
+        <label class="sr-only" for="themeSelect">Theme</label>
+        <select id="themeSelect" [value]="theme" (change)="setTheme($any($event.target).value)">
+          <option value="default">Theme: Default</option>
+          <option value="dark">Theme: Dark</option>
+          <option value="contrast">Theme: High contrast</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="sr-only" for="langSelect">Language</label>
+        <select id="langSelect" [value]="language" (change)="setLanguage($any($event.target).value)">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="control-group">
+        <label class="sr-only" for="topSearch">Search</label>
+        <input id="topSearch" #topSearch type="search" placeholder="Search..." (keydown.enter)="onSearch(topSearch.value)" />
+        <button type="button" class="btn-search" (click)="onSearch(topSearch.value)">Search</button>
+      </div>
+
+      <a class="btn-login" routerLink="/login">Login</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="top-header">
+  <div class="container header-row">
+
+    <!-- LEFT LOGOS -->
+    <div class="logo-group">
+      <img src="assets/RajGovtBack.png" alt="Government of Rajasthan logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+    </div>
+
+    <!-- CENTER TITLE -->
+    <div class="title-block">
+      <h1>Directorate of Prosecution</h1>
+      <p>Government of Rajasthan · Prosecution Case Management System</p>
+    </div>
+
+    <!-- RIGHT LOGO -->
+    <div class="logo-group">
+      <img src="assets/CmPic.png" alt="Hon’ble Chief Minister" />
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= MENU BAR ================= -->
+<nav class="menu-bar">
+  <div class="container menu-flex">
+    <ul>
+      <li class="active">Home</li>
+      <li>About</li>
+      <li>Act & Rules</li>
+      <li>Orders</li>
+      <li>Orders & Circulars</li>
+      <li>Document & Download </li>
+      <li>Event & News </li>
+      <li>Contact</li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= SLIDER ================= -->
+<main id="main-content">
+<section class="slider">
+  <div class="slider-overlay"></div>
+  <div class="slides">
+    <img src="assets/Secretariat.jpeg" alt="Secretariat building, Jaipur" />
+    <img src="assets/RajGovtBack.png" alt="Secretariat building, Jaipur" />
+    <img src="assets/Secretariat.jpeg" alt="Secretariat building, Jaipur" />
+  </div>
+  <div class="slider-caption">
+    <h2>Prosecution Case Management System</h2>
+    <p>Modern digital platform for transparent, efficient and timely monitoring of prosecution cases across Rajasthan.</p>
+  </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section class="stats-section">
+  <div class="container">
+
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <i class="bi bi-grid-fill"></i>
+        </div>
+        <div class="stat-value">125</div>
+        <div class="stat-label">Total Services</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <i class="bi bi-currency-rupee"></i>
+        </div>
+        <div class="stat-value">8,000</div>
+        <div class="stat-label">Total Cash</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-value">5,420</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" aria-hidden="true">
+          <i class="bi bi-person-check-fill"></i>
+        </div>
+        <div class="stat-value">4,980</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services">
+  <div class="container">
+    <h2>Our Services</h2>
+    <h4>Information Portal for Public</h4>
+
+    <div class="service-grid">
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h3>Info. From Public</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-person-badge-fill"></i>
+        </div>
+        <h3>Info. From Client</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-building"></i>
+        </div>
+        <h3>Info. From Court</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-person-vcard-fill"></i>
+        </div>
+        <h3>Info. From Advocate</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-building-fill"></i>
+        </div>
+        <h3>Info. From Ruler</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="bi bi-file-earmark-text-fill"></i>
+        </div>
+        <h3>Info. From Other Act</h3>
+        <p>This site belongs to police department for public information.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= CLIENT LOGOS ================= -->
+<section class="client-slider">
+  <div class="container">
+    <div class="client-track">
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+      <img src="assets/remove back logo.png" alt="Directorate of Prosecution logo" />
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <!-- COLUMN 1: LOGO & INTRO -->
+    <div>
+      <div class="footer-logo">
+        <img src="assets/RajGovtBack.png" alt="Government of Rajasthan logo" />
+        
+      </div>
+      <p>
+        Prosecution Case Management System is an initiative of the Directorate of Prosecution,
+        Government of Rajasthan, to enable efficient monitoring and management of prosecution cases.
+      </p>
+    </div>
+
+    <!-- COLUMN 2: QUICK LINKS -->
+    <div>
+      <h3>Quick Links</h3>
+      <a href="#">Home</a><br />
+      <a href="#">About</a><br />
+      <a href="#">Acts &amp; Rules</a><br />
+      <a href="#">Orders &amp; Circulars</a><br />
+      <a href="#">Contact</a>
+    </div>
+
+    <!-- COLUMN 3: OTHER WEBSITES -->
+    <div>
+      <h3>Other Websites</h3>
+      <a href="#">Rajasthan Government Portal</a><br />
+      <a href="#">Home Department</a><br />
+      <a href="#">Police Department</a><br />
+      <a href="#">e-Courts Services</a>
+    </div>
+
+    <!-- COLUMN 4: NODAL OFFICER DETAILS -->
+    <div>
+      <h3>Nodal Officer</h3>
+      <p>
+        Name: ####### <br />
+        Designation: ADP (HQ) <br />
+        Mobile: +91-XXXXXXXXXX <br />
+        Room No. 123345, Yojna Bhawan <br />
+        Jaipur - 302005 (Rajasthan) <br />
+        Email: Prosecution[at]Rajasthan[dot]gov[dot]in
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Directorate of Prosecution
+  </div>
+</footer>
+</main>

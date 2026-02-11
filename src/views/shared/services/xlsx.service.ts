@@ -984,6 +984,15 @@ printComponent(tableId: string) {
     }
   }
 
+  exportAsExcelFile(json: any[], fileName: string): void {
+  const worksheet = XLSX.utils.json_to_sheet(json);
+  const workbook = {
+    Sheets: { 'Sheet1': worksheet },
+    SheetNames: ['Sheet1']
+  };
+  XLSX.writeFile(workbook, fileName + '.xlsx');
+}
+
 
 }
 

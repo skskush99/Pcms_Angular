@@ -128,6 +128,18 @@ export const routes: Routes = [
     loadComponent: () => import('../views/master/fir-status/add-fir-status/add-fir-status.component').then(m => m.AddFirStatusComponent),
     canActivate: []
     },
+    {
+    path: 'nodal-officer',
+    loadComponent: () => import('../views/master/nodal-officer/nodal-officer.component').then(m => m.NodalOfficerComponent),
+   
+    canActivate: []
+    },
+    {
+    path: 'add-nodal-officer',
+    loadComponent: () => import('../views/master/nodal-officer/add-nodal-officer/add-nodal-officer.component').then(m => m.AddNodalOfficerComponent),
+    canActivate: []
+    },
+    
 ]
 
 

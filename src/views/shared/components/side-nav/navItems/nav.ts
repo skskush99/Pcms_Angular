@@ -64,7 +64,7 @@ const navData = [
     linkPage: 'm',
     subMenus: [
       {
-        englishName: 'Admin Department ',
+        englishName: 'Department ',
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/admin-dept'
       },
@@ -487,24 +487,81 @@ const navData = [
     englishName: 'Reports',
     linkPage: 'nz',
     subMenus: [
+      //comment By Vishnu 11022026//Start// 
+      // {
+      //   icon: 'fa-solid fa-file',
+      //   englishName: 'Appeal Nigrani Register',
+      //   linkPage: 'ma',
+      // },
+      // {
+      //   icon: 'fa-solid fa-file',
+      //   englishName: 'Dainik Mukadma Suchi',
+      //   linkPage: 'ma',
+      // },
+      // {
+      //   icon: 'fa-solid fa-file',
+      //   englishName: 'Witness Entry Report',
+      //   linkPage: 'ma',
+      // },
+      // {
+      //   icon: 'fa-solid fa-file',
+      //   englishName: 'Prosecution Register-1',
+      //   linkPage: 'ma',
+      // },
+//comment By Vishnu 11022026//End // 
+     
       {
         icon: 'fa-solid fa-file',
-        englishName: 'Appeal Nigrani Register',
+        englishName: 'Prosecution Return No.1',
         linkPage: 'ma',
       },
       {
         icon: 'fa-solid fa-file',
-        englishName: 'Dainik Mukadma Suchi',
+        englishName: 'Pravivran no.-2',
         linkPage: 'ma',
       },
       {
         icon: 'fa-solid fa-file',
-        englishName: 'Witness Entry Report',
+        englishName: 'Pravivran no.-3',
         linkPage: 'ma',
       },
       {
         icon: 'fa-solid fa-file',
-        englishName: 'Prosecution Register-1',
+        englishName: 'Pravivran no.-3 K',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Pravivaran-3 kha',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Pravivaran -7',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Mahila Atayachar IPC',
+        linkPage: 'ma',
+      },{
+        icon: 'fa-solid fa-file',
+        englishName: 'Mahila Atayachar BNS ',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Return-4',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Format-A',
+        linkPage: 'ma',
+      },
+      {
+        icon: 'fa-solid fa-file',
+        englishName: 'Format-B',
         linkPage: 'ma',
       },
       // {

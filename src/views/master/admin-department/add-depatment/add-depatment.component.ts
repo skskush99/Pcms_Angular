@@ -21,7 +21,7 @@ export class AddDepatmentComponent {
   editAdminDept : any;
   addAdminDeptForm : FormGroup = new FormGroup({
     adminDept : new FormControl(null , [Validators.required , Validators.pattern('^[A-Za-z ]+$')]),
-    majorMinor : new FormControl('' , [Validators.required]),
+    // majorMinor : new FormControl('' , [Validators.required]),
     shortName : new FormControl(null , [Validators.required , Validators.pattern('^[A-Za-z ]+$')]),
     // date : new FormControl('' , [])
 
@@ -38,7 +38,7 @@ export class AddDepatmentComponent {
     
     if(this.editAdminDept){
       this.addAdminDeptForm.controls['adminDept'].setValue(this.editAdminDept.AdmDeptName || '')
-      this.addAdminDeptForm.controls['majorMinor'].setValue(this.editAdminDept.MajorMinor || '')
+      // this.addAdminDeptForm.controls['majorMinor'].setValue(this.editAdminDept.MajorMinor || '')
       this.addAdminDeptForm.controls['shortName'].setValue(this.editAdminDept.AdmDeptShortName || '')
     }
 
@@ -62,10 +62,10 @@ export class AddDepatmentComponent {
       // tocken : this.api.token,
       data : {
         admDeptId: this.editAdminDept?.admDeptId ? this.editAdminDept.admDeptId : 0,
-        nicDeptId : 0,
+        // nicDeptId : 0,
         admDeptName : this.addAdminDeptForm.value.adminDept,
         admDeptShortName : this.addAdminDeptForm.value.shortName,
-        majorMinor : this.addAdminDeptForm.value.majorMinor,
+        // majorMinor : this.addAdminDeptForm.value.majorMinor,
         active : true,
         createdBy : 0,
         createdOn : new Date().toISOString(),
