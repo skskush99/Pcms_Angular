@@ -47,7 +47,12 @@
 .ag-grid-container {
   background: white;
   border-radius: 0.5rem;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow: visible !important;
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
 }
 
 /* AG Grid theme customizations */
@@ -113,7 +118,7 @@ label {
 
 /* Select dropdown styling enhancement */
 select {
-  
+
   background-position: right 0.5rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
@@ -137,18 +142,18 @@ button:active {
   .grid {
     grid-template-columns: 1fr;
   }
-  
+
   .flex.justify-between {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   .flex.items-end {
     width: 100%;
   }
-  
-  .flex.items-end > * {
+
+  .flex.items-end>* {
     flex: 1;
   }
 }
@@ -159,6 +164,7 @@ button:active {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -170,7 +176,8 @@ button:active {
 }
 
 /* Header gradient text shadow */
-h2, p {
+h2,
+p {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -224,6 +231,7 @@ button:hover svg {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -233,4 +241,3 @@ button:hover svg {
 div[hidden="false"] {
   animation: slideDown 0.3s ease-out;
 }
-

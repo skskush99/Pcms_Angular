@@ -56,8 +56,8 @@ export class XlsxService {
     // Headings
     const headings = [
       "Government of Rajasthan",
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
+      "Prosecution Department",
+      "(Prosecution Case Management System)",
       worksheetName + ' ' + formattedDate
     ];
     const headerKeys = Object.keys(columnHeaders);

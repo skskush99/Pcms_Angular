@@ -1,0 +1,106 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">रिटर्न नम्बर:- 4</h1>
+      <p>
+        राजस्थान राज्य में अधीनस्थ न्यायालयों (मुख्य न्यायिक मजिस्ट्रेट,
+        अतिरिक्त मुख्य न्यायिक मजिस्ट्रेट, न्यायिक मजिस्ट्रेट स्तर तक)
+        में विशुद्ध Contested Cases प्रकरणों की मासिक सूचना माहः- मई 2025
+      </p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- HEADER -->
+      <div class="cell header" style="grid-row: span 3;">क्र.सं.</div>
+      <div class="cell header" style="grid-row: span 3;">संभाग</div>
+      <div class="cell header" style="grid-row: span 3;">जिला</div>
+      <div class="cell header" style="grid-row: span 3;">अभियोजन अधिकारी</div>
+      <div class="cell header" style="grid-row: span 3;">कार्यालय</div>
+
+      <div class="cell header" style="grid-column:6 / span 3;">
+        विशुद्ध Contested Cases की स्थिति
+      </div>
+
+      <div class="cell header" style="grid-row: span 3;">
+        प्रस्तुत न्यायिक दृष्टांत (कुल)
+      </div>
+
+      <div class="cell header" style="grid-row: span 3;">
+        दोषमुक्ति/अपील टिप्पणी
+      </div>
+
+      <div class="cell header" style="grid-row: span 2;">
+        माह में कुल निस्तारित
+      </div>
+
+      <div class="cell header" style="grid-column:7 / span 2;">
+        दोषसिद्धि प्रकरण
+      </div>
+
+      <div class="cell header">संख्या</div>
+      <div class="cell header">प्रतिशत (%)</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="left-section">
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pagination">
+
+      <button type="button" (click)="prevPage()" [disabled]="currentPage <= 1 || pageSize === 'all'">
+        ◀ Prev
+      </button>
+
+      <span>
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+
+      <button type="button" (click)="nextPage()" [disabled]="currentPage >= totalPages || pageSize === 'all'">
+        Next ▶
+      </button>
+
+    </div>
+
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,195 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 12px;
+}
+
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.report-heading p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.grid-scroll {
+  max-height: 550px;
+  overflow: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 0 0 10px 10px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1800px;
+  background: white;
+}
+
+.report-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.report-table th {
+  background: #dbeafe;
+  color: #000;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid #b9c6d3;
+  white-space: nowrap;
+}
+
+.report-table td {
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid #b9c6d3;
+  font-size: 12px;
+  background: #ffffff;
+}
+
+.report-table tbody tr.alt-row td {
+  background: #f1f7ff;
+}
+
+.report-table .total-col {
+  font-weight: 700;
+  background: #e0f2fe !important;
+}
+
+.report-table tbody tr.alt-row .total-col {
+  background: #dbeafe !important;
+}
+
+/* Footer Row */
+.report-table tfoot td {
+  background: #c7d2fe;
+  font-weight: 700;
+  border: 1px solid #b9c6d3;
+}
+
+.grand-label {
+  text-align: right;
+  padding-right: 15px;
+  font-weight: 700;
+}
+
+/* Column Width Control */
+.report-table th:nth-child(1),
+.report-table td:nth-child(1) {
+  width: 50px;
+  min-width: 50px;
+}
+
+.report-table th:nth-child(2),
+.report-table td:nth-child(2),
+.report-table th:nth-child(3),
+.report-table td:nth-child(3) {
+  min-width: 120px;
+}
+
+.report-table th:nth-child(4),
+.report-table td:nth-child(4) {
+  min-width: 150px;
+}
+
+.report-table th:nth-child(n+5):nth-child(-n+17),
+.report-table td:nth-child(n+5):nth-child(-n+17) {
+  min-width: 90px;
+}
+
+.report-table th:nth-child(18),
+.report-table td:nth-child(18) {
+  min-width: 90px;
+}
+
+
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.download-btn.excel { background: #16a34a; }
+.download-btn.pdf { background: #dc2626; }
+
+.download-btn img {
+  width: 18px;
+}
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-left: 5px;
+}

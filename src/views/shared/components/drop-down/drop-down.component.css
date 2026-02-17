@@ -1,0 +1,18 @@
+::ng-deep .custom-ng-select .ng-select-container {
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 1050 !important;
+}
+
+::ng-deep .ng-option {
+  padding: 8px 12px;
+}
+
+::ng-deep .ng-option-marked {
+  background-color: #1e3a8a !important;
+  color: white !important;
+}

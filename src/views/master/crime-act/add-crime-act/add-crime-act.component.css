@@ -1,0 +1,9 @@
+
+
+.ng-dropdown-panel {
+  z-index: 9999 !important;
+}
+
+.ng-select-container {
+  z-index: 1000;
+}

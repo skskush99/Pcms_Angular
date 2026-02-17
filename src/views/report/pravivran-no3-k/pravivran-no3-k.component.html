@@ -1,0 +1,107 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <!-- MAIN HEADING -->
+    <div class="report-heading">
+      <h1 class="single-line-heading">
+        माह में सहायक लोक अभियोजक द्वारा सम्पादित कार्यो का विवरण
+      </h1>
+      <p>अभियोजन प्रविवरण नं.3 क</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="report-grid">
+
+      <!-- HEADER ROW 1 -->
+      <div class="cell header span3">क्रम संख्या</div>
+      <div class="cell header span3">संभाग का नाम</div>
+      <div class="cell header span3">जिले का नाम</div>
+      <div class="cell header span3">सहायक अभियोजन अधिकारी / अभियोजन अधिकारी</div>
+      <div class="cell header span3">न्यायालय का नाम एवं पीठासीन अधिकारी</div>
+      <div class="cell header span3">माह के दौरान कथित मुकदमों की संख्या</div>
+      <div class="cell header span3">निष्पादित मुकदमों की संख्या</div>
+      <div class="cell header span3">माह के अन्त में लम्बित मुकदमों की संख्या</div>
+
+      <div class="cell header group" style="grid-column:9 / span 9;">
+        निष्पादित प्रकरणों में अधिकारी द्वारा किये गये कार्यो का विवरण
+      </div>
+
+      <!-- HEADER ROW 2 -->
+      <div class="cell sub equal-height">मुकदमा नं./धारा</div>
+      <div class="cell sub equal-height">निर्णय का प्रकार</div>
+      <div class="cell sub equal-height">प्रभार ग्रहण तिथि</div>
+      <div class="cell sub equal-height">आरोप गठन तिथि</div>
+
+      <div class="cell sub" style="grid-column:13 / span 2;">
+        अभियोजन पक्ष के गवाह
+      </div>
+
+      <div class="cell sub" style="grid-column:15 / span 2;">
+        बचाव पक्ष के गवाह
+      </div>
+
+      <div class="cell sub equal-height">परिणाम</div>
+
+      <!-- HEADER ROW 3 -->
+      <div class="cell mini" style="grid-column:13;">कुल संख्या</div>
+      <div class="cell mini" style="grid-column:14;">बयान हुए</div>
+      <div class="cell mini" style="grid-column:15;">कुल संख्या</div>
+      <div class="cell mini" style="grid-column:16;">जिरह की</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="pagination-section">
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        ◀ Prev
+      </button>
+
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next ▶
+      </button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png" alt="excel">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png" alt="pdf">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

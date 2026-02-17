@@ -1,1 +1,115 @@
-<p>prosecution-return-no1 works!</p>
+<div class="report-wrapper">
+  <div class="grid-scroll">
+    <div class="report-heading">
+      <h1 class="single-line-heading">
+        Prosecution Return No.1 समस्त अपराध वर्गीकरण
+      </h1>
+      <p> राजस्थान राज्य में अधीनस्थ न्यायालयों में समस्त अपराध वर्गवार अन्तर्गत दायर,
+        निर्णित एवं लम्बित प्रकरणों की मासिक स्थिति माहः-मई 2025</p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- ROW 1 -->
+      <div class="cell header" style="grid-row: span 3;">क्रम संख्या</div>
+      <div class="cell header" style="grid-row: span 3;">संभाग</div>
+      <div class="cell header" style="grid-row: span 3;">जिला</div>
+      <div class="cell header" style="grid-row: span 3;">अधिकारी</div>
+      <div class="cell header" style="grid-row: span 3;">न्यायालय</div>
+      <div class="cell header" style="grid-row: span 3;">अपराध वर्ग</div>
+      <div class="cell header" style="grid-row: span 3;">पिछला लंबित</div>
+      <div class="cell header" style="grid-row: span 3;">नए मामले</div>
+      <div class="cell header" style="grid-row: span 3;">मुन्तिकिल से</div>
+
+      <div class="cell group" style="grid-column:10 / span 2;">परिवाद</div>
+      <div class="cell header" style="grid-column:12; grid-row: span 3;">योग</div>
+      <div class="cell group" style="grid-column:13 / span 2;">अन्तिम प्रतिवेदन</div>
+
+      <div class="cell group" style="grid-column:15 / span 11;">
+        निस्तारित मुकदमों का विवरण
+      </div>
+
+      <div class="cell header" style="grid-column:26; grid-row: span 3;">एक वर्ष तक</div>
+      <div class="cell header" style="grid-column:27; grid-row: span 3;">एक से दो वर्ष</div>
+      <div class="cell header" style="grid-column:28; grid-row: span 3;">दो से तीन वर्ष</div>
+      <div class="cell header" style="grid-column:29; grid-row: span 3;">तीन वर्ष से अधिक</div>
+      <div class="cell header" style="grid-column:30; grid-row: span 3;">माह अंत लंबित</div>
+      <div class="cell header" style="grid-column:31; grid-row: span 3;">क्रॉस चेक</div>
+      <div class="cell header" style="grid-column:32; grid-row: span 3;">सजायाबी %</div>
+      <div class="cell header" style="grid-column:33; grid-row: span 3;">निर्णय %</div>
+
+      <!-- ROW 2 -->
+      <div class="cell sub highlight" style="grid-column:10; grid-row: span 2;">निजी</div>
+      <div class="cell sub highlight" style="grid-column:11; grid-row: span 2;">सरकारी</div>
+
+      <div class="cell sub highlight" style="grid-column:13; grid-row: span 2;">दर्ज</div>
+      <div class="cell sub highlight" style="grid-column:14; grid-row: span 2;">स्वीकार</div>
+
+      <div class="cell sub highlight" style="grid-column:15; grid-row: span 2;">उन्मोचित</div>
+      <div class="cell sub highlight" style="grid-column:16; grid-row: span 2;">कमिट</div>
+
+      <div class="cell header" style="grid-column:17 / span 2;">दोषसिद्धि</div>
+
+      <div class="cell sub highlight" style="grid-column:19; grid-row: span 2;">दोषमुक्त</div>
+      <div class="cell sub highlight" style="grid-column:20; grid-row: span 2;">राजीनामा</div>
+      <div class="cell sub highlight" style="grid-column:21; grid-row: span 2;">वापिस लिये</div>
+      <div class="cell sub highlight" style="grid-column:22; grid-row: span 2;">299 दं.प्र.सं.</div>
+      <div class="cell sub highlight" style="grid-column:23; grid-row: span 2;">अन्य ढंग से</div>
+      <div class="cell sub highlight" style="grid-column:24; grid-row: span 2;">मुन्तिकिल स्थानान्तरित</div>
+      <div class="cell sub highlight" style="grid-column:25; grid-row: span 2;">योग</div>
+
+      <!-- ROW 3 -->
+      <div class="cell mini highlight-mini" style="grid-column:17;">सजा</div>
+      <div class="cell mini highlight-mini" style="grid-column:18;">प्रोबेशन</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+
+
+  <div class="action-bar">
+
+    <div class="pagination-section">
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">◀ Prev</button>
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next ▶</button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

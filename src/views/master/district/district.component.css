@@ -47,7 +47,11 @@
 .ag-grid-container {
   background: white;
   border-radius: 0.5rem;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow: visible !important;
+}
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
 }
 
 /* AG Grid theme customizations */

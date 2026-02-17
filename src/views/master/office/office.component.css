@@ -68,7 +68,8 @@ button:active {
 .ag-grid-container {
   background: white;
   border-radius: 0.5rem;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow: visible !important;
 }
 
 /* AG Grid theme customizations */
@@ -246,3 +247,6 @@ div[hidden="false"] {
   animation: slideDown 0.3s ease-out;
 }
 
+::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
+}

@@ -1,0 +1,94 @@
+<div class="report-wrapper">
+
+    <div class="grid-scroll">
+
+        <!-- Heading -->
+        <div class="report-heading">
+            <h1 class="single-line-heading">
+                विधानसभा आम चुनाव 2013, 2018 एवं 2023 तथा लोकसभा आम चुनाव 2014, 2019 एवं 2024
+                के दौरान दायर आपराधिक प्रकरणों की माह मई 2025 तक की अद्यतन सूचना
+            </h1>
+            <p>FORMAT – B</p>
+            <p>
+                State of FIRs filed in the district (in connection with election offences
+                and other related violations)
+            </p>
+        </div>
+
+        <!-- GRID -->
+        <div class="report-grid">
+
+            <!-- HEADER -->
+            <div class="cell header">S.No</div>
+            <div class="cell header">Name of Division</div>
+            <div class="cell header">Name of the District</div>
+            <div class="cell header">Detail of FIR</div>
+            <div class="cell header">Sections and Acts involved</div>
+            <div class="cell header">Accused</div>
+            <div class="cell header">
+                Present Status<br>
+                (Col 4,6,6a,6b)
+            </div>
+            <div class="cell header">Remarks</div>
+
+            <!-- DATA -->
+            <ng-container *ngFor="let row of pagedData">
+                <div class="cell data" *ngFor="let col of row">
+                    {{ col }}
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+
+        <div class="pagination-section">
+
+            <!-- Total Record Count -->
+            <div class="total-record">
+                Total Records : <strong>{{ reportData.length }}</strong>
+            </div>
+
+            <!-- Page Size -->
+            <div class="page-size">
+                Show:
+                <select [(ngModel)]="pageSize" (change)="changePageSize()">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+           
+        </div>
+
+
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">
+                ◀ Prev
+            </button>
+
+            <span>Page {{currentPage}} of {{totalPages}}</span>
+
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+                Next ▶
+            </button>
+            
+        </div>
+        <div class="download-buttons">
+                <button class="download-btn excel" (click)="downloadExcel()">
+                    <img src="assets/excel-file.png" alt="excel">
+                    Excel
+                </button>
+                <button class="download-btn pdf" (click)="downloadPDF()">
+                    <img src="assets/pdf.png" alt="pdf">
+                    PDF
+                </button>
+            </div>
+
+    </div>
+
+</div>

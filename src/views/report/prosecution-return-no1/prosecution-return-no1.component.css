@@ -1,0 +1,241 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 12px;
+}
+
+/* ================= HEADER ================= */
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;  
+   min-width: 1890px;
+  width: fit-content; 
+   border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.format-title {
+  text-align: center;
+  margin: 14px 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e3a8a;
+}
+
+/* ================= SCROLL ================= */
+
+.grid-scroll {
+  max-height: 700px;
+  overflow: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+
+/* ================= CELL ================= */
+
+.cell {
+  border: 1px solid #b9c6d3;
+  padding: 6px;
+  font-size: 11px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= HEADER COLORS ================= */
+
+.header {
+  background: #dbeafe;
+  font-weight: 600;
+  color: #000000;
+}
+
+.group {
+  background: #dbeafe;
+  font-weight: 700;
+}
+
+.highlight,
+.highlight-mini {
+  background: #dbeafe;
+  font-weight: 600;
+}
+
+.mini {
+  font-size: 10px;
+}
+
+/* ================= DATA ROW COLORS ================= */
+
+.data {
+  background: #ffffff;
+}
+
+/* ===== Proper Alternate Row Coloring (33 columns per row) ===== */
+
+
+
+.report-grid {
+  display: grid;
+
+  grid-template-columns:
+    70px   /* 1 क्रम संख्या */
+    70px  /* 2 संभाग */
+    70px  /* 3 जिला */
+    70px  /* 4 अधिकारी */
+    100px  /* 5 न्यायालय */
+    80px  /* 6 अपराध वर्ग */
+    50px  /* 7 पिछला लंबित */
+    50px  /* 8 नए मामले */
+    50px  /* 9 मुन्तिकिल से */
+
+    60px  /* 10 निजी */
+    60px  /* 11 सरकारी */
+    60px  /* 12 योग */
+
+    60px  /* 13 दर्ज */
+    60px  /* 14 स्वीकार */
+
+    55px   /* 15 उन्मोचित */
+    55px   /* 16 कमिट */
+    50px   /* 17 सजा */
+    50px   /* 18 प्रोबेशन */
+    50px  /* 19 दोषमुक्त */
+    50px  /* 20 राजीनामा */
+    50px  /* 21 वापिस लिये */
+    50px  /* 22 299 दं.प्र.सं. */
+    50px  /* 23 अन्य ढंग से */
+    70px  /* 24 मुन्तिकिल स्थानान्तरित */
+    50px  /* 25 योग */
+    50px  /* 26 एक वर्ष तक */
+    50px  /* 27 एक से दो वर्ष */
+    50px  /* 28 दो से तीन वर्ष */
+    50px  /* 29 तीन वर्ष से अधिक */
+    50px  /* 30 माह अंत लंबित */
+    50px  /* 31 क्रॉस चेक */
+    50px  /* 32 सजायाबी % */
+    50px; /* 33 निर्णय % */
+
+  grid-auto-rows: 65px;
+  min-width: 1500px;
+  align-items: stretch;
+}
+
+/* EVEN ROW */
+.report-grid .data:nth-child(66n + 34),
+.report-grid .data:nth-child(66n + 35),
+.report-grid .data:nth-child(66n + 36),
+.report-grid .data:nth-child(66n + 37),
+.report-grid .data:nth-child(66n + 38),
+.report-grid .data:nth-child(66n + 39),
+.report-grid .data:nth-child(66n + 40),
+.report-grid .data:nth-child(66n + 41),
+.report-grid .data:nth-child(66n + 42),
+.report-grid .data:nth-child(66n + 43),
+.report-grid .data:nth-child(66n + 44),
+.report-grid .data:nth-child(66n + 45),
+.report-grid .data:nth-child(66n + 46),
+.report-grid .data:nth-child(66n + 47),
+.report-grid .data:nth-child(66n + 48),
+.report-grid .data:nth-child(66n + 49),
+.report-grid .data:nth-child(66n + 50),
+.report-grid .data:nth-child(66n + 51),
+.report-grid .data:nth-child(66n + 52),
+.report-grid .data:nth-child(66n + 53),
+.report-grid .data:nth-child(66n + 54),
+.report-grid .data:nth-child(66n + 55),
+.report-grid .data:nth-child(66n + 56),
+.report-grid .data:nth-child(66n + 57),
+.report-grid .data:nth-child(66n + 58),
+.report-grid .data:nth-child(66n + 59),
+.report-grid .data:nth-child(66n + 60),
+.report-grid .data:nth-child(66n + 61),
+.report-grid .data:nth-child(66n + 62),
+.report-grid .data:nth-child(66n + 63),
+.report-grid .data:nth-child(66n + 64),
+.report-grid .data:nth-child(66n + 65),
+.report-grid .data:nth-child(66n + 66) {
+  background: #f8fbff;
+}
+
+
+
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.download-btn.excel { background: #16a34a; }
+.download-btn.pdf { background: #dc2626; }
+
+.download-btn img {
+  width: 18px;
+}
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-left: 5px;
+}
