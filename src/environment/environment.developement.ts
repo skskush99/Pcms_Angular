@@ -13,7 +13,7 @@ export const environment = {
     //   caseManagementUrl: 'https://10.70.234.9/LitesGateway/Case',
     //   reportUrl: 'https://10.70.234.9/LitesGateway/Report',
     //   hcUrl: 'https://10.70.234.9/HCService',
-    //   ecUrl: 'https://10.70.234.9/ECService',
+      ecUrl: 'http://10.70.234.9/ECourtServices',
       // authUrl : 'http://10.70.234.9/PcmsGatewayService/PcmsMasterService',
       authUrl : 'http://10.70.234.9/PcmsGatewayService',
     //   litesUrl : 'https://10.70.234.9/LitesService',

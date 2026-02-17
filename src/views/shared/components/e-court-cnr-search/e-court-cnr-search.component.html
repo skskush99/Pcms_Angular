@@ -1,0 +1,235 @@
+<!-- <div class="px-2 lg:px-4 h-full">
+  
+  <div class="bg-white rounded-lg shadow-lg">
+    <div class="p-1.5 overflow-auto">
+      <div class="table w-full px-2">
+        <table class="min-w-full divide-y divide-gray-200 table-fixed border-collapse border-2 border-slate-400 bg-white mt-5" *ngIf="cnrSearchResult">
+          <thead>
+            <tr>
+              <td colspan="14" class="font-semibold text-center bg-[#1ab394] border border-slate-400">
+                <h5 style="font-size: 17px; color: black;height: 100%;">{{cnrSearchResult?.court_est_name}}</h5>
+              </td>
+            </tr>
+          </thead>
+          <tbody style="font-size: 14px;" class="border-2 border-red-500">
+            <tr>
+              <td colspan="14" class="font-semibold bg-white text-center border border-slate-400" style="color: red;">Case Details</td>
+            </tr>
+            <tr>
+              <td colspan="6" class="font-semibold border border-slate-400">Case Type</td>
+              <td colspan="9" class="border border-slate-400"><b>{{cnrSearchResult.type_name ? cnrSearchResult.type_name : '--'}}</b></td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="6" class="border border-slate-400">Filing Number</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.fil_no ? cnrSearchResult.fil_no : '--'}}/{{cnrSearchResult.fil_year ? cnrSearchResult.fil_year : '--'}}</td>
+              <td colspan="3" class="border border-slate-400">Filing Date</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.date_of_filing ? (cnrSearchResult.date_of_filing | date : 'dd-MM-yyyy') : ''}}</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="6" class="border border-slate-400">Registration Number</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.reg_no ? cnrSearchResult.reg_no : '--'}}/{{cnrSearchResult.reg_year ? cnrSearchResult.reg_year : '--'}}</td>
+              <td colspan="3" class="border border-slate-400">Registration Date</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.dt_regis ? (cnrSearchResult.dt_regis | date : 'dd-MM-yyyy') : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="6" class="font-semibold border border-slate-400">CNR Number</td>
+              <td colspan="9" class="border border-slate-400"><b style="color:red">{{cnrSearchResult.cino ? cnrSearchResult.cino : '--'}}</b></td>
+            </tr>
+            <tr>
+              <td colspan="14" class="text-center font-semibold border border-slate-400" style="color: red;">Case Status</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="3" class="border border-slate-400">First Hearing Date</td>
+              <td colspan="3" class="border border-slate-400">Next Hearing Date</td>
+              <td colspan="3" class="border border-slate-400">Decision Date</td>
+              <td colspan="2" class="border border-slate-400">Stage of Case</td>
+              <td colspan="2" class="border border-slate-400">Nature of Disposal</td>
+              <td colspan="1" class="border border-slate-400">Court Number and Judge</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.date_first_list ? (cnrSearchResult.date_first_list | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.date_next_list ? (cnrSearchResult.date_next_list | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="3" class="border border-slate-400">{{cnrSearchResult.date_of_decision ? (cnrSearchResult.date_of_decision | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="2" class="border border-slate-400">{{cnrSearchResult.purpose_name ? cnrSearchResult.purpose_name : '--'}}</td>
+              <td colspan="2" class="border border-slate-400">{{cnrSearchResult.disp_name ? cnrSearchResult.disp_name : '--'}}</td>
+              <td colspan="1" class="border border-slate-400">{{cnrSearchResult.court_no ? cnrSearchResult.court_no : '--'}}-{{cnrSearchResult.desgname ? cnrSearchResult.desgname : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold text-center border border-slate-400" style="color: red;">Petitioner and Advocate</td>
+              <td colspan="7" class="border border-slate-400"> {{cnrSearchResult.pet_name ? cnrSearchResult.pet_name : '--'}}, <b>Advocate - </b>{{cnrSearchResult.pet_adv ? cnrSearchResult.pet_adv : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold text-center border border-slate-400" style="color: red;">Respondent and Advocate</td>
+              <td colspan="7" class="border border-slate-400"> {{cnrSearchResult.res_name ? cnrSearchResult.res_name : '--'}}, <b>Advocate - </b>{{cnrSearchResult.res_adv ? cnrSearchResult.res_adv : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400" style="color: red;"> Acts </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400">Under Act(s)</td>
+              <td colspan="7" class="font-semibold border border-slate-400">Under Section(s)</td>
+            </tr>
+            <tr *ngFor="let act of acts">
+              <td colspan="7" class="border border-slate-400">{{act.actname ? act.actname : '--'}}</td>
+              <td colspan="7" class="border border-slate-400">{{act.section ? act.section : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400" style="color: red;"> FIR Details </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400"> Police Station </td>
+              <td colspan="7" class="border border-slate-400">{{cnrSearchResult.police_station ? cnrSearchResult.police_station : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400">FIR Number</td>
+              <td colspan="7" class="border border-slate-400">{{cnrSearchResult.fir_no ? cnrSearchResult.fir_no : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400">Year</td>
+              <td colspan="7" class="border border-slate-400">{{cnrSearchResult.fir_year ? cnrSearchResult.fir_year : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400" style="color: red;"> History of Case Hearing </td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="4" class="border border-slate-400">Registration No.</td>
+              <td colspan="3" class="border border-slate-400">Judge</td>
+              <td colspan="1" class="border border-slate-400">Business On Date</td>
+              <td colspan="1" class="border border-slate-400">Hearing Date</td>
+              <td colspan="5" class="border border-slate-400">Purpose of hearing</td>
+            </tr>
+            <tr *ngFor="let history of historyOfCaseHearing">
+              <td colspan="4" class="border border-slate-400">{{cnrSearchResult.reg_no ? cnrSearchResult.reg_no : '--'}}/{{cnrSearchResult.reg_year ? cnrSearchResult.reg_year : '--'}}</td>
+              <td colspan="3" class="border border-slate-400">{{history.desgname ? history.desgname :'--'}}</td>
+              <td colspan="1" class="border border-slate-400">{{history.business_date ? history.business_date :'--'}}</td>
+              <td colspan="1" class="border border-slate-400">{{history.hearing_date ? (history.hearing_date =='Next Date Not Given' ? history.hearing_date : (history.hearing_date | date : 'dd-MM-yyyy'))  : '--'}}</td>
+              <td colspan="5" class="border border-slate-400">{{history.purpose_of_listing ? history.purpose_of_listing : '--'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+<div class="px-2 lg:px-4 h-full">
+  <!-- Results Table Section -->
+  <div class="bg-white rounded-lg shadow-lg">
+    <div class="p-1.5 overflow-auto">
+      <div class="table w-full px-2">
+        <table class="min-w-full divide-y divide-gray-200 table-fixed border-collapse border-2 border-slate-400 bg-white mt-5" *ngIf="cnrSearchResult">
+          <thead>
+            <tr>
+              <td colspan="14" class="font-semibold text-center bg-[#1ab394] border border-slate-400 ">
+                <h5 style="font-size: 17px; color: white;">{{cnrSearchResult?.court_est_name}}</h5>
+              </td>
+            </tr>
+          </thead>
+          <tbody style="font-size: 14px;" class="border-2 border-red-500">
+            <tr>
+              <td colspan="14" class="font-semibold bg-white text-center border border-slate-400 align-middle" style="color: red;">Case Details</td>
+            </tr>
+            <tr>
+              <td colspan="6" class="font-semibold border border-slate-400 align-middle">Case Type</td>
+              <td colspan="8" class="border border-slate-400 align-middle"><b>{{cnrSearchResult.type_name ? cnrSearchResult.type_name : '--'}}</b></td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="6" class="border border-slate-400 align-middle">Filing Number</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.fil_no ? cnrSearchResult.fil_no : '--'}}/{{cnrSearchResult.fil_year ? cnrSearchResult.fil_year : '--'}}</td>
+              <td colspan="3" class="border border-slate-400 align-middle">Filing Date</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.date_of_filing ? (cnrSearchResult.date_of_filing | date : 'dd-MM-yyyy') : ''}}</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="6" class="border border-slate-400 align-middle">Registration Number</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.reg_no ? cnrSearchResult.reg_no : '--'}}/{{cnrSearchResult.reg_year ? cnrSearchResult.reg_year : '--'}}</td>
+              <td colspan="3" class="border border-slate-400 align-middle">Registration Date</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.dt_regis ? (cnrSearchResult.dt_regis | date : 'dd-MM-yyyy') : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="6" class="font-semibold border border-slate-400 align-middle">CNR Number</td>
+              <td colspan="9" class="border border-slate-400 align-middle"><b style="color:red">{{cnrSearchResult.cino ? cnrSearchResult.cino : '--'}}</b></td>
+            </tr>
+            <tr>
+              <td colspan="14" class="text-center font-semibold border border-slate-400 align-middle" style="color: red;">Case Status</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="3" class="border border-slate-400 align-middle">First Hearing Date</td>
+              <td colspan="3" class="border border-slate-400 align-middle">Next Hearing Date</td>
+              <td colspan="3" class="border border-slate-400 align-middle">Decision Date</td>
+              <td colspan="2" class="border border-slate-400 align-middle">Stage of Case</td>
+              <td colspan="2" class="border border-slate-400 align-middle">Nature of Disposal</td>
+              <td colspan="1" class="border border-slate-400 align-middle">Court Number and Judge</td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.date_first_list ? (cnrSearchResult.date_first_list | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.date_next_list ? (cnrSearchResult.date_next_list | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="3" class="border border-slate-400 align-middle">{{cnrSearchResult.date_of_decision ? (cnrSearchResult.date_of_decision | date : 'dd-MM-yyyy') : '--'}}</td>
+              <td colspan="2" class="border border-slate-400 align-middle">{{cnrSearchResult.purpose_name ? cnrSearchResult.purpose_name : '--'}}</td>
+              <td colspan="2" class="border border-slate-400 align-middle">{{cnrSearchResult.disp_name ? cnrSearchResult.disp_name : '--'}}</td>
+              <td colspan="1" class="border border-slate-400 align-middle">{{cnrSearchResult.court_no ? cnrSearchResult.court_no : '--'}}-{{cnrSearchResult.desgname ? cnrSearchResult.desgname : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold text-center border border-slate-400 align-middle" style="color: red;">Petitioner and Advocate</td>
+              <td colspan="7" class="border border-slate-400 align-middle"> {{cnrSearchResult.pet_name ? cnrSearchResult.pet_name : '--'}}, <b>Advocate - </b>{{cnrSearchResult.pet_adv ? cnrSearchResult.pet_adv : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold text-center border border-slate-400 align-middle" style="color: red;">Respondent and Advocate</td>
+              <td colspan="7" class="border border-slate-400 align-middle"> {{cnrSearchResult.res_name ? cnrSearchResult.res_name : '--'}}, <b>Advocate - </b>{{cnrSearchResult.res_adv ? cnrSearchResult.res_adv : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400 align-middle" style="color: red;"> Acts </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400 align-middle">Under Act(s)</td>
+              <td colspan="7" class="font-semibold border border-slate-400 align-middle">Under Section(s)</td>
+            </tr>
+            <tr *ngFor="let act of acts">
+              <td colspan="7" class="border border-slate-400 align-middle">{{act.actname ? act.actname : '--'}}</td>
+              <td colspan="7" class="border border-slate-400 align-middle">{{act.section ? act.section : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400 align-middle" style="color: red;"> FIR Details </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400 align-middle"> Police Station </td>
+              <td colspan="7" class="border border-slate-400 align-middle">{{cnrSearchResult.police_station ? cnrSearchResult.police_station : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400 align-middle">FIR Number</td>
+              <td colspan="7" class="border border-slate-400 align-middle">{{cnrSearchResult.fir_no ? cnrSearchResult.fir_no : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="font-semibold border border-slate-400 align-middle">Year</td>
+              <td colspan="7" class="border border-slate-400 align-middle">{{cnrSearchResult.fir_year ? cnrSearchResult.fir_year : '--'}}</td>
+            </tr>
+            <tr>
+              <td colspan="14" class="font-semibold text-center border border-slate-400 align-middle" style="color: red;"> History of Case Hearing </td>
+            </tr>
+            <tr class="font-semibold">
+              <td colspan="1" class="border border-slate-400 align-middle">Sr No.</td>
+              <td colspan="4" class="border border-slate-400 align-middle">Registration No.</td>
+              <td colspan="3" class="border border-slate-400 align-middle">Judge</td>
+              <td colspan="2" class="border border-slate-400 align-middle">Business On Date</td>
+              <td colspan="1" class="border border-slate-400 align-middle">Hearing Date</td>
+              <td colspan="4" class="border border-slate-400 align-middle">Purpose of hearing</td>
+            </tr>
+            <tr *ngFor="let history of historyOfCaseHearing;let i = index" class="break-words">
+              <td colspan="1" class="border border-slate-400 align-middle">{{i + 1}}</td>
+              <td colspan="2" class="border border-slate-400 align-middle">{{cnrSearchResult.reg_no ? cnrSearchResult.reg_no : '--'}}/{{cnrSearchResult.reg_year ? cnrSearchResult.reg_year : '--'}}</td>
+              <td colspan="4" class="border border-slate-400 align-middle">{{history.desgname ? history.desgname :'--'}}</td>
+              <td colspan="2" class="border border-slate-400 align-middle">{{history.business_date ? history.business_date :'--'}}</td>
+              <td colspan="1" class="border border-slate-400 align-middle">{{history.hearing_date ? (history.hearing_date =='Next Date Not Given' ? history.hearing_date : (history.hearing_date | date : 'dd-MM-yyyy'))  : '--'}}</td>
+              <td colspan="4" class="border border-slate-400 align-middle">{{history.purpose_of_listing ? history.purpose_of_listing : '--'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

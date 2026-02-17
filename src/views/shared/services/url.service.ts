@@ -9,6 +9,7 @@ export class UrlService {
   authUrl: string = environment.authUrl;
   appUrl: string = environment.appUrl;
   masterUrl : string = environment.masterUrl;
+  ecUrl : string = environment.ecUrl
   // masterUrl: string = environment.masterUrl;
   // masterUrlWithouOcelet: string = environment.masterUrlWithoutOcelet;
   // caseManagementUrl : string = environment.caseManagementUrl;
@@ -32,6 +33,15 @@ export class UrlService {
 
   getUserDetailsFromSSO(){
     return `${this.authUrl}/gateway/SsoProfileDt`
+  }
+
+
+
+  // ECourt URL's
+
+
+  searchCaseByCNRECourt(cnr: string) {
+    return `${this.ecUrl}/api/EcourtService/GetDetailByCNR/SearchByCnr?CinNo=${cnr}`;
   }
 
 
