@@ -8,6 +8,7 @@ let constants = {
     atLeastOneVictimReq : "Atleast 1 Victim entry is required",
     ALL_MANDATE : "All Fields Are Mandatory",
     allFieldsReq : "Please Fill All Fields To Add",
+    cnrNotAvail : "Please Enter CNR No. To Search Case",
     sortingOrder : ['asc' , 'desc'],
     backTOSSO : "https://ssotest.rajasthan.gov.in/sso",
 }

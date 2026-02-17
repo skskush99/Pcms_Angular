@@ -152,14 +152,14 @@
                             CIS / CNR No.<sup class="text-red-500 text-lg font-semibold">*</sup>
                             </label>
                             <input type="text" id="cisCnr"
-                            formControlName="firNo" 
+                            formControlName="cisCnr" 
                             placeholder="Enter CIS or CNR No."
                             autocomplete="off"
                             class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
                             
                     </div>
                     <div class="col-span-2 place-self-end">
-                        <button class="bg-[#659bcd] hover:bg-[#3f81c0] text-white rounded-lg px-3 py-2">
+                        <button (click)="searnCnrCis()" class="bg-[#659bcd] hover:bg-[#3f81c0] text-white rounded-lg px-3 py-2">
                            <i class="fa-solid fa-magnifying-glass"></i> Search By CIS/CNR
                         </button>
                     </div>
