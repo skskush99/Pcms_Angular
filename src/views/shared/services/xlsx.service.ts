@@ -56,13 +56,8 @@ export class XlsxService {
     // Headings
     const headings = [
       "Government of Rajasthan",
-<<<<<<< HEAD
       "Prosecution Department",
       "(Prosecution Case Management System)",
-=======
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
->>>>>>> remotes/origin/Pcms_Angular_Test
       worksheetName + ' ' + formattedDate
     ];
     const headerKeys = Object.keys(columnHeaders);
