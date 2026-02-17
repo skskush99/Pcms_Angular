@@ -1,0 +1,92 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">
+        अभियोजन प्रविवरण नं.3 ख
+      </h1>
+      <p>
+        सहायक अभियोजन अधिकारी/अभियोजन अधिकारी द्वारा माह में अपील दायर करने हेतु अनुशासित काण्डों का विवरण
+      </p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- HEADER -->
+      <div class="cell header">क्रम संख्या</div>
+      <div class="cell header">संभाग का नाम</div>
+      <div class="cell header">जिले का नाम</div>
+      <div class="cell header">अभियोजन अधिकारी का नाम</div>
+      <div class="cell header">न्यायालय का नाम</div>
+      <div class="cell header">थाना, अभियोग संख्या व धारायें</div>
+      <div class="cell header">निर्णय की दिनांक</div>
+      <div class="cell header">अपील अनुशंषा दिनांक</div>
+      <div class="cell header">अपील का आधार</div>
+      <div class="cell header">विशेष विवरण</div>
+
+      <!-- DATA (Pagination Applied) -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell">{{row.serial}}</div>
+        <div class="cell">{{row.division}}</div>
+        <div class="cell">{{row.district}}</div>
+        <div class="cell">{{row.officer}}</div>
+        <div class="cell">{{row.court}}</div>
+        <div class="cell">{{row.caseDetails}}</div>
+        <div class="cell">{{row.judgementDate}}</div>
+        <div class="cell">{{row.appealDate}}</div>
+        <div class="cell">{{row.appealGround}}</div>
+        <div class="cell">{{row.remarks}}</div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ✅ ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="pagination-section">
+
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        ◀ Prev
+      </button>
+
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next ▶
+      </button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png" alt="excel">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png" alt="pdf">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

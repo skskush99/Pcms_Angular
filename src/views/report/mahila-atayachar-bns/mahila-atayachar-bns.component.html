@@ -1,0 +1,110 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">महिला अत्याचार संबंधी मानचित्र</h1>
+      <p>
+        राजस्थान राज्य में अधीनस्थ न्यायालयों (मुख्य न्यायिक मजिस्ट्रेट,
+        अतिरिक्त मुख्य न्यायिक मजिस्ट्रेट, न्यायिक मजिस्ट्रेट स्तर तक)
+        में महिला अत्याचार के अन्तर्गत दायर, निर्णित एवं लम्बित प्रकरणों की
+        मासिक स्थिति माह मई 2025
+      </p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- MULTI ROW HEADER -->
+      <div class="cell header" style="grid-row: span 3;">क्र.सं.</div>
+      <div class="cell header" style="grid-row: span 3;">संभाग का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">जिले का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">न्यायालय का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">अपराध वर्गीकरण</div>
+      <div class="cell header" style="grid-row: span 3;">पिछले माह के बकाया</div>
+
+      <div class="cell header" style="grid-column:7 / span 2;">माह के दौरान</div>
+
+      <div class="cell header" style="grid-row: span 3;">माह के दौरान विचाराधीन (योग)</div>
+
+      <div class="cell header" style="grid-column:10 / span 7;">निर्णीत मुकदमों का वर्गीकरण</div>
+
+      <div class="cell header" style="grid-row: span 3;">माह के अन्त में लम्बित</div>
+      <div class="cell header" style="grid-row: span 3;">सजायाबी %</div>
+      <div class="cell header" style="grid-row: span 3;">निर्णय %</div>
+
+      <!-- SUB HEADER -->
+      <div class="cell header" style="grid-row: span 2;">दायर</div>
+      <div class="cell header" style="grid-row: span 2;">मुन्तिकिल से प्राप्त</div>
+
+      <div class="cell header" style="grid-row: span 2;">सजा</div>
+      <div class="cell header" style="grid-row: span 2;">रिहा</div>
+      <div class="cell header" style="grid-row: span 2;">बरी</div>
+      <div class="cell header" style="grid-row: span 2;">कमिट</div>
+      <div class="cell header" style="grid-row: span 2;">राजीनामा</div>
+      <div class="cell header" style="grid-row: span 2;">स्थानान्तरित</div>
+      <div class="cell header" style="grid-row: span 2;">योग</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+ <!-- ACTION BAR -->
+<div class="action-bar">
+
+  <!-- LEFT SIDE -->
+  <div class="left-section">
+
+    <div class="total-record">
+      Total Records :
+      <strong>{{ reportData.length }}</strong>
+    </div>
+
+    <div class="page-size">
+      Show:
+      <select [(ngModel)]="pageSize" (change)="changePageSize()">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="all">All</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- CENTER -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">
+      ◀ Prev
+    </button>
+
+    <span>Page {{currentPage}} of {{totalPages}}</span>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Next ▶
+    </button>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="download-buttons">
+    <button class="download-btn excel" (click)="downloadExcel()">
+      <img src="assets/excel-file.png" alt="excel">
+      Excel
+    </button>
+
+    <button class="download-btn pdf" (click)="downloadPDF()">
+      <img src="assets/pdf.png" alt="pdf">
+      PDF
+    </button>
+  </div>
+
+</div>
+
+
+</div>

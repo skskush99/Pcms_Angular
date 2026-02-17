@@ -1,0 +1,99 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">
+        अभियोजन प्रविवरण नं.7
+      </h1>
+      <p>केस परीक्षण वापिस भेजे गये साक्षियों का विवरण</p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- HEADER ROW 1 -->
+      <div class="cell header" style="grid-row: span 3;">क्रम संख्या</div>
+      <div class="cell header" style="grid-row: span 3;">संभाग का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">जिले का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">सहायक अभियोजन अधिकारी/अभियोजन अधिकारी का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">न्यायालय का नाम</div>
+      <div class="cell header" style="grid-row: span 3;">तलब किये गये साक्षियों की संख्या</div>
+      <div class="cell header" style="grid-row: span 3;">न्यायालयों में उपस्थित हुए साक्षियों की संख्या</div>
+      <div class="cell header" style="grid-row: span 3;">परीक्षण किये गये साक्षियों की संख्या</div>
+      <div class="cell header" style="grid-row: span 3;">गवाह वीसी द्वारा</div>
+      <div class="cell header" style="grid-row: span 3;">कुल योग 9 (कालम नं 8 एवं 9)</div>
+
+      <div class="cell header" style="grid-column:11 / span 2;">
+        बिना परीक्षित वापस भेजे साक्षियों की संख्या
+      </div>
+
+      <div class="cell header" style="grid-row: span 3;">
+        कालम नं 11 में वर्णित साक्षियों की साक्षये नहीं होने के कारण
+      </div>
+
+      <div class="cell header" style="grid-row: span 3;">
+        विशेष विवरण
+      </div>
+
+      <!-- HEADER ROW 2 -->
+      <div class="cell header" style="grid-row: span 2;">छोडे गये</div>
+      <div class="cell header" style="grid-row: span 2;">पाबन्द किये गये</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="pagination-section">
+
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        ◀ Prev
+      </button>
+
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next ▶
+      </button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png" alt="excel">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png" alt="pdf">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

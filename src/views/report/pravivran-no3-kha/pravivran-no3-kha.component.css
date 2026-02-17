@@ -1,0 +1,248 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;  
+   min-width: 1621px;
+  width: fit-content; 
+   border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.format-title {
+  text-align: center;
+  margin: 12px 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e3a8a;
+}
+
+.grid-scroll {
+  overflow: auto;
+  max-height: 640px;
+}
+
+/* 👇 Column size yahan se control karein */
+.report-grid {
+  display: grid;
+  grid-template-columns:
+    80px   /* 1 - क्रम संख्या */
+    100px  /* 2 - संभाग */
+    100px  /* 3 - जिला */
+    180px  /* 4 - अधिकारी */
+    200px  /* 5 - न्यायालय */
+    300px  /* 6 - थाना/अभियोग */
+    140px  /* 7 - निर्णय दिनांक */
+    140px  /* 8 - अपील दिनांक */
+    180px  /* 9 - अपील आधार */
+    200px; /* 10 - विशेष विवरण */
+
+  min-width: 1000px; /* Total width ke hisab se set karein */
+}
+
+.cell {
+  border: 1px solid #d1d5db;
+  padding: 6px;
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+}
+
+.header {
+  background: #e0ecff;
+  font-weight: 600;
+}
+
+/* ✅ Proper Alternate Row Color (10 Columns ke liye) */
+.report-grid .cell:not(.header):nth-child(20n + 11),
+.report-grid .cell:not(.header):nth-child(20n + 12),
+.report-grid .cell:not(.header):nth-child(20n + 13),
+.report-grid .cell:not(.header):nth-child(20n + 14),
+.report-grid .cell:not(.header):nth-child(20n + 15),
+.report-grid .cell:not(.header):nth-child(20n + 16),
+.report-grid .cell:not(.header):nth-child(20n + 17),
+.report-grid .cell:not(.header):nth-child(20n + 18),
+.report-grid .cell:not(.header):nth-child(20n + 19),
+.report-grid .cell:not(.header):nth-child(20n + 20) {
+  background-color: #f1f5f9;
+}
+/* ===== Existing CSS Same ===== */
+
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;
+  min-width: 1621px;
+  width: fit-content;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.grid-scroll {
+  overflow: auto;
+  max-height: 640px;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns:
+    80px
+    100px
+    100px
+    180px
+    200px
+    300px
+    140px
+    140px
+    180px
+    200px;
+  min-width: 1000px;
+}
+
+.cell {
+  border: 1px solid #d1d5db;
+  padding: 6px;
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+}
+
+.header {
+  background: #e0ecff;
+  font-weight: 600;
+}
+
+
+/* ===== ACTION BAR ===== */
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+/* Left Section */
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  font-size: 14px;
+}
+
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+}
+
+/* Center Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination span {
+  font-weight: 500;
+}
+
+.pagination button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.pagination button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Right Download Buttons */
+.download-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.download-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.download-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.download-btn.excel {
+  background: #16a34a;
+}
+
+.download-btn.excel:hover {
+  background: #15803d;
+}
+
+.download-btn.pdf {
+  background: #dc2626;
+}
+
+.download-btn.pdf:hover {
+  background: #b91c1c;
+}

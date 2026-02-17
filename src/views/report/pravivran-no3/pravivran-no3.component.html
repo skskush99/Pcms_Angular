@@ -1,0 +1,115 @@
+<div class="report-wrapper">
+
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">
+        अभियोजन प्रविवरण नं.3
+      </h1>
+      <p>कार्य मूल्यांकन का प्रपत्र</p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- ===== HEADER SAME AS YOURS ===== -->
+
+      <div class="cell header span3">क्रम संख्या</div>
+      <div class="cell header span3">संभाग</div>
+      <div class="cell header span3">जिला</div>
+      <div class="cell header span3">अभियोजन अधिकारी</div>
+      <div class="cell header span3">न्यायालय</div>
+
+      <div class="cell group" style="grid-column:6 / span 3;">
+        जांच हेतु प्राप्त रिकार्ड का विवरण
+      </div>
+
+      <div class="cell group" style="grid-column:9 / span 5;">
+        जांच रिकार्ड का स्तर
+      </div>
+
+      <div class="cell header span3">विशेष विवरण</div>
+
+      <div class="cell sub height-2">संवीक्षा</div>
+      <div class="cell sub height-2">लि.तर्क</div>
+      <div class="cell sub height-2">वि.टि.</div>
+
+      <div class="cell sub height-2">औसत से ऊपर</div>
+
+      <div class="cell sub" style="grid-column:10 / span 3;">
+        औसत
+      </div>
+
+      <div class="cell sub height-2">औसत से नीचे</div>
+
+      <div class="cell mini" style="grid-column:10;">संवीक्षा</div>
+      <div class="cell mini" style="grid-column:11;">लि.तर्क</div>
+      <div class="cell mini" style="grid-column:12;">वि.टि.</div>
+
+      <!-- ===== PAGED DATA ===== -->
+      <ng-container *ngFor="let row of pagedData">
+
+        <div class="cell data">{{row.serial}}</div>
+        <div class="cell data">{{row.division}}</div>
+        <div class="cell data">{{row.district}}</div>
+        <div class="cell data">{{row.officer}}</div>
+        <div class="cell data">{{row.court}}</div>
+
+        <div class="cell data">{{row.recReview}}</div>
+        <div class="cell data">{{row.recLogic}}</div>
+        <div class="cell data">{{row.recVT}}</div>
+
+        <div class="cell data">{{row.levelAbove}}</div>
+        <div class="cell data">{{row.levelAvgReview}}</div>
+        <div class="cell data">{{row.levelAvgLogic}}</div>
+        <div class="cell data">{{row.levelAvgVT}}</div>
+        <div class="cell data">{{row.levelBelow}}</div>
+
+        <div class="cell data">{{row.remarks}}</div>
+
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ===== ACTION BAR ===== -->
+  <div class="action-bar">
+
+    <div class="pagination-section">
+
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">◀ Prev</button>
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next ▶</button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png" alt="excel">
+        Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png" alt="pdf">
+        PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

@@ -54,4 +54,9 @@ export const routes: Routes = [
       loadChildren : () => import('./case.routes').then(m => m.CaseRoutingModule),
     //   canActivate: [authGuard , noRoleFoundGuard]
     },
+     {
+      path : 'report',
+      loadChildren : () => import('./report.routes').then(m => m.ReportRoutingModule),
+    
+    },
 ];
