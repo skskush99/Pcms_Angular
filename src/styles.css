@@ -34,3 +34,6 @@ body.mat-typography h2 {
   font-size: 13px;
 }
 
+.ng-dropdown-panel {
+  z-index: 99999 !important;
+}

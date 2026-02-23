@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader , TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader'
 import { HttpClient } from '@angular/common/http';
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 
 export function configureNgSelect() {
@@ -49,6 +50,14 @@ export const appConfig: ApplicationConfig = {
         prefix: './assets/i18n/',
         suffix: '.json'
       }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (config: NgSelectConfig) => () => {
+        config.appendTo = 'body';
+      },
+      deps: [NgSelectConfig],
+      multi: true,
     },
   importProvidersFrom(
       TranslateModule.forRoot({
