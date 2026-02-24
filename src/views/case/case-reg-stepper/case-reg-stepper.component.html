@@ -2,7 +2,7 @@
     <div class="switchTabs flex items-center   my-4 justify-between " >
         
         @for (item of formsName; track $index) {
-        <button class="z-20 bg-white py-2 w-40 text-center rounded-md outline-non border-[#73A0CB] border- text-[#73A0CB] flex flex-col items-center " (click)="toggleForm($index + 1)" ><p class="h-6 w-6 rounded-full inline-flex items-center justify-center" [ngClass]="{'active' : currentForm == $index + 1 , 'form-complete' : $index + 1 < currentForm , 'border-1 border-[#73A0CB]' : $index +1 > currentForm}">{{$index + 1}}</p> <span [ngClass]="{'text-[#008000]' : currentForm > $index + 1 }">{{item}}</span></button>
+        <button class="z-20 cursor-default bg-white py-2 w-40 text-center rounded-md outline-non border-[#73A0CB] border- text-[#73A0CB] flex flex-col items-center "><p class="h-6 w-6 rounded-full inline-flex items-center justify-center" [ngClass]="{'active' : currentForm == $index + 1 , 'form-complete' : $index + 1 < currentForm , 'border-1 border-[#73A0CB]' : $index +1 > currentForm}">{{$index + 1}}</p> <span [ngClass]="{'text-[#008000]' : currentForm > $index + 1 }">{{item}}</span></button>
             @if ($index < formsName.length - 1) {
             <div class="flex-1 h-0.5 bg-gray-300 w-full"></div>
             }
@@ -20,28 +20,28 @@
     <div class="forms py-4 px-3 mx-3 bg-white rounded-lg">
 
         @if (currentForm == 1) {
-            <app-case-identification ></app-case-identification>
+            <app-case-identification [caseId]="caseId" (caseIdentification)="saveAndNext($event)"></app-case-identification>
         }
         
         
         @if (currentForm == 2) {
-            <app-fir-charges-sheet ></app-fir-charges-sheet>
+            <app-fir-charges-sheet [caseId]="caseId"></app-fir-charges-sheet>
         }
         
         
         
         @if (currentForm == 3) {
-            <app-case-parties ></app-case-parties>
+            <app-case-parties [caseId]="caseId" (caseParty)="saveAndNext($event)"></app-case-parties>
         }
         
         
         @if (currentForm == 4) {
-            <app-case-review-submit ></app-case-review-submit>
+            <app-case-review-submit [caseId]="caseId"></app-case-review-submit>
         }
 
         <div class="formControls flex items-center justify-between mt-5">
             <button class="rounded-2xl w-28 py-1.5 border-1 border-[#E2E8F0] bg-inherit flex items-center justify-center gap-2" [disabled]="currentForm == 1" [ngClass]="{' cursor-not-allowed' : currentForm == 1}" (click)="formPrev()"><i class="fa-solid fa-arrow-left"></i>Previous</button>
-            <button class="rounded-2xl w-28 py-1.5 border-1 border-[#E2E8F0] text-white bg-[#719FCA] flex justify-center items-center gap-2" [disabled]="currentForm == formsName.length" [ngClass]="{' cursor-not-allowed' : currentForm == formsName.length}" (click)="formNext()">Next<i class="fa-solid fa-arrow-right"></i></button>
+            <button class="rounded-2xl w-32 py-1.5 border-1 border-[#E2E8F0] text-white bg-[#719FCA] flex justify-center items-center gap-2" (click)="formNext()">{{currentForm == formsName.length ? 'Submit' : 'Save & Next'}} <i *ngIf="currentForm !== formsName.length" class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
 

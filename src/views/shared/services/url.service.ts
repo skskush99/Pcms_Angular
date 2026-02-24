@@ -10,6 +10,7 @@ export class UrlService {
   appUrl: string = environment.appUrl;
   masterUrl : string = environment.masterUrl;
   ecUrl : string = environment.ecUrl
+  caseUrl : string = environment.caseManagementUrl;
   // masterUrl: string = environment.masterUrl;
   // masterUrlWithouOcelet: string = environment.masterUrlWithoutOcelet;
   // caseManagementUrl : string = environment.caseManagementUrl;
@@ -361,5 +362,80 @@ export class UrlService {
     return `${this.masterUrl}/NodalOfficer/ActiveDeactive`
   }
   // Nodel Officer Details  // End // 
+
+
+
+
+
+  // Case management Url's
+
+  getCaseList(){
+    return `${this.caseUrl}/DierRegistrations/DierList`
+  }
+
+
+  regCaseIdentification(){
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps1`
+  }
+
+
+  regChargeSheet(){
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps2`
+  }
+  
+  
+  regCaseParties(){
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps3`
+  }
+  
+  
+  submitReviewCase(){
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps4`
+  }
+
+
+  addFirChargeSheetAdhikari(){
+    return `${this.caseUrl}/DierRegistrations/AddEditInvestigation`
+  }
+  
+  
+  getChargeSheetAdhikariList(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/GetInvestigation?InvestGroupNo=${id}`
+  }
+  
+  
+  deleteChargeSheetAdhikari(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/DeleteInvestigation?InvestId=${id}`
+  }
+
+
+  addEditCaseAccused(){
+    return `${this.caseUrl}/DierRegistrations/AddEditAccused`
+  }
+  
+  
+  getCaseAccusedList(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/GetAccused?AccusedGroupNo=${id}`
+  }
+  
+  
+  deleteCaseAccused(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/DeleteAccused?AccusedId=${id}`
+  }
+  
+  
+  addEditCaseVictimWitness(){
+    return `${this.caseUrl}/DierRegistrations/AddEditVictimWitness`
+  }
+  
+  
+  getCaseVictimWitnessList(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/GetVictimWitness?GroupNo=${id}`
+  }
+  
+  
+  deleteCaseVictimWitness(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/DeleteVictimWitness?Id=${id}`
+  }
 
 }
