@@ -10,7 +10,7 @@ export const environment = {
       // masterUrl: "https://10.70.234.9/PcmsGatewayService/PcmsMaster",
       masterUrl: "http://10.70.234.9/PcmsGatewayService/PcmsMaster",
     //   masterUrlWithoutOcelet: "https://10.70.234.9/MasterServices",
-    //   caseManagementUrl: 'https://10.70.234.9/LitesGateway/Case',
+      caseManagementUrl: 'http://10.70.234.9/PcmsGatewayService/PcmsCase',
     //   reportUrl: 'https://10.70.234.9/LitesGateway/Report',
     //   hcUrl: 'https://10.70.234.9/HCService',
       ecUrl: 'http://10.70.234.9/ECService',

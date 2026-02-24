@@ -300,7 +300,7 @@ const navData = [
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Case Registration',
-        linkPage: 'case/case-registration'
+        linkPage: 'case/case-list'
       },
       {
         icon: 'fa fa-angle-double-right',

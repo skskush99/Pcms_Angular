@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CaseIdentificationComponent } from "../case-identification/case-identification.component";
 import { FirChargesSheetComponent } from "../fir-charges-sheet/fir-charges-sheet.component";
 import { CasePartiesComponent } from "../case-parties/case-parties.component";
@@ -14,7 +14,7 @@ import { CaseReviewSubmitComponent } from "../case-review-submit/case-review-sub
 })
 export class CaseRegStepperComponent {
 
-  currentForm : number = 1;
+  currentForm : number = 4;
   caseData : any;
   ifCaseRegisterd : boolean = false;
   withoutCaseNoReg: boolean = false;
@@ -24,25 +24,27 @@ export class CaseRegStepperComponent {
   formsName : string[] = ['Case Identification' , 'FIR & Charge Sheet' , 'Parties' , 'Review & Submit'];
   firstHearing : boolean = false
   firstHearingCaseEntered : boolean = false;
+  submitFormClicked : number = 0;
+  caseId : number = 0;
+
+
+  @ViewChild(CaseIdentificationComponent)caseIdentification!: CaseIdentificationComponent;
+  @ViewChild(FirChargesSheetComponent)firChargeSheet!: FirChargesSheetComponent;
+  @ViewChild(CasePartiesComponent)caseParties!: CasePartiesComponent;
+  @ViewChild(CaseReviewSubmitComponent)reviewSubmit!: CaseReviewSubmitComponent;
+
+
+
+  
   ngOnInit(): void {
 
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
+
 
     this.caseData = history.state?.caseData;
-    this.withoutCaseNoReg = history.state?.withoutCaseNoReg;
-    this.ifDecidedFirstHearing =  history.state?.ifDecidedFirstHearing;
     this.prevRoute = history.state?.prevRoute;
-    this.ifUpdateAddDecision = history.state?.addEditDecision;
-    this.firstHearing = history.state?.firstHearing;
-    // if(this.ifUpdateAddDecision)this.currentForm = 5;
-    if(this.ifUpdateAddDecision)this.firstHearingCaseEntered = true;
 
-    //console.log(this.withoutCaseNoReg);
-    
+    console.log(this.caseData);
+    if(this.caseData)this.caseId = this.caseData?.DirRegId;
     
   }
 
@@ -56,12 +58,12 @@ export class CaseRegStepperComponent {
 
 
 
-  saveAndNext(type : string){
-    if(this.firstHearingCaseEntered && type == 'lawyer'){
-      this.currentForm = 5;
-      return
-    }
-    switch (type) {
+  saveAndNext(caseId ?: any){
+    console.log(caseId);
+    if(!this.caseId)this.caseId = caseId
+    this.currentForm += 1;
+    return
+    switch (caseId) {
       case 'appalent':
         this.currentForm = 7
         break;
@@ -86,10 +88,7 @@ export class CaseRegStepperComponent {
   }
 
   backToStep(type : string){
-    if(this.firstHearingCaseEntered && type == 'lawyer'){
-      this.currentForm = 5;
-      return
-    }
+    
     switch (type) {
       case 'appalent':
         this.currentForm = 1
@@ -130,10 +129,29 @@ export class CaseRegStepperComponent {
 
   formPrev(){
    this.currentForm -= 1;
+
   }
   
   
   formNext(){
-   this.currentForm += 1;
+    // this.submitFormClicked = 1
+    switch (this.currentForm) {
+      case 1:
+        this.caseIdentification.regCaseIdentification();
+        break;
+      case 2:
+        this.firChargeSheet.addEditChargeSheet();  
+        break;
+      case 3:
+        this.caseParties.regCaseParties();  
+        break;
+      case 4:
+        this.reviewSubmit.submitCaseForm();  
+        break;
+      default:
+        break;  
+
+    }
+    // this.currentForm += 1;
   }
 }

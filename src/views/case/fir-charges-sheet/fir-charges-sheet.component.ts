@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DatePickerComponent } from "../../shared/components/date-picker/date-picker.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -27,9 +27,13 @@ export class FirChargesSheetComponent implements OnInit{
   classificationDropdown : DropdownListInterface[] = [];
   adhikaris : any[] = [];
   chargeSheetCrimeList : any[] = [];
+  @Input() caseId : any;
 
   firDetailsForm : FormGroup = new FormGroup({
     firNo : new FormControl(""),
+    firDate : new FormControl(""),
+    stationName : new FormControl(""),
+    thanaCode : new FormControl(""),
     adhiThana : new FormControl(''),
     adhiDesignation : new FormControl(''),
     adhiName : new FormControl(''),
@@ -50,7 +54,10 @@ export class FirChargesSheetComponent implements OnInit{
 
 
   ngOnInit(): void {
+    console.log(this.caseId);
+    
     this.getClassificationDropdown();
+    this.getChargeSheetAdhikariList();
   }
 
 
@@ -64,20 +71,79 @@ export class FirChargesSheetComponent implements OnInit{
       this.notify.showNotification('info' , constants.allFieldsReq)
       return
     }
-    this.adhikaris.push({
-      name : vals.adhiName,
-      designation : vals.adhiDesignation,
-      thana : vals.adhiThana
+    // this.adhikaris.push({
+    //   name : vals.adhiName,
+    //   designation : vals.adhiDesignation,
+    //   thana : vals.adhiThana
+    // })
+    if(!this.caseId){
+      this.notify.showNotification('error' , constants.apiError);
+      return
+    }
+
+    let reqParam = {
+      "investId": 0,
+      "investGroupNo": this.caseId,
+      "investName": this.firDetailsForm.value.adhiName,
+      "fatherName": "",
+      "rankName": this.firDetailsForm.value.adhiDesignation,
+      "postingPlace": this.firDetailsForm.value.adhiThana,
+      "gender": 0,
+      "mobileNo": "",
+      "districtId": 8,
+      "thanaId": 0,
+      "investStatus": 1
+    }
+    this.api.post(this.url.addFirChargeSheetAdhikari() , reqParam).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.notify.showNotification('success' , res.message);
+          reqFields.forEach(i => this.firDetailsForm.controls[i?.toString()].reset());
+          this.getChargeSheetAdhikariList(); 
+        }else this.notify.showNotification('error' , res.message);
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
     })
-    reqFields.forEach(i => this.firDetailsForm.controls[i].reset());
+
+  }
+
+
+  getChargeSheetAdhikariList(){
+    if(!this.caseId)return;
+    this.api.get(this.url.getChargeSheetAdhikariList(this.caseId)).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.adhikaris = res.data;
+        }else this.notify.showNotification('error' , res.message)
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
+    })
   }
 
 
   removeAdhikari(i : number){
-    // console.log(i);
-    this.adhikaris.splice(i , 1)
-    // console.log(this.adhikaris);
     
+    this.api.post(this.url.deleteChargeSheetAdhikari(i), {}).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.notify.showNotification('delete' , res.message);
+          this.getChargeSheetAdhikariList();
+        }else this.notify.showNotification('error' , res.message);
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
+    })
   }
 
 
@@ -169,6 +235,43 @@ export class FirChargesSheetComponent implements OnInit{
     
     reqFields.forEach(i => this.chargeSheetForm.controls[i].reset());
 
+  }
+
+
+  addEditChargeSheet(){
+    if(this.firDetailsForm.value.invalid){
+      this.firDetailsForm.value.markAllAsTouched();
+      return
+    }
+    let reqParam = {
+      "dirRegId": this.caseId,
+      "steps": 2,
+      "firNo": this.firDetailsForm.value.firNo || "",
+      "firDt": this.firDetailsForm.value.firDate || "",
+      "psName": this.firDetailsForm.value.stationName || "",
+      "psCode": this.firDetailsForm.value.thanaCode || "",
+      "investGroupNo": this.caseId,
+      "chargeSheetNo": this.chargeSheetForm.value.chargeSheetNo,
+      "chargeSheetDate": this.chargeSheetForm.value.chartSheetDate,
+      "dateBeforeFillingCourt": this.chargeSheetForm.value.dateFilingBeforeCourt,
+      "investigatingNameRank": this.chargeSheetForm.value.investigatingOfficer,
+      "titleOfCase": this.chargeSheetForm.value.caseTitle,
+      "cClassificationId": 0,
+      "crimeActId": 0,
+      "crimeActSubId": 0
+    }
+    console.log(reqParam);return
+    
+    this.api.post(this.url.regChargeSheet() , reqParam).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
+    })
   }
 
 
