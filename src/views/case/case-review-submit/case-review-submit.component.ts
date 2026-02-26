@@ -104,12 +104,12 @@ export class CaseReviewSubmitComponent implements OnInit{
     formData.append('FullChargeSheetDocs' , this.files[this.fileType.fullChargeSheetDocs]!.file?.name || '');
     formData.append('OtherDocs' , this.files[this.fileType.otherDocs]!.file?.name || '');
     formData.append('CaseStatus' , '1');
-
-    console.log(formData);
     this.api.post(this.url.submitReviewCase() , formData).subscribe({
       next : (res : any) => {
         console.log(res);
-        
+        if(res.status){
+          this.notify.showNotification('success' , res.message);
+        }else this.notify.showNotification('error' , res.message);
       },
       error : (err : Error) => {
         this.notify.showNotification('error' , constants.apiError);
