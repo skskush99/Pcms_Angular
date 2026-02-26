@@ -1,213 +1,308 @@
-<div class="forms my-3 py-4 px-3 mx-3 bg-white rounded-lg">
-
-
+<div class="forms">
     <form [formGroup]="complaintRegForm">
-    <div class="layout grid grid-cols-12 gap-3 items-start">
-            <div class="complain-form col-span-8 p-2 grid grid-cols-1 md:grid-cols-2 gap-4 border-1 border-gray-300 rounded-lg">
-                <p class="col-span-full text-xl">Register Complaint (No FIR logged)</p>
+        <div class="complain-form">
+            <h2 class="form-title mb-3">Register Complaint (No FIR logged)</h2>
+            
+            <div class="form-grid">
+                <!-- Complaint No -->
+                <div class="form-group">
+                    <label>
+                        Complaint No. (अल्फान्यूमेरिक)
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="complaintNo" placeholder="Enter Complaint No">
+                </div>
 
-                    <!-- Complaint No. (अल्फान्यूमेरिक) -->
-                    <div class="form-group ">
-                        <label for="complaintNo" class="block text-sm font-400 text-gray-700 mb-1">
-                        Complaint No. (अल्फान्यूमेरिक)<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="text" id="complaintNo"
-                        formControlName="complaintNo" 
-                        placeholder="Enter Complaint No. (अल्फान्यूमेरिक)"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                    </div>
+                <!-- Complaint Date -->
+                <div class="form-group">
+                    <label>
+                        Complaint Date
+                        <span class="required">*</span>
+                    </label>
+                    <app-date-picker formControlName="complaintDate"></app-date-picker>
+                </div>
 
-
-                    <!-- Complaint Date -->
-                    <div class="form-group ">
-                        <label for="complaintDate" class="block text-sm font-400 text-gray-700 mb-1">
-                        Complaint Date<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <app-date-picker formControlName="complaintDate"></app-date-picker>
-                        <!-- <input type="text" id="name"
-                        formControlName="accusedName" 
-                        placeholder="Enter Name"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">        -->
-                    </div>
-                    
-                    
-                    
-                    <!-- Complaint Type (परिवाद का प्रकार) -->
-                    <div class="form-group col-span-full">
-                        <label for="complaintType" class="block text-sm font-400 text-gray-700 mb-1">
-                        Complaint Type (परिवाद का प्रकार)<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <ng-select 
-                            [items]="complaintTypeDropdown"
-                            bindLabel="text"
-                            bindValue="value"
-                            placeholder="Select Complaint Type (परिवाद का प्रकार)"
-                            formControlName="complaintType"
-                            class="custom-ng-select"
-                            id="firYear"
-                            >
-                        </ng-select> 
-                    </div>
-
-
-                    <!-- अपराध का वर्गीकरण (Classification) -->
-                    <div class="form-group ">
-                        <label for="classification" class="block text-sm font-400 text-gray-700 mb-1">
-                        अपराध का वर्गीकरण (Classification)<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <ng-select 
-                            [items]="complaintTypeDropdown"
-                            bindLabel="text"
-                            bindValue="value"
-                            placeholder="Select अपराध का वर्गीकरण (Classification)"
-                            formControlName="classification"
-                            class="custom-ng-select"
-                            id="firYear"
-                            >
-                        </ng-select> 
-                    </div>
-
-
-                    <div class="act-section flex items-center gap-3">
-                        <!-- Act under which Offence -->
-                        <div class="form-group ">
-                            <label for="actUnderOffence" class="block text-sm font-400 text-gray-700 mb-1">
-                            Act under which Offence<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="name"
-                            formControlName="actUnderOffence" 
-                            placeholder="Enter Act under which Offence"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                        </div>
-
-
-                        <!-- Section(s) -->
-                        <div class="form-group ">
-                            <label for="section" class="block text-sm font-400 text-gray-700 mb-1">
-                            Section(s)<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="section"
-                            formControlName="section" 
-                            placeholder="Enter Section(s)"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                        </div>
-                    </div>
-
-
-                    <div class="form-group col-span-full">
-                        <label for="descOffence" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Brief Description of Offence<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <textarea rows="4" type="text" id="descOffence"
-                        formControlName="descOffence" 
-                        placeholder="Enter Brief Description of Offence"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">  
-                        </textarea>      
-                    </div>
-
-
-
-                <div class="personDetailCaseFiledForm col-span-full" formArrayName="personDetailCaseFiledForm">
-                            <div class="heading flex items-center justify-between">
-                                <p class="text-base font-semibold tracking-wider">Details of Person(s) Against Whom Complaint Filed</p>
-                                <button class="flex items-center gap-2 bg-[#9333EA] text-white rounded-2xl px-2.5 py-1.5 font-400" (click)="addPersonDetailCaseFiled()"><i class="fa-solid fa-plus"></i>Add Person</button>
-                            </div>
-
-                    <div *ngFor="let personDetail of personDetailCaseFiledForm.controls; let i=index"  [formGroupName]="i" class="accused-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
-
-                        <!-- Name -->
-                        <div class="form-group ">
-                            <label for="caseFiledAgainstName" class="block text-sm font-base text-gray-700 mb-1">
-                            Name<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="caseFiledAgainstName"
-                            formControlName="caseFiledAgainstName" 
-                            placeholder="Enter Name"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                        </div>
-                        
-                        
-                        <!-- Address -->
-                        <div class="form-group ">
-                            <label for="caseFiledAgainstAddress" class="block text-sm font-base text-gray-700 mb-1">
-                            Address<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="caseFiledAgainstAddress"
-                            formControlName="caseFiledAgainstAddress" 
-                            placeholder="Enter Address"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                        </div>
-                        
-                            <!-- Designation -->
-                            <div class="form-group w-full">
-                                <label for="caseFiledAgainstDesignation" class="block text-sm font-base text-gray-700 mb-1">
-                                    Designation<sup class="text-red-500 text-lg font-semibold">*</sup>
-                                </label>
-                                <input type="text" id="caseFiledAgainstDesignation"
-                                formControlName="caseFiledAgainstDesignation" 
-                                placeholder="Enter Designation"
-                                autocomplete="off"
-                                class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                            </div>
-                            
-                            
-                            <!-- Institution -->
-                            <div class="form-group w-full">
-                                <label for="caseFiledAgainstInstituation" class="block text-sm font-base text-gray-700 mb-1">
-                                    Institution<sup class="text-red-500 text-lg font-semibold">*</sup>
-                                </label>
-                                <input type="text" id="caseFiledAgainstInstituation"
-                                formControlName="caseFiledAgainstInstituation" 
-                                placeholder="Enter Institution"
-                                autocomplete="off"
-                                class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                            </div>
-
-                        
-                    
-
-                        
-
-                        <div class="accuse-remove flex items-end justify-start">
-                            <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="removePersonDetailCaseFiled(i)"><i class="fa-solid fa-minus"></i>Remove</button>
-                        </div>
-
-
-                    </div>
+                <!-- Complaint Type -->
+                <div class="form-group">
+                    <label>
+                        Complaint Type (परिवाद का प्रकार)
+                        <span class="required">*</span>
+                    </label>
+                    <ng-select 
+                        [items]="complaintTypeDropdown" 
+                        bindLabel="text" 
+                        bindValue="value"
+                        formControlName="complaintType" 
+                        placeholder="Select Complaint Type"
+                        [clearable]="true"
+                        [searchable]="false">
+                    </ng-select>
                 </div>
             </div>
 
-            <div class="col-span-4 px-2 py-3.5 border-1 border-gray-300 rounded-lg grid grid-cols-1 ">
-                <div class="searchbyCaseId flex items-center gap-2">
-                    <input type="text" id="searchbyCaseId"
-                        formControlName="searchbyCaseId" 
-                        placeholder="Search By Case ID"
-                        autocomplete="off"
-                        class="w-full px-2 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">  
-                    <button class="px-3.5 py-2.5 rounded-lg bg-[#729FCA] text-white">Search</button>
+            <!-- OFFENCE CLASSIFICATION SECTION (Always Visible) -->
+            <div class="offence-section" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+                <div class="person-header">
+                    <h3 class="section-title">Offence Classification</h3>
+                    <p class="section-subtitle">Select classification, act and sections, then add them to the list.</p>
                 </div>
-                <div class="savedEntries flex items-center justify-between my-5">
-                    <p class="font-semibold text-lg">Saved Entries</p>
-                    <p>0</p>
-                </div>
-                <hr>
-                <p class="py-5">Quick actions</p>
+                <form [formGroup]="chargeSheetForm">
+                    <div class="classification-row">
+                        <!-- अपराध का वर्गीकरण (Classification) -->
+                        <div class="form-group">
+                            <label for="classification" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                अपराध का वर्गीकरण (Classification)<sup class="text-red-500 text-lg font-semibold">*</sup>
+                            </label>
+                            <ng-select [items]="classificationDropdown" bindLabel="text"
+                                (change)="getActsDropdown()" bindValue="value" placeholder="Select Classification"
+                                formControlName="classification" class="custom-ng-select" id="classification">
+                            </ng-select>
+                        </div>
 
-                <div class="actionBtns flex items-center gap-4 justify-end">
-                    <button class="border-1 rounded-lg py-2 px-3.5 border-blue-500 text-blue-500">Clear All</button>
-                    <button class="bg-gradient-to-r from-[#2466EA] to-[#08B1D5] rounded-lg py-2 px-3.5  text-white">Export JSON</button>
+                        <!-- अधिनियम (Acts) -->
+                        <div class="form-group">
+                            <label for="acts" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                अधिनियम (Acts)<sup class="text-red-500 text-lg font-semibold">*</sup>
+                            </label>
+                            <ng-select [items]="actsDropdown" bindLabel="text" bindValue="value"
+                                (change)="getCrimeSubActDropdown()" placeholder="Select Act"
+                                formControlName="acts" class="custom-ng-select" id="acts">
+                            </ng-select>
+                        </div>
+
+                        <!-- धाराएँ (Sections) -->
+                        <div class="form-group">
+                            <label for="sections" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                धाराएँ (Sections)<sup class="text-red-500 text-lg font-semibold">*</sup>
+                            </label>
+                            <ng-select [items]="sectionsDropdown" bindLabel="text" bindValue="value"
+                                placeholder="Select Section" formControlName="sections"
+                                class="custom-ng-select" id="sections">
+                            </ng-select>
+                        </div>
+
+                        <div class="addbtn">
+                            <button type="button" (click)="addChargeSheetCrime()"
+                                class="border border-[#72A0CB] text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-95 duration-300 text-base">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+
+                    @if (chargeSheetCrimeList.length) {
+                    <div class="adhikariTable mt-4">
+                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
+                                    <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Sr No.</th>
+                                    <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Classification</th>
+                                    <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Act</th>
+                                    <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Section</th>
+                                    <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @for (item of chargeSheetCrimeList; track $index) {
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{$index + 1}}</td>
+                                    <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.classification?.text}}</td>
+                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.act?.text}}</td>
+                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.section?.text}}</td>
+                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">
+                                        <i (click)="removeChargeSheetCrime($index)"
+                                            class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    }
+                </form>
+            </div>
+
+            <!-- Department and Officer (Only for Government Complaint - सरकारी परिवाद) -->
+            <div class="form-grid mt-4" *ngIf="isGovernmentComplaint">
+                <div class="form-group">
+                    <label>
+                        Department
+                        <span class="required">*</span>
+                    </label>
+                    <ng-select [items]="deptDropdown" bindLabel="text" bindValue="value" formControlName="department"
+                        placeholder="Select Department" appendTo="body">
+                    </ng-select>
                 </div>
+
+                <div class="form-group officer-field-span">
+                    <label>
+                        Officer Name & Designation
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" formControlName="officeranddesignation"
+                        placeholder="Enter Officer Name & Designation">
+                </div>
+            </div>
+
+            <!-- Brief Description (Always visible for both types) -->
+            <div class="form-grid mt-4" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+                <div class="form-group full-width-grid">
+                    <label>
+                        Brief Description of Offence
+                        <span class="required">*</span>
+                    </label>
+                    <textarea rows="4" formControlName="descOffence" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+
+            <!-- PERSON SECTION (Always visible for both types) -->
+           <!-- PERSON SECTION (Always visible for both types) -->
+<div class="person-section" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+    <div class="person-header">
+        <h3 class="section-title">Person(s) Against Whom Case is Filed</h3>
+        <p class="section-subtitle">Add one or more persons related to this complaint.</p>
+    </div>
+    <div class="person-card">
+        <form [formGroup]="personTempForm">
+            <div class="grid grid-cols-5 gap-3 items-end">
+                <div class="form-group">
+                    <label class="block text-sm font-semibold mb-1">
+                        Name <sup class="text-red-500">*</sup>
+                    </label>
+                    <input type="text" placeholder="Enter Person(s) Name"
+                        formControlName="caseFiledAgainstName" class="w-full border rounded px-2 py-1">
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm font-semibold mb-1">
+                        Address <sup class="text-red-500">*</sup>
+                    </label>
+                    <input type="text" placeholder="Enter Person(s) Address"
+                        formControlName="caseFiledAgainstAddress" class="w-full border rounded px-2 py-1">
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm font-semibold mb-1">
+                        Designation <sup class="text-red-500">*</sup>
+                    </label>
+                    <input type="text" placeholder="Enter Person(s) Designation"
+                        formControlName="caseFiledAgainstDesignation" class="w-full border rounded px-2 py-1">
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm font-semibold mb-1">
+                        Institution <sup class="text-red-500">*</sup>
+                    </label>
+                    <input type="text" placeholder="Enter Person(s) Institution"
+                        formControlName="caseFiledAgainstInstituation" class="w-full border rounded px-2 py-1">
+                </div>
+
+                <div class="flex gap-2">
+                    <button type="button" (click)="addPersonToList()"
+                        class="border border-[#72A0CB] text-[#72A0CB] rounded-lg px-3 py-1.5 hover:scale-95 duration-300">
+                        <i class="fa-solid" [ngClass]="isEditingPerson ? 'fa-check' : 'fa-plus'"></i> 
+                        {{ isEditingPerson ? 'Update' : 'Add' }}
+                    </button>
+                    
+                    <button type="button" *ngIf="isEditingPerson" (click)="cancelEdit()"
+                        class="border border-gray-400 text-gray-600 rounded-lg px-3 py-1.5 hover:scale-95 duration-300">
+                        <i class="fa-solid fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+
+            @if (personList.length) {
+            <div class="mt-4">
+                <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Sr No.</th>
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Name</th>
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Address</th>
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Designation</th>
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Institution</th>
+                            <th class="px-4 py-2 border-r text-sm font-semibold">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of personList; track $index) {
+                        <tr class="hover:bg-gray-50" [class.bg-blue-50]="editingPersonIndex === $index">
+                            <td class="px-4 py-2 border-r text-center text-sm">{{$index + 1}}</td>
+                            <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstName}}</td>
+                            <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstAddress}}</td>
+                            <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstDesignation}}</td>
+                            <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstInstituation}}</td>
+                            <td class="px-4 py-2 border-r text-center">
+                                <div class="flex justify-center gap-3">
+                                    <i (click)="editPerson($index)"
+                                        class="fa-solid fa-pen-to-square text-lg text-blue-600 cursor-pointer hover:text-blue-800"
+                                        title="Edit">
+                                    </i>
+                                    <i (click)="removePerson($index)"
+                                        class="fa-solid fa-trash text-lg text-red-500 cursor-pointer hover:text-red-700"
+                                        title="Delete">
+                                    </i>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+        </form>
+    </div>
+</div>
+
+            <!-- Document Upload Section (Always visible when type is selected) -->
+            <div class="document-upload-row" >
+                <!-- *ngIf="isPrivateComplaint || isGovernmentComplaint" -->
+                <div class="form-group">
+                    <label>
+                        Date filed in Court
+                        <span class="required">*</span>
+                    </label>
+                    <app-date-picker formControlName="datefiledincourt"></app-date-picker>
+                </div>
+
+                <div class="form-group">
+                    <label for="CfpNo">
+                        Complaint First Page <span class="required">*</span>
+                    </label>
+                    <input type="file" id="CfpNo" formControlName="CfpNo">
+                </div>
+
+                <div class="form-group">
+                    <label for="fullComplaintPDF">
+                        Full Complaint PDF
+                    </label>
+                    <input type="file" id="fullComplaintPDF" formControlName="fullComplaintPDF">
+                </div>
+
+                <div class="form-group">
+                    <label for="uploadOtherDocNo">
+                        Upload Other Doc. (If any)
+                    </label>
+                    <input type="file" id="uploadOtherDocNo" formControlName="uploadOtherDocNo">
+                </div>
+            </div>
+
+            <!-- Declaration Checkbox (Always visible when type is selected) -->
+            <div class="checkbox-group" >
+                <!-- *ngIf="isPrivateComplaint || isGovernmentComplaint" -->
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" formControlName="isDeclarationAccepted"
+                        class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <span class="text-sm font-semibold text-gray-700">
+                        I hereby declare that the information provided is true and correct.
+                    </span>
+                </label>
+            </div>
+
+            <!-- Action Buttons (Always visible when type is selected) -->
+            <div class="form-actions" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+                <button type="button" class="btn-clear" (click)="onClear()">Clear</button>
+                <button type="submit" class="btn-submit" [disabled]="complaintRegForm.invalid" (click)="onSubmit()">Submit</button>
             </div>
         </div>
     </form>
-
-
-
 </div>
