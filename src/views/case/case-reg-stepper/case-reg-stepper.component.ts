@@ -14,7 +14,7 @@ import { CaseReviewSubmitComponent } from "../case-review-submit/case-review-sub
 })
 export class CaseRegStepperComponent {
 
-  currentForm : number = 4;
+  currentForm : number = 1;
   caseData : any;
   ifCaseRegisterd : boolean = false;
   withoutCaseNoReg: boolean = false;
@@ -44,17 +44,12 @@ export class CaseRegStepperComponent {
     this.prevRoute = history.state?.prevRoute;
 
     console.log(this.caseData);
-    if(this.caseData)this.caseId = this.caseData?.DirRegId;
-    
+    if(this.caseData){
+      this.caseId = this.caseData?.DirRegId;
+      this.currentForm = this.caseData?.Steps || 1;
+    }
   }
 
-
-  caseRegistered(caseId : void){
-    //console.log(caseId);
-    if(!this.caseData) this.caseData = {CaseId : caseId}
-    this.ifCaseRegisterd = !this.ifCaseRegisterd
-    this.currentForm = 6;
-  }
 
 
 
@@ -62,70 +57,17 @@ export class CaseRegStepperComponent {
     console.log(caseId);
     if(!this.caseId)this.caseId = caseId
     this.currentForm += 1;
-    return
-    switch (caseId) {
-      case 'appalent':
-        this.currentForm = 7
-        break;
-      case 'respondent':
-        //console.log('-----erererer respondednt');
-        
-        if(this.firstHearingCaseEntered)this.currentForm = 4
-        else this.currentForm = 2  
-        break;
-      case 'lawyer' :
-        this.currentForm = 3;
-        break;
-      case 'oic' :
-        this.currentForm = 4
-        break;
-      case 'hearing':
-        this.currentForm = 5
-        break;      
-      default:
-        break;
-    }
-  }
-
-  backToStep(type : string){
-    
-    switch (type) {
-      case 'appalent':
-        this.currentForm = 1
-        break;
-      case 'respondent':        
-        if(this.firstHearingCaseEntered)this.currentForm = 4
-        else this.currentForm = 6
-        break;
-      case 'lawyer' :
-        this.currentForm = 7;
-        break;
-      case 'oic' :
-        this.currentForm = 2
-        break;
-      case 'hearing':
-        this.currentForm = 3
-        break;      
-      default:
-        break;
-    }
-  }
-
-
-  decision1stHearingEntered(if1stHearing : boolean){
-    this.firstHearingCaseEntered = if1stHearing
   }
 
 
 
-  toggleForm(formNo : number){
-    this.currentForm = formNo;
-  }
 
 
-  withouCaseNoRegistered(params : boolean){
-    this.withoutCaseNoReg = true
-  }
+  // toggleForm(formNo : number){
+  //   this.currentForm = formNo;
+  // }
+
+
 
   formPrev(){
    this.currentForm -= 1;
