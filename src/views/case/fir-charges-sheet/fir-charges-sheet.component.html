@@ -91,7 +91,7 @@
                     <!-- </div> -->
                     <!-- </div> -->
                     <div class="addbtn flex items-end justify-start ">
-                        <button (click)="addAdhikari()" class="border-1 border-[#72A0CB] ml-3 text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-[0.95] duration-300"><i class="fa-solid fa-plus"></i> Add</button>
+                        <button (click)="addAdhikari()" class="border-1 border-[#72A0CB] ml-3 text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-[0.95] duration-300"><i *ngIf="!adhikariEditId" class="fa-solid fa-plus"></i> {{adhikariEditId ? 'Save' : 'Add'}}</button>
                     </div>
 
                     @if (adhikaris.length) {
@@ -119,7 +119,7 @@
                                 <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.InvestName}}</td>
                                 <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.RankName}}</td>
                                 <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.PostingPlace}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base"><i (click)="removeAdhikari(item?.InvestId)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i></td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base flex items-center gap-5 justify-center"><i (click)="removeAdhikari(item?.InvestId)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i><i (click)="editAdhikari(item)" class="fa-solid fa-edit text-lg text-yellow-500 cursor-pointer" title="click to edit"></i></td>
 
 
                                 <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->
@@ -213,6 +213,7 @@
                             [items]="classificationDropdown"
                             bindLabel="text"
                             (change)="getActsDropdown()"
+                            [compareWith]="compareWithFunc"
                             bindValue="value"
                             placeholder="Select Year of FIR"
                             formControlName="classification"
@@ -233,6 +234,7 @@
                             [items]="actsDropdown"
                             bindLabel="text"
                             bindValue="value"
+                            [compareWith]="compareWithFunc"
                             (change)="getCrimeSubActDropdown()"
                             placeholder="Select Year of FIR"
                             formControlName="acts"
@@ -252,6 +254,7 @@
                             [items]="sectionsDropdown"
                             bindLabel="text"
                             bindValue="value"
+                            [compareWith]="compareWithFunc"
                             placeholder="Select Year of FIR"
                             formControlName="sections"
                             class="custom-ng-select"
@@ -261,7 +264,7 @@
                     </div>
 
                     <div class="addbtn flex items-end justify-start ">
-                        <button (click)="addChargeSheetCrime()" class="border-1 border-[#72A0CB] ml-3 text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-[0.95] duration-300 text-base"><i class="fa-solid fa-plus"></i> Add</button>
+                        <button (click)="addChargeSheetCrime()" class="border-1 border-[#72A0CB] ml-3 text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-[0.95] duration-300 text-base"><i *ngIf="!editOffenceId" class="fa-solid fa-plus"></i> {{editOffenceId ? "Save" : "Add"}}</button>
                     </div>
 
 
@@ -287,10 +290,11 @@
                                 @for (item of chargeSheetCrimeList; track $index) {
                                 <tr class="hover:bg-gray-50 transition-colors">
                                 <th class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base text-pretty">{{$index + 1}}</th>
-                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.classification?.text}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.act?.text}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.section?.text}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base"><i (click)="removeChargeSheetCrime($index)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i></td>
+                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.ClassificationName}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.ActsName}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.SectionsName}}</td>
+                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base flex items-center gap-5 justify-center"><i (click)="editChargeSheetOffence(item)" class="fa-solid fa-edit text-lg text-yellow-500 cursor-pointer" title="click to edit"></i><i (click)="deleteChargeSheetOffence(item)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i></td>
+                                
 
 
                                 <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->

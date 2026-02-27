@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { DatePickerComponent } from "../../shared/components/date-picker/date-picker.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +27,10 @@ export class FirChargesSheetComponent implements OnInit{
   classificationDropdown : DropdownListInterface[] = [];
   adhikaris : any[] = [];
   chargeSheetCrimeList : any[] = [];
+  editOffenceId : any;
+  adhikariEditId : any;
   @Input() caseId : any;
+  @Output() firChargeSheetC = new EventEmitter<any>();
 
   firDetailsForm : FormGroup = new FormGroup({
     firNo : new FormControl(""),
@@ -58,6 +61,7 @@ export class FirChargesSheetComponent implements OnInit{
     
     this.getClassificationDropdown();
     this.getChargeSheetAdhikariList();
+    this.getChargeSheetOffenceList();
   }
 
 
@@ -82,7 +86,7 @@ export class FirChargesSheetComponent implements OnInit{
     }
 
     let reqParam = {
-      "investId": 0,
+      "investId": this.adhikariEditId || 0,
       "investGroupNo": this.caseId,
       "investName": this.firDetailsForm.value.adhiName,
       "fatherName": "",
@@ -98,6 +102,7 @@ export class FirChargesSheetComponent implements OnInit{
       next : (res : any) => {
         console.log(res);
         if(res.status){
+          this.adhikariEditId = null;
           this.notify.showNotification('success' , res.message);
           reqFields.forEach(i => this.firDetailsForm.controls[i?.toString()].reset());
           this.getChargeSheetAdhikariList(); 
@@ -109,6 +114,16 @@ export class FirChargesSheetComponent implements OnInit{
       }
     })
 
+  }
+
+
+  editAdhikari(e : any){
+    this.firDetailsForm.patchValue({
+      adhiName : e?.InvestName || '',
+      adhiDesignation : e?.RankName || '',
+      adhiThana : e?.PostingPlace || '',
+    })
+    this.adhikariEditId = e?.InvestId;
   }
 
 
@@ -222,19 +237,79 @@ export class FirChargesSheetComponent implements OnInit{
       this.notify.showNotification('info' , constants.allFieldsReq)
       return
     }
+    let classificationName = this.classificationDropdown.find(i => i.value == this.chargeSheetForm.value.classification)?.text;
+    let actName = this.actsDropdown.find(i => i.value == this.chargeSheetForm.value.acts)?.text;
+    let sectionName = this.sectionsDropdown.find(i => i.value == this.chargeSheetForm.value.sections)?.text;
 
-    let classification = this.classificationDropdown.find(i => i.value == form.classification);
-    let act = this.actsDropdown.find(i => i.value == form.acts);
-    let section = this.sectionsDropdown.find(i => i.value == form.sections);
-
-    this.chargeSheetCrimeList.push({
-      classification,
-      act,
-      section
+    let reqParams = {
+      "offenceClassifId": this.editOffenceId || 0,
+      "offenceClassifGroupNo": this.caseId,
+      "isCaseComplaintReg": 0,
+      "classificationID": this.chargeSheetForm.value.classification,
+      "classificationName": classificationName || "",
+      "actsID": this.chargeSheetForm.value.acts,
+      "actsName": actName || "",
+      "sectionsID": this.chargeSheetForm.value.sections,
+      "sectionsName": sectionName || ""
+    }
+    this.api.post(this.url.addEditClassificationOffence() , reqParams).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.editOffenceId = null;
+          this.notify.showNotification('success' , res.message);
+          this.getChargeSheetOffenceList();
+          reqFields.forEach(i => this.chargeSheetForm.controls[i].reset());
+        }
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
     })
-    
-    reqFields.forEach(i => this.chargeSheetForm.controls[i].reset());
 
+  }
+
+
+  getChargeSheetOffenceList(){
+    this.api.get(this.url.getClassificationOffence(this.caseId)).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.chargeSheetCrimeList = res?.data;
+        }else this.notify.showNotification('error' , res.message);
+      },
+      error : (err : Error) => {
+        throw new Error(err?.message);
+      }
+    })
+  }
+
+
+  deleteChargeSheetOffence(e : any){
+    this.api.post(this.url.deleteClassificationOffence(e?.OffenceClassifId) , {}).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.notify.showNotification('delete' , res.message);
+          this.getChargeSheetOffenceList();
+        }else this.notify.showNotification('error' , res.message);
+      },
+      error : (err : Error) => {
+        this.notify.showNotification('error' , constants.apiError);
+        throw new Error(err?.message);
+      }
+    })
+  }
+
+  editChargeSheetOffence(e : any){
+    this.chargeSheetForm.patchValue({
+      classification : e?.ClassificationID || null,
+      acts : e?.ActsID || null,
+      sections : e?.SectionsID || null
+    })
+    if(this.chargeSheetForm.value.classification)this.getActsDropdown('init');
+    this.editOffenceId = e?.OffenceClassifId
   }
 
 
@@ -260,12 +335,15 @@ export class FirChargesSheetComponent implements OnInit{
       "crimeActId": 0,
       "crimeActSubId": 0
     }
-    console.log(reqParam);return
+    console.log(reqParam);
     
     this.api.post(this.url.regChargeSheet() , reqParam).subscribe({
       next : (res : any) => {
         console.log(res);
-        
+        if(res.status){
+          this.notify.showNotification('success' , res.message);
+          this.firChargeSheetC.emit(true);
+        }else this.notify.showNotification('error' , res.message);
       },
       error : (err : Error) => {
         this.notify.showNotification('error' , constants.apiError);
@@ -275,12 +353,16 @@ export class FirChargesSheetComponent implements OnInit{
   }
 
 
-
-
-  removeChargeSheetCrime(index : number){
-    this.chargeSheetCrimeList.splice(index , 1);
+  compareWithFunc(a : any,b : any) {
+    let res = false;
+    if (a['value'] && b) {
+      res = (a['value'] == b);
+    }
+    return res
   }
 
-  
+
+
+
 
 }

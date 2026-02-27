@@ -413,5 +413,20 @@ export class UrlService {
   deleteCaseVictimWitness(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteVictimWitness?Id=${id}`
   }
+  
+  
+  addEditClassificationOffence(){
+    return `${this.caseUrl}/DierRegistrations/AddEditOffence`
+  }
+  
+  
+  getClassificationOffence(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/GetOffence?OffenceClassifGroupNo=${id}`
+  }
+  
+  
+  deleteClassificationOffence(id : number | string){
+    return `${this.caseUrl}/DierRegistrations/DeleteOffence?OffenceClassifId=${id}`
+  }
 
 }
