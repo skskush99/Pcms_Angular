@@ -8,9 +8,9 @@ export class UrlService {
 
   authUrl: string = environment.authUrl;
   appUrl: string = environment.appUrl;
-  masterUrl : string = environment.masterUrl;
-  ecUrl : string = environment.ecUrl
-  caseUrl : string = environment.caseManagementUrl;
+  masterUrl: string = environment.masterUrl;
+  ecUrl: string = environment.ecUrl
+  caseUrl: string = environment.caseManagementUrl;
   // masterUrl: string = environment.masterUrl;
   // masterUrlWithouOcelet: string = environment.masterUrlWithoutOcelet;
   // caseManagementUrl : string = environment.caseManagementUrl;
@@ -308,47 +308,33 @@ export class UrlService {
   addEditCrimeAct() {
     return `${this.masterUrl}/CrimeAct/AddEdit`
   }
-
-
   activeDeactiveCrimeAct() {
     return `${this.masterUrl}/CrimeAct/ActiveDeactive`
   }
-
-
   getCrimeSubActList() {
     return `${this.masterUrl}/CrimeSubAct/Get`
   }
-
-
   getCrimeSubActDropdown() {
     return `${this.masterUrl}/CrimeSubAct/Dropdown`
   }
-
-
   addEditSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/AddEdit`
   }
-
   activeDeactiveSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/ActiveDeactive`
   }
-
-
   getFirStatusList() {
     return `${this.masterUrl}/FirStatus/Get`
   }
-
   getFirStatusDropdown() {
     return `${this.masterUrl}/FirStatus/Dropdown`
   }
-
   addEditFirStatus() {
     return `${this.masterUrl}/FirStatus/AddEdit`
   }
   activeDeactiveFirStatus() {
     return `${this.masterUrl}/FirStatus/ActiveDeactive`
   }
-
   // Nodel Officer Details  // Start// 
   getNodalOfficer() {
     return `${this.masterUrl}/NodalOfficer/Get`
@@ -363,87 +349,68 @@ export class UrlService {
     return `${this.masterUrl}/NodalOfficer/ActiveDeactive`
   }
   // Nodel Officer Details  // End // 
-  
+
   // Register Complaint (No FIR logged) // Start// 
-  //Person Deatils Save in Complaint // 
+
   AddEditPersonAgainst() {
-    return `${this.masterUrl}/ComplaintRegister/AddEditPersonAgainst`
+    return `${this.caseUrl}/ComplaintRegister/AddEditPersonAgainst`
   }
-  DeletePersonAgainst() {
-    return `${this.masterUrl}/ComplaintRegister/DeletePersonAgainst`
+  DeletePersonAgainst(id: number | string) {
+    // debugger
+    return `${this.caseUrl}/ComplaintRegister/DeletePersonAgainst?PersonAgainstId=${id}`
   }
   //Final Save Complaint //  
   saveComplaint() {
-    return `${this.masterUrl}/ComplaintRegister/AddEditComplaint`
-  }     
-  // Case management Url's
+    return `${this.caseUrl}/ComplaintRegister/AddEditComplaint`
+  }
 
-  getCaseList(){
+  DierRegistrationsEditOffence() {
+    return `${this.caseUrl}/DierRegistrations/AddEditOffence`
+  }
+  DeleteDierOffence(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteOffence?offenceClassifId=${id}`
+  }
+  // Case management Url's
+  getCaseList() {
     return `${this.caseUrl}/DierRegistrations/DierList`
   }
-
-
-  regCaseIdentification(){
+  regCaseIdentification() {
     return `${this.caseUrl}/DierRegistrations/AddEditDierSteps1`
   }
-
-
-  regChargeSheet(){
+  regChargeSheet() {
     return `${this.caseUrl}/DierRegistrations/AddEditDierSteps2`
   }
-  
-  
-  regCaseParties(){
+  regCaseParties() {
     return `${this.caseUrl}/DierRegistrations/AddEditDierSteps3`
   }
-  
-  
-  submitReviewCase(){
+  submitReviewCase() {
     return `${this.caseUrl}/DierRegistrations/AddEditDierSteps4`
   }
-
-
-  addFirChargeSheetAdhikari(){
+  addFirChargeSheetAdhikari() {
     return `${this.caseUrl}/DierRegistrations/AddEditInvestigation`
   }
-  
-  
-  getChargeSheetAdhikariList(id : number | string){
+  getChargeSheetAdhikariList(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/GetInvestigation?InvestGroupNo=${id}`
   }
-  
-  
-  deleteChargeSheetAdhikari(id : number | string){
+  deleteChargeSheetAdhikari(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteInvestigation?InvestId=${id}`
   }
-
-
-  addEditCaseAccused(){
+  addEditCaseAccused() {
     return `${this.caseUrl}/DierRegistrations/AddEditAccused`
   }
-  
-  
-  getCaseAccusedList(id : number | string){
+  getCaseAccusedList(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/GetAccused?AccusedGroupNo=${id}`
   }
-  
-  
-  deleteCaseAccused(id : number | string){
+  deleteCaseAccused(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteAccused?AccusedId=${id}`
   }
-  
-  
-  addEditCaseVictimWitness(){
+  addEditCaseVictimWitness() {
     return `${this.caseUrl}/DierRegistrations/AddEditVictimWitness`
   }
-  
-  
-  getCaseVictimWitnessList(id : number | string){
+  getCaseVictimWitnessList(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/GetVictimWitness?GroupNo=${id}`
   }
-  
-  
-  deleteCaseVictimWitness(id : number | string){
+  deleteCaseVictimWitness(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteVictimWitness?Id=${id}`
   }
 
