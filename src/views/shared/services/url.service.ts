@@ -24,15 +24,15 @@ export class UrlService {
 
   constructor() { }
 
-  getSSOLoginUrl(){
+  getSSOLoginUrl() {
     return `${this.authUrl}/gateway/SSOAuthNew`;
   }
 
-  getLoginLogs(){
+  getLoginLogs() {
     return `${this.appUrl}/UserLogin/LoginLogs`;
   }
 
-  getUserDetailsFromSSO(){
+  getUserDetailsFromSSO() {
     return `${this.authUrl}/gateway/SsoProfileDt`
   }
 
@@ -50,46 +50,46 @@ export class UrlService {
   // AUTH URL's Without Token
 
 
-  getLevelAuthDropdown(){
+  getLevelAuthDropdown() {
     return `${this.authUrl}/gateway/LevelDropdown`
   }
-  
-  
-  getRoleAuthDropdown(){
+
+
+  getRoleAuthDropdown() {
     return `${this.authUrl}/gateway/RolesDropdown`
   }
-  
-  
-  getDivisionAuthDropdown(){
+
+
+  getDivisionAuthDropdown() {
     return `${this.authUrl}/gateway/DivisionsDropdown`
   }
-  
-  
-  getDistrictAuthDropdown(){
+
+
+  getDistrictAuthDropdown() {
     return `${this.authUrl}/gateway/DistrictsDropdown`
   }
-  
-  
-  getOfficeAuthDropdown(){
+
+
+  getOfficeAuthDropdown() {
     return `${this.authUrl}/gateway/OfficesDropdown`
   }
-  
-  
-  getDesignationAuthDropdown(){
+
+
+  getDesignationAuthDropdown() {
     return `${this.authUrl}/gateway/DesignationDropdown`
   }
-  
-  
-  getCourtAuthDropdown(){
+
+
+  getCourtAuthDropdown() {
     return `${this.authUrl}/gateway/CourtNamesDropdown`
   }
 
-  addUserMappingReq(){
+  addUserMappingReq() {
     return `${this.authUrl}/gateway/AddEditUserMapReq`
   }
 
-  
-  
+
+
 
   // MASTER URL's
 
@@ -113,21 +113,21 @@ export class UrlService {
   }
 
 
-  getPermissionMappingList(){
-   return `${this.masterUrl}/Users/UserMapReqList` 
+  getPermissionMappingList() {
+    return `${this.masterUrl}/Users/UserMapReqList`
   }
 
 
-  getRolesDropdown(){
+  getRolesDropdown() {
     return `${this.masterUrl}/Roles/GetDropdown`
   }
 
 
-  getadminDeptList(){
+  getadminDeptList() {
     return `${this.masterUrl}/AdminDepartment/Get`
   }
 
-  addEditAdminDept(){
+  addEditAdminDept() {
     return `${this.masterUrl}/AdminDepartment/AddEdit`
   }
 
@@ -139,7 +139,7 @@ export class UrlService {
     return `${this.masterUrl}/AdminDepartment/ActiveDeactive`
   }
 
-  
+
   getOfficeList() {
     return `${this.masterUrl}/Offices/Get`
   }
@@ -219,7 +219,7 @@ export class UrlService {
     return `${this.masterUrl}/CourtTypes/AddEdit`
   }
 
-    getCourtsList() {
+  getCourtsList() {
     return `${this.masterUrl}/CourtNames/GetList`
   }
 
@@ -235,153 +235,162 @@ export class UrlService {
     return `${this.masterUrl}/CourtNames/GetDropdown`
   }
 
-  getPoliceRangeList(){
+  getPoliceRangeList() {
     return `${this.masterUrl}/PoliceThana/GetPRange`
   }
-  
-  
-  getPoliceRangeDropdown(){
+
+
+  getPoliceRangeDropdown() {
     return `${this.masterUrl}/PoliceThana/PRangeDropdown`
   }
 
-  getPoliceDistrictList(){
+  getPoliceDistrictList() {
     return `${this.masterUrl}/PoliceThana/GetPDistrict`
   }
-  
-  
-  getPoliceDistrictDropdown(){
+
+
+  getPoliceDistrictDropdown() {
     return `${this.masterUrl}/PoliceThana/PDistrictDropdown`
   }
 
-  getPoliceCircleList(){
+  getPoliceCircleList() {
     return `${this.masterUrl}/PoliceThana/GetPCircle`
   }
-  
-  
-  getPoliceCircleDropdown(){
+
+
+  getPoliceCircleDropdown() {
     return `${this.masterUrl}/PoliceThana/PCircleDropdown`
   }
 
-  getPoliceStationList(){
+  getPoliceStationList() {
     return `${this.masterUrl}/PoliceThana/GetPStation`
   }
-  
-  
-  getPoliceStationDropdown(){
+
+
+  getPoliceStationDropdown() {
     return `${this.masterUrl}/PoliceThana/PStationDropdown`
   }
-  
-  
-  getLevelList(){
+
+
+  getLevelList() {
     return `${this.masterUrl}/Level/Get`
   }
-  
-  
-  getLevelDropdown(){
+
+
+  getLevelDropdown() {
     return `${this.masterUrl}/Level/Dropdown`
   }
-  
-  
-  addEditLevel(){
+
+
+  addEditLevel() {
     return `${this.masterUrl}/Level/AddEdit`
   }
-  
-  
-  activeDeactiveLevel(){
+
+
+  activeDeactiveLevel() {
     return `${this.masterUrl}/Level/ActiveDeactive`
   }
 
 
-  getCrimeClassificationList(){
+  getCrimeClassificationList() {
     return `${this.masterUrl}/CrimeClassification/Get`
   }
-  
-  
-  getCrimeClassificationDropdown(){
+
+
+  getCrimeClassificationDropdown() {
     return `${this.masterUrl}/CrimeClassification/Dropdown`
   }
 
-  addEditCrimeClassification(){
+  addEditCrimeClassification() {
     return `${this.masterUrl}/CrimeClassification/AddEdit`
   }
-  
-  
-  activeDeactiveCrimeClassification(){
+
+
+  activeDeactiveCrimeClassification() {
     return `${this.masterUrl}/CrimeClassification/ActiveDeactive`
   }
-  
-  
-  getCrimeActList(){
+
+
+  getCrimeActList() {
     return `${this.masterUrl}/CrimeAct/Get`
   }
-  
-  
-  getCrimeActDropdown(){
+
+
+  getCrimeActDropdown() {
     return `${this.masterUrl}/CrimeAct/Dropdown`
   }
 
-  addEditCrimeAct(){
+  addEditCrimeAct() {
     return `${this.masterUrl}/CrimeAct/AddEdit`
   }
-  
-  
-  activeDeactiveCrimeAct(){
+
+
+  activeDeactiveCrimeAct() {
     return `${this.masterUrl}/CrimeAct/ActiveDeactive`
   }
-  
-  
-  getCrimeSubActList(){
+
+
+  getCrimeSubActList() {
     return `${this.masterUrl}/CrimeSubAct/Get`
   }
-  
-  
-  getCrimeSubActDropdown(){
+
+
+  getCrimeSubActDropdown() {
     return `${this.masterUrl}/CrimeSubAct/Dropdown`
   }
 
-  addEditSubCrimeAct(){
+
+  addEditSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/AddEdit`
-  }  
-  
-  activeDeactiveSubCrimeAct(){
+  }
+
+  activeDeactiveSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/ActiveDeactive`
   }
-  
-  
-  getFirStatusList(){
+
+
+  getFirStatusList() {
     return `${this.masterUrl}/FirStatus/Get`
   }
-  
-  getFirStatusDropdown(){
+
+  getFirStatusDropdown() {
     return `${this.masterUrl}/FirStatus/Dropdown`
   }
 
-  addEditFirStatus(){
+  addEditFirStatus() {
     return `${this.masterUrl}/FirStatus/AddEdit`
-  }  
-  activeDeactiveFirStatus(){
+  }
+  activeDeactiveFirStatus() {
     return `${this.masterUrl}/FirStatus/ActiveDeactive`
   }
 
   // Nodel Officer Details  // Start// 
-  getNodalOfficer(){
+  getNodalOfficer() {
     return `${this.masterUrl}/NodalOfficer/Get`
-  }    
-  getNodalOfficerDropdown(){
+  }
+  getNodalOfficerDropdown() {
     return `${this.masterUrl}/NodalOfficer/GetDropdown`
   }
-  addEditNodalOfficer(){
+  addEditNodalOfficer() {
     return `${this.masterUrl}/NodalOfficer/AddEdit`
-  }   
-  activeDeactiveNodalOfficer(){
+  }
+  activeDeactiveNodalOfficer() {
     return `${this.masterUrl}/NodalOfficer/ActiveDeactive`
   }
   // Nodel Officer Details  // End // 
-
-
-
-
-
+  
+  // Register Complaint (No FIR logged) // Start// 
+  //Person Deatils Save in Complaint // 
+  AddEditPersonAgainst() {
+    return `${this.masterUrl}/ComplaintRegister/AddEditPersonAgainst`
+  }
+  DeletePersonAgainst() {
+    return `${this.masterUrl}/ComplaintRegister/DeletePersonAgainst`
+  }
+  //Final Save Complaint //  
+  saveComplaint() {
+    return `${this.masterUrl}/ComplaintRegister/AddEditComplaint`
+  }     
   // Case management Url's
 
   getCaseList(){
