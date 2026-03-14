@@ -214,6 +214,17 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/nodal-officer'
       },
+      {
+        englishName: 'Case Decision Type',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/case-decision-type'
+      },
+      {
+        englishName: 'Case Decision Reason',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/case-decision-reason'
+      },
+
       //   {
       //     englishName: 'Law Dept Lawyer',
       //     icon: 'fa fa-angle-double-right',
@@ -302,10 +313,15 @@ const navData = [
         englishName: 'Case Registration',
         linkPage: 'case/case-list'
       },
+      // {
+      //   icon: 'fa fa-angle-double-right',
+      //   englishName: 'Complaint Register',
+      //   linkPage: 'case/complaint-register'
+      // },
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Complaint Register',
-        linkPage: 'case/complaint-register'
+        linkPage: 'case/complaint-register/complain-register-details'
       },
       {
         icon: 'fa fa-angle-double-right',
@@ -314,99 +330,99 @@ const navData = [
       },
       {
         icon: 'fa fa-angle-double-right',
-        englishName: 'Case Decision',
-        linkPage: 'case-management/case-decision-list'
+        englishName: 'Case Disposal',
+        linkPage: 'case/cash-disposal'
       },
     ]
   },
 
 
 
- {
-  icon: 'fa-solid fa-users-gear',
-  englishName: 'Report',
-  linkPage: 'nz',
-  subMenus: [
+  {
+    icon: 'fa-solid fa-users-gear',
+    englishName: 'Report',
+    linkPage: 'nz',
+    subMenus: [
 
-    // ================= SUMMARY =================
-    {
-      icon: 'fa-solid fa-folder',
-      englishName: 'Summary',
-      linkPage: 'nz',
-      subMenus: [
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Prosecution Return No.1',
-          linkPage: 'report/prosecution-return-no1',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Pravivran no.-2',
-          linkPage: 'report/pravivran-no2',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Pravivran no.-3',
-          linkPage: 'report/pravivran-no3',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Pravivran no.-3 K',
-          linkPage: 'report/pravivran-no3-k',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Pravivran no.-3 Kha',
-          linkPage: 'report/pravivran-no3-kha',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Pravivran no.-7',
-          linkPage: 'report/pravivran-no7',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Return-4',
-          linkPage: 'report/return-4',
-        }
-      ]
-    },
+      // ================= SUMMARY =================
+      {
+        icon: 'fa-solid fa-folder',
+        englishName: 'Summary',
+        linkPage: 'nz',
+        subMenus: [
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Prosecution Return No.1',
+            linkPage: 'report/prosecution-return-no1',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Pravivran no.-2',
+            linkPage: 'report/pravivran-no2',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Pravivran no.-3',
+            linkPage: 'report/pravivran-no3',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Pravivran no.-3 K',
+            linkPage: 'report/pravivran-no3-k',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Pravivran no.-3 Kha',
+            linkPage: 'report/pravivran-no3-kha',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Pravivran no.-7',
+            linkPage: 'report/pravivran-no7',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Return-4',
+            linkPage: 'report/return-4',
+          }
+        ]
+      },
 
-    // ================= DETAILS =================
-    {
-      icon: 'fa-solid fa-folder',
-      englishName: 'Details',
-      linkPage: 'nz',
-      subMenus: [
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Mahila Atayachar BNS',
-          linkPage: 'report/mahila-atayachar-bns',
-        }
-      ]
-    },
+      // ================= DETAILS =================
+      {
+        icon: 'fa-solid fa-folder',
+        englishName: 'Details',
+        linkPage: 'nz',
+        subMenus: [
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Mahila Atayachar BNS',
+            linkPage: 'report/mahila-atayachar-bns',
+          }
+        ]
+      },
 
-    // ================= MIS =================
-    {
-      icon: 'fa-solid fa-folder',
-      englishName: 'MIS',
-      linkPage: 'nz',
-      subMenus: [
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Format-A',
-          linkPage: 'report/format-a',
-        },
-        {
-          icon: 'fa fa-angle-double-right',
-          englishName: 'Format-B',
-          linkPage: 'report/format-b',
-        }
-      ]
-    }
+      // ================= MIS =================
+      {
+        icon: 'fa-solid fa-folder',
+        englishName: 'MIS',
+        linkPage: 'nz',
+        subMenus: [
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Format-A',
+            linkPage: 'report/format-a',
+          },
+          {
+            icon: 'fa fa-angle-double-right',
+            englishName: 'Format-B',
+            linkPage: 'report/format-b',
+          }
+        ]
+      }
 
-  ]
-}
+    ]
+  }
 
 
 

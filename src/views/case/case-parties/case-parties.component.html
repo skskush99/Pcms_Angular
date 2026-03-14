@@ -1,348 +1,519 @@
-<div class="mx-2">
-    <!-- <form [formGroup]="pariesForm"> -->
-        <div class="accused">
-            <form [formGroup]="accusedForm">
-            <div class="heading flex items-center justify-between">
-                <p class="text-base font-semibold tracking-wider">अभियुक्त विवरण (Accused)</p>
-                
-                
-                <!-- Govt. Accused -->
-                 <div class="flex items-center gap-3">
-              <label class="text-sm font-semibold text-gray-700"
-                >Govt. Accused</label
-              >
-              <input
-                type="checkbox"
-                formControlName="govtAccused"
-                
-                class="w-4 h-4 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]"
-              />
-            </div>
+<!-- ===================== ACCUSED SECTION ===================== -->
+<div class="person-section">
 
+  <form [formGroup]="accusedForm">
 
-            </div>
-            
-                <div class="accused-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
+    <!-- Section Header -->
+    <div class="person-header" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <h3 class="section-title">अभियुक्त विवरण (Accused)</h3>
 
-                    <!-- Name -->
-                    <div class="form-group ">
-                        <label for="name" class="block text-sm  text-gray-700 mb-0.5">
-                        Name<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="text" id="name"
-                        formControlName="accusedName" 
-                        placeholder="Enter Name"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                    </div>
-                    
-                    
-                    <!-- Address -->
-                    <div class="form-group ">
-                        <label for="name" class="block text-sm  text-gray-700 mb-0.5">
-                        Address<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="text" id="name"
-                        formControlName="accusedAddress" 
-                        placeholder="Enter Address"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                    </div>
-                    
-                    <div class="flex items-center gap-3">
-                        <!-- Age / Gender -->
-                        <div class="form-group w-full">
-                            <label for="accusedAge" class="block text-sm  text-gray-700 mb-0.5">
-                                Age<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="accusedAge"
-                            formControlName="accusedAge" 
-                            placeholder="Enter Age"
-                            (keypress)="restrictKeys.onlyNumber($event)"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                        </div>
+      <!-- ── Accused Type Radio Buttons ── -->
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" formControlName="accusedType" [value]="1"
+                 (change)="onAccusedTypeChange()" />
+          <span>Is the Accused</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" formControlName="accusedType" [value]="2"
+                 (change)="onAccusedTypeChange()" />
+          <span>Is the accused Govt. Accused</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" formControlName="accusedType" [value]="3"
+                 (change)="onAccusedTypeChange()" />
+          <span>Is the accused an MP/MLA</span>
+        </label>
+      </div>
+    </div>
 
-                        <div class="form-group w-full">
-                            <label for="accusedGender" class="block text-sm  text-gray-700 mb-0.5">
-                                Gender<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <select type="text" id="accusedGender"
-                            formControlName="accusedGender" 
-                            placeholder="Gender"
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm"> 
-                                <option value="">--Select Gender--</option>
-                                <option value="1">Male</option>
-                                <option value="2">Female</option>
-                                <option value="3">Other</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Status -->
-                    <div class="form-group ">
-                        <label for="name" class="block text-sm  text-gray-700 mb-0.5">
-                        Status<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <ng-select 
-                            [items]="statusDropdown"
-                            bindLabel="text"
-                            bindValue="value"
-                            [compareWith]="compareWithFunc"
-                            placeholder="Select Year of FIR"
-                            formControlName="accusedStatus"
-                            class="custom-ng-select"
-                            id="firYear"
-                            >
-                        </ng-select>       
-                    </div>
+    <!-- Form Fields -->
+    <div class="person-card">
+      <div class="form-grid">
 
-                    <!-- Remark -->
-                    <div class="form-group ">
-                        <label for="name" class="block text-sm  text-gray-700 mb-0.5">
-                        Remark<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="text" id="name"
-                        formControlName="accusedRemark" 
-                        placeholder="Enter Remark"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                    </div>
-
-                    <div class="accuse-remove flex items-end justify-start">
-                        <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="addAccused()"><i class="fa-solid fa-plus"></i>Save</button>
-                    </div>
-
-
-
-                    <div class="table col-span-full">
-                        @if (accusedList.length) {
-                    <div class="adhikariTable col-span-full">
-                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
-
-                            <thead>
-                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
-
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Sr No.</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Name</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Address</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Age/gender</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Status</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Remark</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Action</th>
-
-                                </tr>
-
-
-                            </thead>
-
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @for (item of accusedList; track $index) {
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                <th class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base text-pretty">{{$index + 1}}</th>
-                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.AccuseName}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.Address}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.age}}/{{item?.Gender == 1 ? 'M' : 'F' }}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.FIRStatusId}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.remark}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base flex items-center gap-5 justify-center"><i (click)="removeAccused(item?.AccusedId)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i><i (click)="editAccused(item)" class="fa-solid fa-edit text-lg text-yellow-500 cursor-pointer" title="click to edit"></i></td>
-
-
-                                <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->
-                                </tr>
-
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                    </div>
-
-
-                </div>
-            </form>
+        <!-- Name -->
+        <div class="form-group">
+          <label for="accusedName">Name <span class="required">*</span></label>
+          <input type="text" id="accusedName"
+            formControlName="accusedName"
+            placeholder="Enter Name"
+            autocomplete="off">
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedName')?.touched && accusedForm.get('accusedName')?.errors?.['required']">
+            Name is required
+          </span>
         </div>
 
-
-
-
-
-
-
-        <!-- VICTIM  -->
-        <div class="victim my-5" >
-            <form [formGroup]="victimWitnessForm">
-            <div class="heading flex items-center gap-10">
-                <p class="text-base font-semibold tracking-wider">पीड़ित / परिवादी विवरण (Victim)</p>
-
-
-                
-              <div class="font-semibold">
-                <!-- <label class="block text-sm font-semibold text-gray-700 mb-2">Victim/Witness</label> -->
-                <div class="flex gap-6">
-                  <label class="inline-flex items-center">
-                    <input type="radio" formControlName="isVictim" [value]="1" 
-                          class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]">
-                    <span class="ml-2 text-sm">Victim</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input type="radio" formControlName="isVictim" [value]="2" 
-                          class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]">
-                    <span class="ml-2 text-sm">Witness</span>
-                  </label>
-                </div>
-              </div>
-              </div>
-            
-            <div class="victim-form grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 border-1 border-[#E2E8F0] rounded-lg p-2.5">
-
-                <!-- Name -->
-                <div class="form-group ">
-                    <label for="victimWitnessName" class="block text-sm text-gray-700 mb-0.5">
-                    Name<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="victimWitnessName"
-                    formControlName="victimWitnessName" 
-                    placeholder="Enter Name"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-                
-                
-                <!-- Address -->
-                <div class="form-group ">
-                    <label for="victimWitnessAddress" class="block text-sm text-gray-700 mb-0.5">
-                    Address<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="victimWitnessAddress"
-                    formControlName="victimWitnessAddress" 
-                    placeholder="Enter Address"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-                
-                
-                <!-- Age / Gender -->
-                 <div class="flex items-center gap-3">
-                    <div class="form-group w-full">
-                        <label for="victimWitnessAge" class="block text-sm text-gray-700 mb-0.5">
-                        Age<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="text" id="victimWitnessAge"
-                        formControlName="victimWitnessAge" 
-                        placeholder="Enter Age"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                    </div>
-                    
-                    
-                    <div class="form-group w-full">
-                        <label for="victimWitnessGender" class="block text-sm text-gray-700 mb-0.5">
-                        Gender<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <!-- <input type="text" id="victimGender"
-                        formControlName="victimGender" 
-                        placeholder="Gender"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">  -->
-                        <select type="text" id="victimWitnessGender"
-                        formControlName="victimWitnessGender" 
-                        placeholder="Gender"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm"> 
-                        <option value="">--Select Gender--</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
-                        <option value="3">Other</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Status -->
-                <div class="form-group ">
-                    <label for="victimWitnessStatus" class="block text-sm text-gray-700 mb-0.5">
-                    Status<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <ng-select 
-                        [items]="statusDropdown"
-                        bindLabel="text"
-                        bindValue="value"
-                        [compareWith]="compareWithFunc"
-                        placeholder="Select Year of FIR"
-                        formControlName="victimWitnessStatus"
-                        class="custom-ng-select"
-                        id="victimWitnessStatus"
-                        >
-                    </ng-select>       
-                </div>
-
-                <!-- Remark -->
-                <div class="form-group ">
-                    <label for="victimWitnessRemark" class="block text-sm text-gray-700 mb-0.5">
-                    Remark<sup class="text-red-500 text-lg font-semibold">*</sup>
-                    </label>
-                    <input type="text" id="victimWitnessRemark"
-                    formControlName="victimWitnessRemark" 
-                    placeholder="Enter Remark"
-                    autocomplete="off"
-                    class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">       
-                </div>
-
-                <div class="accuse-remove flex items-end justify-start">
-                    <button class=" border-2 border-[#E2E8F0] rounded-2xl px-2.5 py-1.5 flex items-center gap-2" (click)="addVictimWitness()"><i class="fa-solid fa-plus"></i>Save {{victimWitnessForm.value.isVictim == 1 ? 'Victim' : 'Witness'}}</button>
-                </div>
-
-
-
-                @if (victimWitnessList.length) {
-                    <div class="adhikariTable col-span-full">
-                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
-
-                            <thead>
-                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
-
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Sr No.</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Name</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Address</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Age/gender</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Status</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Remark</th>
-                                <th class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">Action</th>
-
-                                </tr>
-
-
-                            </thead>
-
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @for (item of victimWitnessList; track $index) {
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                <th class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base text-pretty">{{$index + 1}}</th>
-                                <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">{{item?.Name}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.Address}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.age}}/{{item?.Gender == 1 ? 'M' : 'F'}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.Status}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">{{item?.remark}}</td>
-                                <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base flex items-center gap-5 justify-center"><i (click)="removeVictimWitness(item?.Id)" class="fa-solid fa-x text-lg text-red-500 cursor-pointer" title="click to delete"></i><i (click)="editVictimWitness(item)" class="fa-solid fa-edit text-lg text-yellow-500 cursor-pointer" title="click to edit"></i></td>
-                                <!-- <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base"></td> -->
-
-
-                                <!-- <td class="px-4 py-4 text-sm text-center text-gray-700 font-base">0</td> -->
-                                </tr>
-
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-
-            </div>
-            </form>
+        <!-- Address -->
+        <div class="form-group">
+          <label for="accusedAddress">Address <span class="required">*</span></label>
+          <input type="text" id="accusedAddress"
+            formControlName="accusedAddress"
+            placeholder="Enter Address"
+            autocomplete="off">
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedAddress')?.touched && accusedForm.get('accusedAddress')?.errors?.['required']">
+            Address is required
+          </span>
         </div>
-        
-        
-        
-        
-    <!-- </form> -->
+
+        <!-- Age -->
+        <div class="form-group">
+          <label>Age <span class="required">*</span></label>
+          <input type="text"
+            formControlName="accusedAge"
+            placeholder="Enter Age"
+            (keypress)="restrictKeys.onlyNumber($event)"
+            autocomplete="off">
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedAge')?.touched && accusedForm.get('accusedAge')?.errors?.['required']">
+            Age is required
+          </span>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label>Gender <span class="required">*</span></label>
+          <ng-select
+            [items]="genderDropdown"
+            bindLabel="text"
+            bindValue="value"
+            [compareWith]="compareWithFunc"
+            placeholder="Select Gender"
+            formControlName="accusedGender"
+            class="custom-ng-select"
+            appendTo="body">
+          </ng-select>
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedGender')?.touched && accusedForm.get('accusedGender')?.errors?.['required']">
+            Gender is required
+          </span>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status <span class="required">*</span></label>
+          <ng-select
+            [items]="statusDropdown"
+            bindLabel="text"
+            bindValue="value"
+            [compareWith]="compareWithFunc"
+            placeholder="Select Status"
+            formControlName="accusedStatus"
+            class="custom-ng-select"
+            appendTo="body">
+          </ng-select>
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedStatus')?.touched && accusedForm.get('accusedStatus')?.errors?.['required']">
+            Status is required
+          </span>
+        </div>
+
+        <!-- Remark -->
+        <div class="form-group">
+          <label for="accusedRemark">Remark <span class="required">*</span></label>
+          <input type="text" id="accusedRemark"
+            formControlName="accusedRemark"
+            placeholder="Enter Remark"
+            autocomplete="off">
+          <span class="form-error"
+            *ngIf="accusedForm.get('accusedRemark')?.touched && accusedForm.get('accusedRemark')?.errors?.['required']">
+            Remark is required
+          </span>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             GOVT. ACCUSED FIELDS  (accusedType === 2)
+             Show: Department, Designation, Employee ID, Is Sanction required
+             Hide: MP/MLA dropdown, Constituency Details
+        ══════════════════════════════════════════════════════ -->
+        <ng-container *ngIf="accusedForm.get('accusedType')?.value === 2">
+
+          <!-- Department -->
+          <div class="form-group">
+            <label for="accusedDepartment">Department <span class="required">*</span></label>
+            <input type="text" id="accusedDepartment"
+              formControlName="accusedDepartment"
+              placeholder="Enter Department"
+              autocomplete="off">
+            <span class="form-error"
+              *ngIf="accusedForm.get('accusedDepartment')?.touched && accusedForm.get('accusedDepartment')?.errors?.['required']">
+              Department is required
+            </span>
+          </div>
+
+          <!-- Designation -->
+          <div class="form-group">
+            <label for="accusedDesignation">Designation <span class="required">*</span></label>
+            <input type="text" id="accusedDesignation"
+              formControlName="accusedDesignation"
+              placeholder="Enter Designation"
+              autocomplete="off">
+            <span class="form-error"
+              *ngIf="accusedForm.get('accusedDesignation')?.touched && accusedForm.get('accusedDesignation')?.errors?.['required']">
+              Designation is required
+            </span>
+          </div>
+
+          <!-- Employee ID -->
+          <div class="form-group">
+            <label for="accusedEmployeeId">Employee ID <span class="required">*</span></label>
+            <input type="text" id="accusedEmployeeId"
+              formControlName="accusedEmployeeId"
+              placeholder="Enter Employee ID"
+              autocomplete="off">
+            <span class="form-error"
+              *ngIf="accusedForm.get('accusedEmployeeId')?.touched && accusedForm.get('accusedEmployeeId')?.errors?.['required']">
+              Employee ID is required
+            </span>
+          </div>
+
+          <!-- Is Sanction Required? + File Upload (inline) -->
+          <div class="form-group col-span-full">
+            <label class="ci-field-label">
+              Is Sanction required? / क्या Sanction आवश्यक है?
+              <span class="required">*</span>
+            </label>
+            <div class="radio-group radio-group-bordered">
+              <label class="radio-option">
+                <input type="radio" formControlName="isSanctionRequired" [value]="true" />
+                <span>Yes</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" formControlName="isSanctionRequired" [value]="false" />
+                <span>No</span>
+              </label>
+            </div>
+
+            <!-- Sanction Document Upload — shown when Yes -->
+            <div *ngIf="accusedForm.get('isSanctionRequired')?.value === true" style="margin-top:12px;">
+              <label for="sanctionDocType2" style="display:block; margin-bottom:6px;">
+                Upload Sanction Document <span class="required">*</span>
+              </label>
+              <div class="file-upload-row">
+                <input
+                  type="file"
+                  id="sanctionDocType2"
+                  accept="application/pdf"
+                  (change)="onSanctionFileChange($event)">
+                <!-- Eye button — visible only after valid file selected -->
+                <button
+                  *ngIf="sanctionFile?.file && !sanctionFile?.error"
+                  type="button"
+                  class="btn-preview-file"
+                  title="Preview Sanction Document"
+                  (click)="previewSanctionFile()">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <!-- Remove button — visible whenever a file is selected -->
+                <button
+                  *ngIf="sanctionFile?.file"
+                  type="button"
+                  class="btn-remove-file"
+                  title="Remove File"
+                  (click)="removeSanctionFile()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <span class="form-hint">Only PDF, max 5MB</span>
+              <span *ngIf="sanctionFile?.error" class="form-error">
+                {{ sanctionFile?.error }}
+              </span>
+              <span *ngIf="sanctionFile?.file && !sanctionFile?.error" class="form-success">
+                <i class="fa-solid fa-check-circle"></i> {{ sanctionFile?.file?.name }}
+              </span>
+            </div>
+          </div>
+
+        </ng-container>
+
+        <!-- ══════════════════════════════════════════════════════
+             MP / MLA FIELDS  (accusedType === 3)
+             Show: MP/MLA dropdown, Constituency Details (conditional), Sanction
+             Hide: Department, Designation, Employee ID
+        ══════════════════════════════════════════════════════ -->
+        <ng-container *ngIf="accusedForm.get('accusedType')?.value === 3">
+
+          <!-- Is the accused an MP/MLA? -->
+          <div class="form-group">
+            <label>
+              Is the accused an MP/MLA? / क्या आरोपी सांसद/विधायक है?
+              <span class="required">*</span>
+            </label>
+            <ng-select
+              [items]="mpMlaDropdown"
+              bindLabel="text"
+              bindValue="value"
+              placeholder="Select"
+              formControlName="accusedMpMla"
+              class="custom-ng-select"
+              appendTo="body"
+              (change)="onMpMlaChange()">
+            </ng-select>
+            <span class="form-error"
+              *ngIf="accusedForm.get('accusedMpMla')?.touched && accusedForm.get('accusedMpMla')?.errors?.['required']">
+              This field is required
+            </span>
+          </div>
+
+          <!-- Constituency Details (only for MP/MLA/Councilor/Other) -->
+          <div class="form-group" *ngIf="showConstituencyDetails">
+            <label for="constituencyDetails">
+              Constituency Details / निर्वाचन क्षेत्र का विवरण
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="constituencyDetails"
+              formControlName="constituencyDetails"
+              placeholder="Enter Constituency Details"
+              autocomplete="off">
+            <span class="form-error"
+              *ngIf="accusedForm.get('constituencyDetails')?.touched && accusedForm.get('constituencyDetails')?.errors?.['required']">
+              Constituency Details is required
+            </span>
+          </div>
+
+          <!-- Is Sanction Required? + File Upload (inline) -->
+          <div class="form-group col-span-full">
+            <label class="ci-field-label">
+              Is Sanction required? / क्या Sanction आवश्यक है?
+              <span class="required">*</span>
+            </label>
+            <div class="radio-group radio-group-bordered">
+              <label class="radio-option">
+                <input type="radio" formControlName="isSanctionRequired" [value]="true" />
+                <span>Yes</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" formControlName="isSanctionRequired" [value]="false" />
+                <span>No</span>
+              </label>
+            </div>
+
+            <!-- Sanction Document Upload — shown when Yes -->
+            <div *ngIf="accusedForm.get('isSanctionRequired')?.value === true" style="margin-top:12px;">
+              <label for="sanctionDocType3" style="display:block; margin-bottom:6px;">
+                Upload Sanction Document <span class="required">*</span>
+              </label>
+              <div class="file-upload-row">
+                <input
+                  type="file"
+                  id="sanctionDocType3"
+                  accept="application/pdf"
+                  (change)="onSanctionFileChange($event)">
+                <!-- Eye button — visible only after valid file selected -->
+                <button
+                  *ngIf="sanctionFile?.file && !sanctionFile?.error"
+                  type="button"
+                  class="btn-preview-file"
+                  title="Preview Sanction Document"
+                  (click)="previewSanctionFile()">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <!-- Remove button — visible whenever a file is selected -->
+                <button
+                  *ngIf="sanctionFile?.file"
+                  type="button"
+                  class="btn-remove-file"
+                  title="Remove File"
+                  (click)="removeSanctionFile()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <span class="form-hint">Only PDF, max 5MB</span>
+              <span *ngIf="sanctionFile?.error" class="form-error">
+                {{ sanctionFile?.error }}
+              </span>
+              <span *ngIf="sanctionFile?.file && !sanctionFile?.error" class="form-success">
+                <i class="fa-solid fa-check-circle"></i> {{ sanctionFile?.file?.name }}
+              </span>
+            </div>
+          </div>
+
+        </ng-container>
+        <div class="addbtn col-span-full">
+          <button type="button" class="btn-add-inline" (click)="addAccused()">
+            <i class="fa-solid fa-plus"></i> Save Accused
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Accused Table -->
+      @if (accusedList.length) {
+        <div class="grid-table-wrapper mt-3">
+          <table>
+            <thead>
+              <tr style="background-color:#3a6ea5;">
+                <th style="color:#000000; font-weight:700;">Sr No.</th>
+                <th style="color:#000000; font-weight:700;">Name</th>
+                <th style="color:#000000; font-weight:700;">Address</th>
+                <th style="color:#000000; font-weight:700;">Age / Gender</th>
+                <th style="color:#000000; font-weight:700;">Status</th>
+                <th style="color:#000000; font-weight:700;">Remark</th>
+                <th style="color:#000000; font-weight:700;">Type</th>
+                <th style="color:#000000; font-weight:700;">Dept.</th>
+                <th style="color:#000000; font-weight:700;">Designation</th>
+                <th style="color:#000000; font-weight:700;">Emp. ID</th>
+                <th style="color:#000000; font-weight:700;">MP/MLA</th>
+                <th style="color:#000000; font-weight:700;">Sanction</th>
+                <th style="color:#000000; font-weight:700;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of accusedList; track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td style="text-align:start;">{{ item?.AccuseName }}</td>
+                  <td>{{ item?.Address }}</td>
+                  <td>{{ item?.Age }} / {{ item?.Gender == 1 ? 'M' : item?.Gender == 2 ? 'F' : 'O' }}</td>
+                  <td>{{ item?.FIRStatusId }}</td>
+                  <td>{{ item?.Remarks }}</td>
+                  <td>{{ getAccusedTypeLabel(item?.AccusedType) }}</td>
+                  <td>{{ item?.Department || '—' }}</td>
+                  <td>{{ item?.Designation || '—' }}</td>
+                  <td>{{ item?.EmployeeId || '—' }}</td>
+                  <td>{{ getMpMlaLabel(item?.MpMlaType) }}</td>
+                  <td>{{ item?.IsSanctionRequired ? 'Yes' : item?.AccusedType === 3 ? 'No' : '—' }}</td>
+                  <td>
+                    <div class="tbl-action-cell">
+                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
+                        (click)="editAccused(item)" title="Edit"></i>
+                      <i class="fa-solid fa-trash tbl-icon-delete"
+                        (click)="removeAccused(item?.AccusedId)" title="Delete"></i>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  </form>
+</div>
+
+
+<!-- ===================== VICTIM / WITNESS SECTION ===================== -->
+<div class="person-section">
+
+  <form [formGroup]="victimWitnessForm">
+
+    <!-- Section Header -->
+    <div class="person-header" style="display:flex; align-items:center; gap:32px;">
+      <h3 class="section-title">पीड़ित / परिवादी विवरण (Victim)</h3>
+
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" formControlName="isVictim" [value]="1" />
+          <span>Victim</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" formControlName="isVictim" [value]="2" />
+          <span>Witness</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="person-card">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="victimWitnessName">Name <span class="required">*</span></label>
+          <input type="text" id="victimWitnessName"
+            formControlName="victimWitnessName"
+            placeholder="Enter Name" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="victimWitnessAddress">Address <span class="required">*</span></label>
+          <input type="text" id="victimWitnessAddress"
+            formControlName="victimWitnessAddress"
+            placeholder="Enter Address" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="victimWitnessAge">Age <span class="required">*</span></label>
+          <input type="text" id="victimWitnessAge"
+            formControlName="victimWitnessAge"
+            placeholder="Enter Age" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label>Gender <span class="required">*</span></label>
+          <ng-select
+            [items]="genderDropdown" bindLabel="text" bindValue="value"
+            [compareWith]="compareWithFunc" placeholder="Select Gender"
+            formControlName="victimWitnessGender"
+            class="custom-ng-select" appendTo="body">
+          </ng-select>
+        </div>
+
+        <div class="form-group">
+          <label>Status <span class="required">*</span></label>
+          <ng-select
+            [items]="statusDropdown" bindLabel="text" bindValue="value"
+            [compareWith]="compareWithFunc" placeholder="Select Status"
+            formControlName="victimWitnessStatus"
+            class="custom-ng-select" appendTo="body">
+          </ng-select>
+        </div>
+
+        <div class="form-group">
+          <label for="victimWitnessRemark">Remark <span class="required">*</span></label>
+          <input type="text" id="victimWitnessRemark"
+            formControlName="victimWitnessRemark"
+            placeholder="Enter Remark" autocomplete="off">
+        </div>
+
+        <div class="addbtn">
+          <button type="button" class="btn-add-inline" (click)="addVictimWitness()">
+            <i class="fa-solid fa-plus"></i>
+            Save {{ victimWitnessForm.value.isVictim == 1 ? 'Victim' : 'Witness' }}
+          </button>
+        </div>
+
+      </div>
+
+      @if (victimWitnessList.length) {
+        <div class="grid-table-wrapper mt-3">
+          <table>
+            <thead>
+              <tr style="background-color:#3a6ea5;">
+                <th style="color:#000000; font-weight:700;">Sr No.</th>
+                <th style="color:#000000; font-weight:700;">Name</th>
+                <th style="color:#000000; font-weight:700;">Address</th>
+                <th style="color:#000000; font-weight:700;">Age / Gender</th>
+                <th style="color:#000000; font-weight:700;">Status</th>
+                <th style="color:#000000; font-weight:700;">Remark</th>
+                <th style="color:#000000; font-weight:700;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of victimWitnessList; track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td style="text-align:start;">{{ item?.Name }}</td>
+                  <td>{{ item?.Address }}</td>
+                  <td>{{ item?.Age }} / {{ item?.Gender == 1 ? 'M' : item?.Gender == 2 ? 'F' : 'O' }}</td>
+                  <td>{{ item?.Status }}</td>
+                  <td>{{ item?.Remark }}</td>
+                  <td>
+                    <div class="tbl-action-cell">
+                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
+                        (click)="editVictimWitness(item)" title="Edit"></i>
+                      <i class="fa-solid fa-trash tbl-icon-delete"
+                        (click)="removeVictimWitness(item?.Id)" title="Delete"></i>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  </form>
 </div>

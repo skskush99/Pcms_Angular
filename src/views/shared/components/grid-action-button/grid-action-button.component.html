@@ -1,4 +1,4 @@
-<div class="btns flex items-center justify-center gap-5 h-full" *ngIf="!Type">
+<!-- <div class="btns flex items-center justify-center gap-5 h-full" *ngIf="!Type">
     <i class="fa-solid fa-pen-to-square h-6 w-6 flex items-center justify-center bg-yellow-500 text-white rounded-md cursor-pointer" (click)="edit()" title="Click to Active"></i>
     <i class="fa-solid fa-trash h-6 w-6 flex items-center justify-center bg-red-500 text-white rounded-md cursor-pointer" (click)="delete()" title="Click to Edit"></i>
 </div>
@@ -8,4 +8,26 @@
     <div class="flex items-center justify-center">
         <button (click)="permissionMappingApprove()" class="py-2 w-32  rounded-lg " [ngClass]="!params.data?.UserMapped ? 'bg-green-600 text-white' : 'bg-white border-1 border-black pointer-events-none text-black cursor-not-allowed'">{{params.data?.UserMapped == 1 ? 'Approved' : params.data?.UserMapped == 2 ? 'Rejected' : 'Approve'}}</button>
     </div>
+} -->
+
+
+<!-- Edit / Delete icons -->
+<div class="tbl-action-cell" *ngIf="!Type">
+  <i class="fa-solid fa-pen-to-square tbl-icon-edit"
+     (click)="edit()"
+     title="Edit"></i>
+  <i class="fa-solid fa-trash tbl-icon-delete"
+     (click)="delete()"
+     title="Delete"></i>
+</div>
+
+<!-- Permission Mapping Approve -->
+@if (Type == 'permissionMappingApprove') {
+  <div class="tbl-action-cell">
+    <button
+      (click)="permissionMappingApprove()"
+      [class]="params.data?.UserMapped ? 'btn-approved' : 'btn-approve'">
+      {{ params.data?.UserMapped == 1 ? 'Approved' : params.data?.UserMapped == 2 ? 'Rejected' : 'Approve' }}
+    </button>
+  </div>
 }

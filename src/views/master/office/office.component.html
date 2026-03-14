@@ -1,156 +1,164 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-    <!-- Filter Section -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-6 overflow-hidden">
-      <!-- Header with Toggle Button -->
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          <h2 class="text-lg font-bold text-white">Office Filter</h2>
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FILTER SECTION ===================== -->
+    <div class="filter-card mb-5">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <h3 class="filter-header-title">Office Filter</h3>
         </div>
-        <button type="button" (click)="toggleForm()"
-          class="bg-white/20 backdrop-blur-sm border-2 border-white/50 text-white px-6 py-2.5 rounded-lg hover:bg-white/30 hover:border-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid" [ngClass]="isFormCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
           {{ buttonText }}
         </button>
       </div>
 
       <!-- Filter Form -->
       <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
-        <form [formGroup]="officeFilterForm" class="p-6 text-sm">
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div class="filter-card-body">
+          <form [formGroup]="officeFilterForm">
+            <div class="form-grid">
 
-             <!-- District -->
+              <!-- District -->
               <div class="form-group">
-                <label for="DistrictId" class="block text-sm font-semibold text-gray-700 mb-2.5">
+                <label for="DistrictId">
+                  <i class="fa-solid fa-location-dot filter-label-icon"></i>
                   District
                 </label>
-
-                <!-- <ng-select
-                [items]="districtDropDown"
-                bindLabel="text"
-                bindValue="value"
-                placeholder="Select District"
-                formControlName="DistrictId"
-                class="custom-ng-select"
-                id="DistrictId"                >
-                </ng-select> -->
-
                 <ng-select
-  [items]="districtDropDown"
-  bindLabel="text"
-  bindValue="value"
-  placeholder="Select District"
-  formControlName="DistrictId"
-  class="custom-ng-select"
-  id="DistrictId"
-  appendTo="body">
-</ng-select>
+                  [items]="districtDropDown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select District"
+                  formControlName="DistrictId"
+                  class="custom-ng-select"
+                  id="DistrictId"
+                  appendTo="body">
+                </ng-select>
               </div>
 
-            <!-- Active Status -->
-            <div class="form-group">
-              <label for="activeDeactive" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                Status
-              </label>
-              <select id="activeDeactive" formControlName="ActiveFilter"
-                class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
-                <option value="1">Active</option>
-                <option value="0">Deactive</option>
-                <option value="-1">All</option>
-              </select>
-              <div *ngIf="officeFilterForm.get('activeDeactive')?.invalid && officeFilterForm.get('activeDeactive')?.touched"
-                class="mt-1 text-sm text-red-600">
-                Status is required
+              <!-- Status -->
+              <div class="form-group">
+                <label for="activeDeactive">
+                  <i class="fa-solid fa-circle-dot filter-label-icon"></i>
+                  Status
+                </label>
+                <select id="activeDeactive" formControlName="ActiveFilter" class="filter-select">
+                  <option value="1">Active</option>
+                  <option value="0">Deactive</option>
+                  <option value="-1">All</option>
+                </select>
               </div>
-            </div>
 
-            <!-- Search Button -->
-            <div class="flex items-end gap-3">
+              <!-- Search / Reset Buttons -->
+              <div class="filter-btn-group">
+                <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Search
+                </button>
+                <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Reset
+                </button>
+              </div>
 
-              <button type="button" (click)="onSearch()"
-                class="px-8 py-3 bg-gradient-to-r from-[#496D7E] to-[#5a7f92] hover:from-[#3d5a6a] hover:to-[#496D7E] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                Search
-              </button>
-              <button type="button" (click)="resetFilter()"
-                class="px-8 py-3 bg-gradient-to-r from-[#2f3842] to-[#26313c] hover:from-[#1f2529] hover:to-[#1a1f24] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Reset
-              </button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
+
     </div>
+    <!-- END FILTER SECTION -->
 
-    <!-- Results Table Section -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-          <p class="text-lg font-bold text-white">Office List</p>
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-table-list filter-header-icon"></i>
+          <h3 class="filter-header-title">Office List</h3>
         </div>
-        <div class="flex gap-3">
-          <!-- <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200" >
-            Export To Excel
-          </button> -->
-          <!-- <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200" >
-            Print
-          </button> -->
-          <app-button label="Export To Excel" bgType="7"></app-button>
-          <!-- @if (permissionByRole?.isAddPermission) { -->
-          <!-- <button class="bg-[#f7a54a] hover:bg-[#f59633] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-            (click)="addOffice()">
-            Add New Office
-          </button> -->
-          <app-button label="Add New Office" bgType="3" (clicked)="addOffice()"></app-button>
-        <!-- } -->
+
+        <div class="flex items-center gap-2">  
+          <!-- Add Office -->
+          <button type="button" class="filter-toggle-btn" (click)="addOffice()">
+            <i class="fa-solid fa-plus"></i>
+            Add Office
+          </button>
         </div>
       </div>
 
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="officeList"
+          [columnDefs]="colDef"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
 
-      <div class="p-6">
-        <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
-          <ag-grid-angular class="ag-theme-quartz" style="height: 500px; width: 100%;"
-            [rowData]="officeList"
-            [columnDefs]="colDef"
-            (columnHeaderClicked)="onColumnHeaderClicked($event)"
-            
-            [pagination]="false">
-          </ag-grid-angular>
-        </div>
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
 
-        <div class="flex items-center justify-between mt-6 px-2 py-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div class="flex items-center gap-3">
-            <label for="pageSize" class="text-sm font-semibold text-gray-700">Show:</label>
-            <select (change)="onPageSizeChanged($event)" [(ngModel)]="pageSize" id="pageSize"
-              class="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="30">30</option>
               <option value="50">50</option>
               <option value="9999999">All</option>
             </select>
-            <span class="text-sm text-gray-600 font-medium">entries</span>
           </div>
-          <app-pagination
-            [currentPage]="currentPage"
-            [limit]="pageSize"
-            [total]="totalRecords"
-            (changePage)="changePage($event)">
-          </app-pagination>
         </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF download -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="exportExcel()">
+            <img src="assets/excel-file.png" alt="excel">
+           Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+           Export To PDF
+          </button>
+        </div>
+
       </div>
+      <!-- END BOTTOM ACTION BAR -->
+
     </div>
-  <!-- </div> -->
+    <!-- END TABLE SECTION -->
+
+  </div>
 </div>

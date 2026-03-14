@@ -1,4 +1,36 @@
+// import { Component } from '@angular/core';
+// import { ICellRendererParams } from 'ag-grid-community';
+
+// @Component({
+//   selector: 'app-selecr-role-button',
+//   standalone: true,
+//   imports: [],
+//   templateUrl: './selecr-role-button.component.html',
+//   styleUrl: './selecr-role-button.component.css'
+// })
+// export class SelecrRoleButtonComponent {
+
+//   params : any;
+
+
+
+//   agInit(params: ICellRendererParams<any, any, any>): void {
+//     this.params = params    
+//   }
+
+//   loginUser(){
+//     this.params.clicked(this.params.data)
+//   }
+
+
+
+//   refresh(params: ICellRendererParams<any, any, any>): boolean {
+//     throw new Error('Method not implemented.');
+//   }
+// }
+
 import { Component } from '@angular/core';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
@@ -8,23 +40,20 @@ import { ICellRendererParams } from 'ag-grid-community';
   templateUrl: './selecr-role-button.component.html',
   styleUrl: './selecr-role-button.component.css'
 })
-export class SelecrRoleButtonComponent {
+export class SelecrRoleButtonComponent implements ICellRendererAngularComp {
 
-  params : any;
+  params: any;
 
-
-
-  agInit(params: ICellRendererParams<any, any, any>): void {
-    this.params = params    
+  agInit(params: ICellRendererParams): void {
+    this.params = params;
   }
 
-  loginUser(){
-    this.params.clicked(this.params.data)
+  refresh(params: ICellRendererParams): boolean {
+    this.params = params;
+    return true;
   }
 
-
-
-  refresh(params: ICellRendererParams<any, any, any>): boolean {
-    throw new Error('Method not implemented.');
+  loginUser(): void {
+    this.params.clicked(this.params.data);
   }
 }

@@ -128,15 +128,49 @@ export class ComplainRegisterComponent implements OnInit {
 
   // ------------------ INIT ------------------
 
+  // ngOnInit(): void {
+  //   this.getClassificationDropdown();
+  //   this.getDeptDropdown();
+
+  //   this.complaintRegForm.get('complaintType')?.valueChanges.subscribe(value => {
+  //     this.onComplaintTypeChange(value);
+  //   });
+  // }
+
+
   ngOnInit(): void {
-    this.getClassificationDropdown();
-    this.getDeptDropdown();
+  this.getClassificationDropdown();
+  this.getDeptDropdown();
 
-    this.complaintRegForm.get('complaintType')?.valueChanges.subscribe(value => {
-      this.onComplaintTypeChange(value);
-    });
+  this.complaintRegForm.get('complaintType')?.valueChanges.subscribe(value => {
+    this.onComplaintTypeChange(value);
+  });
+
+  // ← Check if edit data was passed from list page
+  const editData = history.state?.editData;
+  if (editData) {
+    this.fillFormForEdit(editData);
   }
+}
 
+fillFormForEdit(data: any) {  
+  this.onComplaintTypeChange(String(data.ComplaintTypeID));
+  this.complaintRegForm.patchValue({
+    complaintNo:            data.ComplaintRegNo   || '',
+    complaintDate:          data.ComplaintDate
+                              ? data.ComplaintDate.split('T')[0]
+                              : null,
+    complaintType:          String(data.ComplaintTypeID),
+    department:             data.AdmDeptId        || null,
+    officeranddesignation:  data.DeptOfficerNameDesignation || '',
+    descOffence:            data.OffenceBrief     || '',
+    datefiledincourt:       data.DateFiledInCourt
+                              ? data.DateFiledInCourt.split('T')[0]
+                              : null,
+    isDeclarationAccepted:  data.IsDeclaration    || false,
+  }); 
+  this.complaintRegId = data.ComplaintRegId || 0;
+}
   // ------------------ COMPLAINT TYPE CHANGE HANDLER ------------------
 
   onComplaintTypeChange(complaintType: string | null): void {

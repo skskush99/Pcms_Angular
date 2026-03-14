@@ -1,8 +1,23 @@
-<!-- @if (isLoading) {
-<div class="loader"></div>
-} -->
+<!-- 
 <div *ngIf="isLoading | async" class="loader-overlay">
-<!-- <div class="overlay"> -->
 <div class="loader" ></div>
-<!-- </div> -->
+</div> -->
+
+
+
+<div *ngIf="isLoading | async" class="loader-overlay" role="status" aria-live="polite"
+    aria-label="Loading, please wait">
+    <div class="loader-card">
+        <div class="loader-ring loader-ring--outer-two"></div>
+        
+        <div class="loader-ring loader-ring--outer"></div>
+        <!-- Mid pulse ring -->
+        <div class="loader-ring loader-ring--mid"></div>
+        <!-- Spinning image (no wrapper background) -->
+        <div class="loader-image-wrap">
+            <img src="assets/remove back logo.png" alt="Loading..." class="loader-img" draggable="false" />
+        </div>
+         <div class="loader-ring loader-ring--fiste"></div>
+    </div>
+
 </div>
