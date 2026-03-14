@@ -1,337 +1,260 @@
-import { Component,inject } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { ColDef, Column, GridReadyEvent, ProvidedColumnGroup } from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import { MatDialog } from '@angular/material/dialog';
+
 import { ApiService } from '../../shared/services/api.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UrlService } from '../../shared/services/url.service';
-import constants from '../../shared/utils/constants';
-import { ColDef, Column, GridReadyEvent, ProvidedColumnGroup } from 'ag-grid-community';
-import { AgGridAngular } from 'ag-grid-angular';
-import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
-import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
-import { ButtonComponent } from '../../shared/components/button/button.component';
 import { XlsxService } from '../../shared/services/xlsx.service';
-import { DatePipe } from '@angular/common';
+import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
+import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
+import constants from '../../shared/utils/constants';
 
 @Component({
   selector: 'app-admin-department',
   standalone: true,
-  imports: [AgGridAngular, ReactiveFormsModule, PaginationComponent,ButtonComponent],
+  imports: [AgGridAngular, ReactiveFormsModule, FormsModule],
   templateUrl: './admin-department.component.html',
   styleUrl: './admin-department.component.css'
 })
 export class AdminDepartmentComponent {
 
-
+  // ===================== GRID STATE =====================
   adminDeptList: any[] = [];
-  adminDeptListPageInfo: [] = [];
   pageSize: number = 10;
   currentPage: number = 1;
   totalRecords: number = 0;
-  sortColumn : string | undefined = '';
-  sortBy : string = '';
-  colDef : ColDef[] = [];
-  permissionByRole : any;
+  sortColumn: string | undefined = '';
+  sortBy: string = '';
+  colDef: ColDef[] = [];
+  permissionByRole: any;
   currentDate: Date = new Date();
-  
-  adminFilterForm : FormGroup = new FormGroup({
-    // majorMinor : new FormControl('' , {nonNullable : true})
-  })
-  // excel: any;
 
+  // ===================== COMPUTED =====================
+  get totalPages(): number {
+    return Math.ceil(this.totalRecords / this.pageSize) || 1;
+  }
 
+  // ===================== CONSTRUCTOR =====================
   constructor(
     private notify: NotificationService,
     private _router: Router,
     private api: ApiService,
-    private dialog : MatDialog,
+    private dialog: MatDialog,
     private url: UrlService,
     private excel: XlsxService,
-    // excel = inject(XlsxService),
-    // private dialog : MatDialog,
-    // private excelService : XlsxService,
-    // private accessPermission : RoleWisePermissionService,
-     private datePipe: DatePipe
+    private datePipe: DatePipe
   ) {}
 
+  // ===================== LIFECYCLE =====================
   ngOnInit(): void {
-    // this.accessPermission.getCurrSelectedNav().subscribe({
-    //   next : (res : any) => {
-    //     this.permissionByRole = res;
-    //   }
-    // })
-    //console.log(this.permissionByRole);
     this.createGrid();
     this.getAdminDeptList();
   }
 
-  createGrid(){
-    this.colDef =  [
-    {
-      field: 'srNo',
-      headerName: 'Sr No' ,  sortable : false ,
-      valueGetter: (e : any) => String((this.pageSize * (this.currentPage -1)) + (e.node.rowIndex + 1)),
-      width: 80,
-    },
-    {
-      field: 'AdmDeptName',
-      headerName: ' Department Name',
-      width: 260,
-      autoHeight: true,
-      wrapHeaderText: true, 
-      autoHeaderHeight: true,
-      flex : 1,
-      cellStyle: { whiteSpace: 'normal' },
-      filter : false
-      
-    },
-    {
-      field: 'AdmDeptShortName',
-      headerName: 'Deportment Short Name',
-      width: 300,
-      filter : false,
-      wrapHeaderText: true, 
-      autoHeaderHeight: true,
-    },
-    
-    {
-      field: 'IsActive',
-      headerName: 'Action',
-      //hide : !this.permissionByRole?.isEditPermission && !this.permissionByRole?.isDeletePermission ,
-      wrapHeaderText: true, 
-      autoHeaderHeight: true, width : 100 ,
-      cellRenderer: GridActionButtonComponent,
-      cellRendererParams: {
-        delete: (field: any) => {
-          this.confirActiveDeactiveAdminDept(field);
-        },
-        edit: (field: any) => {
-          this.editAdminDept(field);
-        },
-        permission : this.permissionByRole
+  // ===================== GRID SETUP =====================
+  createGrid() {
+    this.colDef = [
+      {
+        field: 'RowID',
+        headerName: 'Sr No',
+        sortable: false,
+        width: 80,
+        pinned: 'left',
+        valueGetter: (e: any) =>
+          String(this.pageSize * (this.currentPage - 1) + (e.node.rowIndex + 1))
       },
-    },
-  ];
-
-  }
-  
-  onGridReady(params: GridReadyEvent): void {
-    // this.accessPermission.registerGrid(params.api);
-  }
-
-  getAdminDeptList() {
-    let reqParam = {
-      pageNo: this.currentPage,
-      pageSize: this.pageSize,
-      // majorMinor : this.adminFilterForm.value.majorMinor,
-      sortBy: this.sortColumn,
-      isSortByDesc: this.sortBy == '0' ? false : true
-    };
-
-    this.api.post(this.url.getadminDeptList(), reqParam).subscribe({next: (res: any) => {
-        console.log(res);        
-        // this.adminDeptList = convertObjectValuesToPascalCase(res.data);
-        this.adminDeptList = res.data;
-        this.totalRecords = res.pagination[0].totalRecords;
+      {
+        field: 'AdmDeptName',
+        headerName: 'Department Name',
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        flex: 1,
+        autoHeight: true,
+        cellStyle: { whiteSpace: 'normal' },
+        filter: false
       },
-      error: (err) => {
-        //console.log(err);
+      {
+        field: 'AdmDeptShortName',
+        headerName: 'Department Short Name',
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        width: 220,
+        filter: false
       },
-    });
-  }
-
-
-  resetFilters() : void {
-    // this.adminFilterForm.controls['MajorMinor'].setValue('');
-    this.getAdminDeptList();
-  }
-
-
-
-  editAdminDept(e: any) {
-    this._router.navigateByUrl('master/add-admin-dept', {
-      state: { addEditAdminDept: e },
-    });
-  }
-
-  confirActiveDeactiveAdminDept(e : any){
-    let dialogRef : any = this.dialog.open(ConfirmationPopUpComponent , {
-      width : '350px',
-      height : '170px',
-      data : {
-        msg : constants.confirmDelete
-      }
-    })
-
-
-    dialogRef.afterClosed().subscribe({
-      next : (res : any) => {
-        if(res){
-          this.activeDeactiveAdminDept(e)
+      {
+        field: 'IsActive',
+        headerName: 'Action',
+        pinned: 'right',
+        width: 100,
+        cellRenderer: GridActionButtonComponent,
+        cellRendererParams: {
+          edit:   (field: any) => { this.editAdminDept(field); },
+          delete: (field: any) => { this.confirActiveDeactiveAdminDept(field); },
+          permission: this.permissionByRole
         }
       }
-    })
+    ];
   }
 
+  // ===================== GRID READY =====================
+  onGridReady(params: GridReadyEvent): void {}
 
-   activeDeactiveAdminDept(e: any) {
-    console.log(e);
-
-    let reqParam = {
-      admDeptId: e.AdmDeptId,
-      active: !e.IsActive,
-      updatedBy: 0,
+  // ===================== GET LIST =====================
+  getAdminDeptList() {
+    const reqParam = {
+      pageNo:       this.currentPage,
+      pageSize:     this.pageSize,
+      sortBy:       this.sortColumn,
+      isSortByDesc: this.sortBy === '0' ? false : true
     };
-    console.log(reqParam);
-    
+
+    this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
+      next: (res: any) => {
+        this.adminDeptList = res.data;
+        this.totalRecords  = res.pagination[0].totalRecords;
+      },
+      error: (err: any) => { console.log(err); }
+    });
+  }
+
+  // ===================== SORTING =====================
+  onColumnHeaderClicked(event: { column: Column | ProvidedColumnGroup }): void {
+    if ('getSort' in event.column) {
+      const column = event.column as Column;
+      const sort   = column.getSort();
+
+      if (sort === 'asc') {
+        this.sortColumn  = column.getColDef().field;
+        this.sortBy      = '0';
+        this.currentPage = 1;
+        this.getAdminDeptList();
+      } else if (sort === 'desc') {
+        this.sortColumn  = column.getColDef().field;
+        this.sortBy      = '1';
+        this.currentPage = 1;
+        this.getAdminDeptList();
+      }
+    }
+  }
+
+  // ===================== EDIT =====================
+  editAdminDept(e: any) {
+    this._router.navigateByUrl('master/add-admin-dept', {
+      state: { addEditAdminDept: e }
+    });
+  }
+
+  // ===================== DELETE / RESTORE =====================
+  confirActiveDeactiveAdminDept(e: any) {
+    const dialogRef = this.dialog.open(ConfirmationPopUpComponent, {
+      width:  '350px',
+      height: '170px',
+      data:   { msg: constants.confirmDelete }
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (res: any) => { if (res) this.activeDeactiveAdminDept(e); }
+    });
+  }
+
+  activeDeactiveAdminDept(e: any) {
+    const reqParam = {
+      admDeptId: e.AdmDeptId,
+      active:    !e.IsActive,
+      updatedBy: 0
+    };
 
     this.api.post(this.url.activeDeaciveAdminDept(), reqParam).subscribe({
       next: (res: any) => {
-        console.log(res);
         this.notify.showNotification('delete', res.msg || res.message);
         window.scrollTo(0, 0);
         this.getAdminDeptList();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.log(err);
         this.notify.showNotification('error', 'Something Went Wrong');
         window.scrollTo(0, 0);
-      },
+      }
     });
   }
 
-
-  onColumnHeaderClicked(event: { column: Column | ProvidedColumnGroup}): void { 
-      
-      // Check if the event.column is a Column instance
-      if ('getSort' in event.column) { 
-        const column = event.column as Column; 
-        let sort = column.getSort();
-        
-        if (sort === 'asc') {
-          //console.log(`${column.getColDef().headerName} is sorted in ascending order.`);      
-          this.sortColumn = column.getColDef().field
-          this.sortBy = '0'
-          this.currentPage = 1
-          this.getAdminDeptList()
-        } else if (sort === 'desc') {
-
-          this.sortColumn = column.getColDef().field
-          this.sortBy = '1'
-          this.currentPage = 1;
-          this.getAdminDeptList()
-        } else {
-          //console.log(sort);
-          
-          //console.log(`${column.getColDef().headerName} is not sorted.`);
-        }
-      }
-    }
-
-  
-
-  addNewAdminDept() {
-    this._router.navigateByUrl('master/add-admin-dept');
-  }
-
+  // ===================== PAGINATION =====================
   onPageSizeChanged(event: any) {
-    this.pageSize = Number(event.target.value);
-this.currentPage = 1;
-    if (this.currentPage > this.totalRecords / this.pageSize) {
-      this.currentPage = Math.floor(this.totalRecords / this.pageSize) || 1;
-    }
+    this.pageSize    = Number(event.target.value);
+    this.currentPage = 1;
     this.getAdminDeptList();
   }
 
-  // to handle pagination
   changePage(page: number): void {
-    //console.log(page);
     this.currentPage = page;
     this.getAdminDeptList();
   }
 
-  // exportPDF() {
-  //   const formattedDate = this.datePipe.transform(this.currentDate, 'dd/MM/yyyy hh:mm a');
-  //   const headers = [
-  //     'Government of Rajasthan',
-  //     'Justice Department',
-  //     '(Litigation Information Tracking & Evaluation System)',
-  //     'Admin Dept List',
-  //     '( As on ' + formattedDate + ')',
-  //   ]
+  // ===================== ADD NEW =====================
+  addNewAdminDept() {
+    this._router.navigateByUrl('master/add-admin-dept');
+  }
 
-  //   const columns = [
-  //     { header: 'Sr. No.', dataKey: 'rowID' },
-  //     { header: 'Administrative Dept Name', dataKey: 'admDeptName' },
-  //     { header: 'Administrative Short Name', dataKey: 'admDeptShortName' },
-  //     { header: 'Major Minor', dataKey: 'majorMinor' }
-  //   ];
-
-  //   this.excelService.exportAllJsonPDF(headers, columns, this.adminDeptList, 'adminDeptList',true);
-  // }
-
-
+  // ===================== EXPORT EXCEL =====================
   exportExcel() {
+    const reqParam = {
+      admDeptId:    0,
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       '',
+      isSortByDesc: true
+    };
 
-  let reqParam = {
-    admDeptId: 0,
-    pageNo: 1,
-    pageSize: 999999,
-    sortBy: "",
-    isSortByDesc: true
-  };
-  this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
-    next: (res: any) => {
-      if (res.status) {
-        if (res.data?.length) {
-          const columnHeaders: { [key: string]: string } = {
-            RowID: 'Sr No',
-            AdmDeptId: 'Department ID',
-            AdmDeptName: 'Department Name',
-            AdmDeptShortName: 'Department Short Name'
-          };
-         
-          const modifiedData = res.data.map((row: any) => {
-            const modifiedRow: { [key: string]: any } = {};
+    this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          if (res.data?.length) {
+            const columnHeaders: { [key: string]: string } = {
+              RowID:            'Sr No',
+              AdmDeptId:        'Department ID',
+              AdmDeptName:      'Department Name',
+              AdmDeptShortName: 'Department Short Name'
+            };
 
-            Object.keys(columnHeaders).forEach((key: string) => {
-              if (row[key] !== undefined) {
-                modifiedRow[columnHeaders[key]] = row[key];
-              }
+            const modifiedData = res.data.map((row: any) => {
+              const modifiedRow: { [key: string]: any } = {};
+              Object.keys(columnHeaders).forEach((key: string) => {
+                if (row[key] !== undefined) {
+                  modifiedRow[columnHeaders[key]] = row[key];
+                }
+              });
+              return modifiedRow;
             });
 
-            return modifiedRow;
-          });
-
-          const formattedDate = this.datePipe.transform(
-            new Date(),
-            'dd/MM/yyyy hh:mm a'
-          );          
-          this.excel.exportAgGridAsExcelWithHeading(
-            modifiedData,
-            columnHeaders,
-            'Admin Department List',
-            ' \n ( As on ' + formattedDate + ')'
-          );
-
+            const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+            this.excel.exportAgGridAsExcelWithHeading(
+              modifiedData,
+              columnHeaders,
+              'Admin Department List',
+              ' \n ( As on ' + formattedDate + ')'
+            );
+          } else {
+            this.notify.showNotification('info', 'No Record To Export');
+          }
         } else {
-          this.notify.showNotification('info', 'No Record To Export');
+          this.notify.showNotification('error', res.message);
         }
-      } else {
-        this.notify.showNotification('error', res.message);
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
       }
-    },
-    error: () => {
-      this.notify.showNotification('error', constants.apiError);
-    }
-  });
-}
+    });
+  }
 
-
-
-
-
-  
+  // ===================== EXPORT PDF =====================
+  exportPDF(): void {
+    const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+    // TODO: hook PDF library
+    this.notify.showNotification('info', 'PDF export coming soon');
+  }
 }

@@ -428,20 +428,56 @@ export class UrlService {
   deleteCaseVictimWitness(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteVictimWitness?Id=${id}`
   }
-  
-  
-  addEditClassificationOffence(){
+
+
+  addEditClassificationOffence() {
     return `${this.caseUrl}/DierRegistrations/AddEditOffence`
   }
-  
-  
-  getClassificationOffence(id : number | string){
+
+
+  getClassificationOffence(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/GetOffence?OffenceClassifGroupNo=${id}`
   }
-  
-  
-  deleteClassificationOffence(id : number | string){
+
+
+  deleteClassificationOffence(id: number | string) {
     return `${this.caseUrl}/DierRegistrations/DeleteOffence?OffenceClassifId=${id}`
+  }
+
+  GetComplaintDetailsList() {
+    return `${this.caseUrl}/ComplaintRegister/ComplaintList`
+  }
+
+  // GetComplaintDetailsList(reqParam: any){
+  //   return `${this.caseUrl}/ComplaintRegister/GetComplaintList?pageNo=${reqParam.pageNo}&pageSize=${reqParam.pageSize}&sortBy=${reqParam.sortBy}&isSortByDesc=${reqParam.isSortByDesc}`;
+  // }
+
+  GetCaseDecisionlist() {
+    return `${this.masterUrl}/CaseDecisionType/GetType`
+  }
+
+  addEditDecision() {
+    return `${this.masterUrl}/CaseDecisionType/AddEditType`
+  }
+
+  activeDeactiveDecisionlist() {
+    return `${this.masterUrl}/CaseDecisionType/ActiveDeactiveType`
+  }
+
+  getDecisionTypeDropDownlist() {
+    return `${this.masterUrl}/CaseDecisionType/GetTypeDropdown`
+  }
+
+  addEditDecisionReason() {
+    return `${this.masterUrl}/CaseDecisionReason/AddEditReason`
+  }
+
+  getGetReasonList() {
+    return `${this.masterUrl}/CaseDecisionReason/GetReason`
+  }
+
+  activeDeactivedecisionReason() {
+    return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
   }
 
 }

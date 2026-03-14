@@ -1,64 +1,94 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          <!-- Header -->
-          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-              <div class="flex items-center gap-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                 </svg>
-                 <h2 class="text-lg font-bold text-white">Designation List</h2>
-              </div>
-              <div class="flex items-center gap-3 text-sm">
-                  <app-button label="Export To Excel" bgType="7" (click)="excelExport()"></app-button>
-                  <!-- @if(permissionByRole?.isAddPermission){ -->
-                  <app-button (click)="addNewDesignation()" label="Add New Designation" bgType="3"></app-button>
-                <!-- } -->
-              </div>
-          </div>
+<div class="forms">
+  <div class="complain-form">
 
-          <!-- Main Content -->
-          <div class="p-6">
-             
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
 
-              <!-- Grid Section -->
-              <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
-                  <ag-grid-angular (gridReady)="onGridReady($event)"
-                      style="height: 500px; width: 100%;"
-                      class="ag-theme-quartz"
-                        [rowData]="designationList"
-                      [columnDefs]="colDef"
-                      (columnHeaderClicked)="onColumnHeaderClicked($event)"
-          
-                      [pagination]="false">
-                  </ag-grid-angular>
-              </div>
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-briefcase filter-header-icon"></i>
+          <h3 class="filter-header-title">Designation List</h3>
+        </div>
 
-              <!-- Pagination Section -->
-              <div class="flex items-center justify-between mt-6 px-2 py-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <!-- Page Size Selector -->
-                  <div class="flex items-center gap-3">
-                      <label for="pageSize" class="text-sm font-semibold text-gray-700">Show:</label>
-                      <select 
-                          id="pageSize" 
-                          (change)="onPageSizeChanged($event)" 
-                          class="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
-                          <option value="10">10</option>
-                          <option value="20">20</option>
-                          <option value="30">30</option>
-                          <option value="50">50</option>
-                          <option value="9999999">All</option>
-                      </select>
-                      <span class="text-sm text-gray-600 font-medium">entries</span>
-                  </div>
-
-                  <!-- Custom Pagination Component -->
-                  <app-pagination 
-                      [currentPage]="currentPage" 
-                      [limit]="pageSize" 
-                      [total]="totalRecords" 
-                      (changePage)="changePage($event)">
-                  </app-pagination>
-              </div>
-          </div>
+        <div class="flex items-center gap-2">
+       
+          <!-- Add Designation -->
+          <button type="button" class="filter-toggle-btn" (click)="addNewDesignation()">
+            <i class="fa-solid fa-plus"></i>
+            Add Designation
+          </button>
+        </div>
       </div>
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="designationList"
+          [columnDefs]="colDef"
+          (gridReady)="onGridReady($event)"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF download -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="excelExport()">
+            <img src="assets/excel-file.png" alt="excel">
+           Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+           Export To PDF
+          </button>
+        </div>
+
+      </div>
+      <!-- END BOTTOM ACTION BAR -->
+
+    </div>
+    <!-- END TABLE SECTION -->
+
+  </div>
 </div>

@@ -256,3 +256,8 @@ a {
   -webkit-user-select: none;
 }
 
+
+
+.gap-4 {
+  gap: 5rem !important;  /* Overrides Tailwind's 1rem */
+}

@@ -14,29 +14,6 @@ import { HttpClient } from '@angular/common/http';
 import { NgSelectConfig } from '@ng-select/ng-select';
 
 
-// export function configureNgSelect() {
-//   return () => {
-//     // Patch the NgSelectComponent prototype
-//     import('@ng-select/ng-select').then((module) => {
-//       const originalNgOnInit = module.NgSelectComponent.prototype.ngOnInit;
-//       module.NgSelectComponent.prototype.ngOnInit = function() {
-//         this.appendTo = 'body';
-//         if (originalNgOnInit) {
-//           originalNgOnInit.call(this);
-//         }
-//       };
-//     });
-//   };
-// }
-
-// ,
-//     {
-//       provide: APP_INITIALIZER,
-//       useFactory: configureNgSelect,
-//       multi: true
-//     }
-
-
 // encodeDecodeInterceptor
 
 export const appConfig: ApplicationConfig = {

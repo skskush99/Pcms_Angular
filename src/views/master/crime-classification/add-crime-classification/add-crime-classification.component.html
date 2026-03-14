@@ -1,94 +1,87 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          <!-- Header -->
-          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-              <div class="flex items-center gap-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                 </svg>
-                 <h2 class="text-xl font-bold text-white">{{editCrimeClassification ? 'Edit/Update' : 'Add'}} Crime Classification</h2>
-              </div>
-              <button class="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110" (click)="onCancel()">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-              </button>
-          </div>
+<div class="forms">
+  <div class="complain-form">
 
-          <!-- Form -->
-          <div>
-              <form [formGroup]="addClassClassificationForm" class="p-6">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <!-- Admin Department -->
-                      <div class="form-group">
-                        <label for="adminDept" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                          Crime Classification English Name
-                          <sup class="text-red-500 text-base ml-0.5">*</sup>
-                        </label>
-                        <input type="text" id="classificationEnglish"
-                            formControlName="classificationEnglish" 
-                            placeholder="Enter Crime Classification English Name"
-                            autocomplete="off"
-                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                        <div *ngIf="addClassClassificationForm.get('classificationEnglish')?.hasError('required') && addClassClassificationForm.get('classificationEnglish')?.touched"
-                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Crime Classification English Name is required
-                        </div>
-                        <!-- <div *ngIf="addClassClassificationForm.get('adminDept')?.hasError('pattern') && addClassClassificationForm.get('adminDept')?.touched"
-                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Administrative Department Name should only contain alphabets
-                        </div> -->
-                      </div>
+    <!-- ===================== FORM CARD ===================== -->
+    <div class="person-card">
 
-                      <!-- Major / Minor -->
-                      <div class="form-group">
-                          <label for="classificationHindi" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            Crime Classification Hindi Name
-                            <sup class="text-red-500 text-base ml-0.5">*</sup>
-                          </label>
+      <!-- Header -->
+      <div class="section-header mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-layer-group filter-header-icon"></i>
+          <h3 class="filter-header-title">
+            {{ editCrimeClassification ? 'Edit / Update' : 'Add' }} Crime Classification
+          </h3>
+        </div>
 
-                          <input type="text" id="classificationHindi"
-                            formControlName="classificationHindi" 
-                            placeholder="Enter Crime Classification English Name"
-                            autocomplete="off"
-                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                          <div *ngIf="addClassClassificationForm.get('classificationHindi')?.invalid && addClassClassificationForm.get('classificationHindi')?.touched" 
-                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              Crime Classification Hindi Name is required
-                          </div>
-                      </div>
-
-                     
-
-                      <!-- <div class="">
-                        <app-date-picker formControlName="date" [min]="'2025-05-01'"></app-date-picker>
-                    </div> -->
-                    <div class="flex justify-end mt-8  gap-4 col-span-full">
-                        <app-button (clicked)="onSave()" bgType="4" label="Save"></app-button>
-                        <app-button (clicked)="onCancel()" bgType="5" label="Cancel"></app-button>
-                    </div>
-                  </div>
-
-                  <!-- Action Buttons -->
-                
-              </form>
-          </div>
+        <!-- Back Button -->
+        <button type="button" class="filter-toggle-btn" (click)="onCancel()">
+          <i class="fa-solid fa-arrow-left"></i>
+          Back
+        </button>
       </div>
-  <!-- </div> -->
+
+      <!-- Form Body -->
+      <form [formGroup]="addClassClassificationForm">
+        <div class="form-grid">
+
+          <!-- Crime Classification English Name -->
+          <div class="form-group">
+            <label for="classificationEnglish">
+              <i class="fa-solid fa-font filter-label-icon"></i>
+              Crime Classification English Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="classificationEnglish"
+              formControlName="classificationEnglish"
+              placeholder="Enter Crime Classification English Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addClassClassificationForm.get('classificationEnglish')?.hasError('required') && addClassClassificationForm.get('classificationEnglish')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Classification English Name is required
+            </div>
+          </div>
+
+          <!-- Crime Classification Hindi Name -->
+          <div class="form-group">
+            <label for="classificationHindi">
+              <i class="fa-solid fa-language filter-label-icon"></i>
+              Crime Classification Hindi Name
+            </label>
+            <input
+              type="text"
+              id="classificationHindi"
+              formControlName="classificationHindi"
+              placeholder="Enter Crime Classification Hindi Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addClassClassificationForm.get('classificationHindi')?.invalid && addClassClassificationForm.get('classificationHindi')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Classification Hindi Name is required
+            </div>
+          </div>
+
+          <!-- Save / Cancel Buttons -->
+          <div class="filter-btn-group">
+            <button type="button" (click)="onSave()" class="btn-submit flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i>
+              Save
+            </button>
+            <button type="button" (click)="onCancel()" class="btn-clear flex items-center gap-2">
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+    <!-- END FORM CARD -->
+
+  </div>
 </div>
-
-
-
-
-<!-- <div class="bg-gray-200 w-[300px] h-[20px]">
-    <app-date-picker></app-date-picker>
-</div> -->

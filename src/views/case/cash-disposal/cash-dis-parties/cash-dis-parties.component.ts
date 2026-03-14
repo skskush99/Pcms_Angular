@@ -1,0 +1,295 @@
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { WordsRestrictService } from '../../../shared/services/words-restrict.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { ApiService } from '../../../shared/services/api.service';
+import { UrlService } from '../../../shared/services/url.service';
+import { DropdownListInterface } from '../../../shared/model/shared.model';
+import constants from '../../../shared/utils/constants';
+
+@Component({
+  selector: 'app-cash-dis-parties',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, NgSelectModule],
+  templateUrl: './cash-dis-parties.component.html',
+  styleUrl: './cash-dis-parties.component.css'
+})
+export class CashDisPartiesComponent implements OnInit {
+
+  // ===================== SERVICES =====================
+  restrictKeys = inject(WordsRestrictService);
+  notify       = inject(NotificationService);
+  api          = inject(ApiService);
+  url          = inject(UrlService);
+
+  // ===================== INPUTS / OUTPUTS =====================
+  @Input()  caseId: any;
+  @Output() caseParty = new EventEmitter<any>();
+
+  // ===================== STATE =====================
+  statusDropdown:      DropdownListInterface[] = [];
+  accusedList:         any[] = [];
+  victimWitnessList:   any[] = [];
+  accusedEditId:       any;
+  victimWitnessEditId: any;
+
+  // ===================== STATIC DROPDOWNS =====================
+  genderDropdown: DropdownListInterface[] = [
+    { value: '1', text: 'Male'   },
+    { value: '2', text: 'Female' },
+    { value: '3', text: 'Other'  },
+  ];
+
+  // ===================== FORMS =====================
+  accusedForm: FormGroup = new FormGroup({
+    accusedName:    new FormControl('',   [Validators.required]),
+    accusedAddress: new FormControl('',   [Validators.required]),
+    accusedAge:     new FormControl('',   [Validators.required]),
+    accusedGender:  new FormControl(null, [Validators.required]),
+    accusedStatus:  new FormControl(null, [Validators.required]),
+    accusedRemark:  new FormControl('',   [Validators.required]),
+    govtAccused:    new FormControl(false),
+  });
+
+  victimWitnessForm: FormGroup = new FormGroup({
+    victimWitnessName:    new FormControl('',   [Validators.required]),
+    victimWitnessAddress: new FormControl('',   [Validators.required]),
+    victimWitnessAge:     new FormControl('',   [Validators.required]),
+    victimWitnessGender:  new FormControl(null, [Validators.required]),
+    victimWitnessStatus:  new FormControl(null, [Validators.required]),
+    victimWitnessRemark:  new FormControl('',   [Validators.required]),
+    isVictim:             new FormControl(1),
+  });
+
+  // ===================== LIFECYCLE =====================
+  ngOnInit(): void {
+    this.getFirStatusDropdown();
+    this.getAccusedList();
+    this.getVictimWitnessList();
+  }
+
+  // ===================== UTILS =====================
+  compareWithFunc(a: any, b: any): boolean {
+    return a?.['value'] ? a['value'] == b : false;
+  }
+
+  // ===================== DROPDOWN =====================
+  getFirStatusDropdown(): void {
+    this.api.get(this.url.getFirStatusDropdown()).subscribe({
+      next:  (res: any) => { this.statusDropdown = res.data; },
+      error: (err: Error) => { throw new Error(err?.message); }
+    });
+  }
+
+  // ===================== ACCUSED =====================
+  addAccused(): void {
+    if (!this.accusedForm.valid) {
+      this.accusedForm.markAllAsTouched();
+      this.notify.showNotification('info', constants.ALL_MANDATE);
+      return;
+    }
+
+    const form = this.accusedForm.value;
+    const reqParams = {
+      accusedId:       this.accusedEditId || 0,
+      accusedGroupNo:  this.caseId,
+      accuseName:      form.accusedName    || '',
+      fatherName:      '',
+      gender:          form.accusedGender  || 0,
+      address:         form.accusedAddress || '',
+      mobileNo:        '',
+      uidNo:           '',
+      districtId:      0,
+      thanaId:         0,
+      firStatusId:     form.accusedStatus  || 0
+    };
+
+    this.api.post(this.url.addEditCaseAccused(), reqParams).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.notify.showNotification('success', res.message);
+          this.accusedEditId = null;
+          this.accusedForm.reset();
+          this.getAccusedList();
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (_err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
+  }
+
+  editAccused(e: any): void {
+    this.accusedForm.patchValue({
+      accusedName:    e?.AccuseName   || '',
+      accusedAddress: e?.Address      || '',
+      accusedAge:     e?.Age          || '',
+      accusedGender:  e?.Gender ? String(e.Gender) : null,
+      accusedStatus:  e?.FIRStatusId  || null,
+      accusedRemark:  e?.Remarks      || '',
+    });
+    this.accusedEditId = e?.AccusedId;
+  }
+
+  getAccusedList(): void {
+    if (!this.caseId) return;
+    this.api.get(this.url.getCaseAccusedList(this.caseId)).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.accusedList = res.data;
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (err: Error) => { throw new Error(err?.message); }
+    });
+  }
+
+  removeAccused(id: number): void {
+    if (!id) {
+      this.notify.showNotification('error', constants.apiError);
+      return;
+    }
+    this.api.post(this.url.deleteCaseAccused(id), {}).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.notify.showNotification('delete', res.message);
+          this.getAccusedList();
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+        throw new Error(err?.message);
+      }
+    });
+  }
+
+  // ===================== VICTIM / WITNESS =====================
+  addVictimWitness(): void {
+    if (!this.victimWitnessForm.valid) {
+      this.victimWitnessForm.markAllAsTouched();
+      this.notify.showNotification('info', constants.ALL_MANDATE);
+      return;
+    }
+    if (!this.caseId) {
+      this.notify.showNotification('error', constants.apiError);
+      return;
+    }
+
+    const f = this.victimWitnessForm.value;
+    const reqParams = {
+      id:              this.victimWitnessEditId || 0,
+      isVictimWitness: f.isVictim,
+      groupNo:         this.caseId,
+      name:            f.victimWitnessName    || '',
+      fatherName:      '',
+      gender:          f.victimWitnessGender  || 0,
+      address:         f.victimWitnessAddress || '',
+      mobileNo:        '',
+      uidNo:           '',
+      districtId:      0,
+      thanaId:         0,
+      status:          f.victimWitnessStatus  || 0
+    };
+
+    this.api.post(this.url.addEditCaseVictimWitness(), reqParams).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.notify.showNotification('success', res.message);
+          this.victimWitnessEditId = null;
+          this.victimWitnessForm.reset();
+          this.victimWitnessForm.controls['isVictim'].setValue(1);
+          this.getVictimWitnessList();
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+        throw new Error(err?.message);
+      }
+    });
+  }
+
+  editVictimWitness(e: any): void {
+    this.victimWitnessForm.patchValue({
+      victimWitnessName:    e?.Name            || '',
+      victimWitnessAddress: e?.Address         || '',
+      victimWitnessAge:     e?.Age             || '',
+      victimWitnessGender:  e?.Gender ? String(e.Gender) : null,
+      victimWitnessStatus:  e?.Status          || null,
+      victimWitnessRemark:  e?.Remark          || '',
+      isVictim:             e?.isVictimWitness || 2,
+    });
+    this.victimWitnessEditId = e?.Id;
+  }
+
+  getVictimWitnessList(): void {
+    if (!this.caseId) return;
+    this.api.get(this.url.getCaseVictimWitnessList(this.caseId)).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.victimWitnessList = res.data;
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+        throw new Error(err?.message);
+      }
+    });
+  }
+
+  removeVictimWitness(id: number): void {
+    this.api.post(this.url.deleteCaseVictimWitness(id), {}).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.notify.showNotification('delete', res.message);
+          this.getVictimWitnessList();
+        } else {
+          this.notify.showNotification('error', res.message);
+        }
+      },
+      error: (err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+        throw new Error(err?.message);
+      }
+    });
+  }
+
+  // ===================== SAVE STEP =====================
+  regCaseParties(): void {
+    if (!this.caseId) {
+      this.notify.showNotification('error', constants.apiError);
+      return;
+    }
+
+    const reqParams = {
+      dirRegId:             this.caseId,
+      steps:                3,
+      isAccusedType:        this.accusedForm.value.govtAccused ? 1 : 2,
+      accusedGroupNo:       this.caseId,
+      victimWitnessGroupNo: this.caseId
+    };
+
+    this.api.post(this.url.regCaseParties(), reqParams).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.notify.showNotification('success', res.message);
+          this.caseParty.emit(true);
+        }
+      },
+      error: (err: Error) => {
+        this.notify.showNotification('error', constants.apiError);
+        throw new Error(err?.message);
+      }
+    });
+  }
+}
