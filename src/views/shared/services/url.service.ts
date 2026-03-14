@@ -93,7 +93,22 @@ export class UrlService {
 
   // MASTER URL's
 
-  mapUserBySa() {
+
+  getUserMenu(){
+    return `${this.masterUrl}/UserLogin/GetUserMenuList`
+  }
+  
+  
+  addEditUserMenu(){
+    return `${this.masterUrl}/MenuMapping/AddEditMenu`
+  }
+  
+  
+  // addEditUserMenu(){
+  //   return `${this.masterUrl}/MenuMapping/AddEditMenu`
+  // }
+
+  mapUserBySa(){
     return `${this.masterUrl}/Users/MappedBySA`
   }
 

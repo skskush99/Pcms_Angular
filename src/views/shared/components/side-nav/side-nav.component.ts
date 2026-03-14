@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { UrlService } from '../../services/url.service';
 import navData from './navItems/nav';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AesService } from '../../services/aes.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -61,13 +62,15 @@ export class SideNavComponent {
   private navItemSubscription : Subscription = new Subscription();
   router = inject(Router)
   url = inject(UrlService)
-  api = inject(ApiService)
+  api = inject(ApiService);
+  aes = inject(AesService);
   // accessPermission = inject(RoleWisePermissionService)
   // aes = inject(AesService)
   isSideNav : any
+  roleName : string = '';
   constructor(){
     // this.navItems = navData   
-    this.getNavItems();
+    // this.getNavItems();
   }
 
  
@@ -101,8 +104,21 @@ export class SideNavComponent {
       })
 
       
+      
     );
 
+
+    this.navItemSubscription.add(
+        this._navToggle.getNavItems().subscribe({
+          next : (res : any) => {
+            console.log(res);
+            this.getNavItems(res);
+          }
+        })
+      )
+
+      // console.log();
+      
 
 
     // this.navItemSubscription.add(
@@ -122,9 +138,54 @@ export class SideNavComponent {
   }
 
 
-  getNavItems(){
-    this.nav = navData
-  }
+  getNavItems(role : any){
+    this.nav = navData;
+    let authToken : string | null = localStorage.getItem('token')
+    if(!role?.roleId){
+      let roleInfo : any = localStorage.getItem('roleId');
+      role = JSON.parse(roleInfo);
+    }
+    this.roleName = role.roleName;
+    if(authToken){
+      let params = {
+        RoleId : role?.roleId
+      }  
+
+    this.api.get(this.url.getUserMenu()  , params).subscribe({
+      next : (res : any) => {
+        console.log(res);
+        if(res.status){
+          this.nav = res.data;
+          let reportIdToMove : number[] = [77, 98 , 119];
+        let reports : any[] = [];
+        let newNav = (res.data as any[]).filter((i => {
+          if(reportIdToMove.includes(i?.id)){
+            reports.push(i);
+            return false
+          }
+          return true
+        }))
+        if (reports.length){
+        newNav.push({
+          englishName : "Reports",
+          icon : "fa-solid fa-file-shield",
+          linkPage : '',
+          subMenus : reports
+        })
+        this.nav = newNav;
+        this.roleName = role.roleName;
+        localStorage.setItem('menu' , this.aes.encrypt(JSON.stringify(res.data)))
+      }
+        }
+      },
+      error : (err : Error) => {
+        throw new Error(err?.message);
+      }
+
+    })
+  
+  }}
+
 
 
 
