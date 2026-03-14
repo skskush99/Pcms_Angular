@@ -1,0 +1,94 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-briefcase filter-header-icon"></i>
+          <h3 class="filter-header-title">Case Decision Type List</h3> 
+        </div>
+
+        <div class="flex items-center gap-2">
+       
+          <!-- Add Designation -->
+          <button type="button" class="filter-toggle-btn" (click)="addNewDecision()">
+            <i class="fa-solid fa-plus"></i>
+            Add Case Decision Type
+          </button>
+        </div>
+      </div>
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="caseDecisionList"
+          [columnDefs]="colDef"
+          (gridReady)="onGridReady($event)"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF download -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="excelExport()">
+            <img src="assets/excel-file.png" alt="excel">
+           Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+           Export To PDF
+          </button>
+        </div>
+
+      </div>
+      <!-- END BOTTOM ACTION BAR -->
+
+    </div>
+    <!-- END TABLE SECTION -->
+
+  </div>
+</div>

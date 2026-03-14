@@ -1,0 +1,100 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FORM CARD ===================== -->
+    <div class="person-card">
+
+      <!-- Header -->
+      <div class="section-header mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-briefcase filter-header-icon"></i>
+          <h3 class="filter-header-title">
+            {{ editDecision ? 'Edit / Update' : 'Add' }} Case Decision Type
+          </h3>
+        </div>
+
+        <!-- Back Button -->
+        <button type="button" class="filter-toggle-btn" (click)="onCancel()">
+          <i class="fa-solid fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
+
+      <!-- Form Body -->
+      <form [formGroup]="addDecisionForm">
+        <div class="form-grid">
+
+          <!-- Designation English Name -->
+          <div class="form-group">
+            <label for="decisTypeEnglish"> 
+              <i class="fa-solid fa-font filter-label-icon"></i>
+              Decision Type English Name             
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="decisTypeEnglish"
+              formControlName="decisTypeEnglish"
+              placeholder="Enter Decision Type English Name"
+              autocomplete="off"
+              (keypress)="restrictChar.onlyAlphabets($event)"
+              class="filter-select">
+            <div *ngIf="addDecisionForm.get('decisTypeEnglish')?.hasError('required') && addDecisionForm.get('decisTypeEnglish')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+             Decision Type English Name is required
+            </div>
+            <div *ngIf="addDecisionForm.get('decisTypeEnglish')?.hasError('pattern') && addDecisionForm.get('decisTypeEnglish')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+             Decision Type English Name should only contain alphabets
+            </div>
+          </div>
+
+          <!-- Decision Hindi Name -->
+          <div class="form-group">
+            <label for="decisTypeHindi">
+              <i class="fa-solid fa-language filter-label-icon"></i>
+              Decision Type Hindi Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="decisTypeHindi"
+              formControlName="decisTypeHindi"
+              placeholder="Enter Decision Type Hindi Name"
+              autocomplete="off"
+              (keypress)="restrictChar.onlyAlphabets($event)"
+              class="filter-select">
+            <div *ngIf="addDecisionForm.get('decisTypeHindi')?.hasError('required') && addDecisionForm.get('decisTypeHindi')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+             Decision Type Hindi Name is required
+            </div>
+            <div *ngIf="addDecisionForm.get('decisTypeHindi')?.hasError('pattern') && addDecisionForm.get('decisTypeHindi')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Decision Type Hindi Name should only contain alphabets
+            </div>
+          </div>
+
+          <!-- Save / Cancel Buttons -->
+          <div class="filter-btn-group">
+            <button type="button" (click)="onSave()" class="btn-submit flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i>
+              Save
+            </button>
+            <button type="button" (click)="onCancel()" class="btn-clear flex items-center gap-2">
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+    <!-- END FORM CARD -->
+
+  </div>
+</div>

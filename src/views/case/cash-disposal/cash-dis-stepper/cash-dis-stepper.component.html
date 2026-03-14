@@ -1,0 +1,85 @@
+<!-- ===================== STEPPER TABS ===================== -->
+<div class="stepper-tabs">
+  <div class="stepper-row">
+
+    @for (item of formsName; track $index) {
+
+      <button type="button" class="stepper-step"
+        [class.stepper-active]="currentForm === $index + 1"
+        [class.stepper-done]="$index + 1 < currentForm">
+
+        <span class="stepper-circle">
+          <i *ngIf="$index + 1 < currentForm" class="fa-solid fa-check" style="font-size:0.65rem;"></i>
+          <span *ngIf="$index + 1 >= currentForm">{{ $index + 1 }}</span>
+        </span>
+
+        <span class="stepper-label">{{ item }}</span>
+      </button>
+
+      @if ($index < formsName.length - 1) {
+        <div class="stepper-line"
+          [class.stepper-line-done]="$index + 1 < currentForm">
+        </div>
+      }
+
+    }
+
+  </div>
+</div>
+
+<!-- ===================== STEP CONTENT ===================== -->
+<div class="forms">
+  <div class="complain-form">
+
+    @if (currentForm == 1) {
+      <app-cash-dis-identification
+        [caseId]="caseId"
+        (caseIdentification)="saveAndNext($event)">
+      </app-cash-dis-identification>
+    }
+
+    @if (currentForm == 2) {
+      <app-cash-dis-charges-sheet
+        [caseId]="caseId"
+        (firChargeSheetC)="saveAndNext($event)">
+      </app-cash-dis-charges-sheet>
+    }
+
+    @if (currentForm == 3) {
+      <app-cash-dis-parties
+        [caseId]="caseId"
+        (caseParty)="saveAndNext($event)">
+      </app-cash-dis-parties>
+    }
+
+    @if (currentForm == 4) {      
+      <app-case-dis-file
+        [caseId]="caseId"
+        (caseFileSubmit)="saveAndNext($event)">
+      </app-case-dis-file>
+    }
+
+    @if (currentForm == 5) {
+      <app-cash-dis-review-submit [caseId]="caseId"></app-cash-dis-review-submit>
+    }
+
+    <!-- ===================== NAVIGATION BUTTONS ===================== -->
+    <div class="form-actions">
+      <button type="button" class="btn-clear"
+        [disabled]="currentForm === 1"
+        [style.opacity]="currentForm === 1 ? '0.45' : '1'"
+        [style.cursor]="currentForm === 1 ? 'not-allowed' : 'pointer'"
+        (click)="formPrev()">
+        <i class="fa-solid fa-arrow-left"></i>
+        Previous
+      </button>
+
+      <button type="button" class="btn-submit" (click)="formNext()">
+        {{ currentForm === formsName.length ? 'Disposed File' : 'Save & Next' }}
+        <i *ngIf="currentForm !== formsName.length" class="fa-solid fa-arrow-right"></i>
+        <i *ngIf="currentForm === formsName.length" class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+
+  </div>
+</div>

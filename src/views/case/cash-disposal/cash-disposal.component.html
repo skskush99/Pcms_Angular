@@ -1,0 +1,142 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FILTER SECTION ===================== -->
+    <div class="filter-card mb-5">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <h3 class="filter-header-title">Case Disposal Register Filter</h3>
+        </div>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid" [ngClass]="isFormCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          {{ buttonText }}
+        </button>
+      </div>
+
+      <!-- Filter Form -->
+      <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <div class="filter-card-body">
+          <form [formGroup]="caseFilterForm">
+            <div class="form-grid">
+
+              <!-- District -->
+              <div class="form-group">
+                <label for="DistrictId">
+                  <i class="fa-solid fa-location-dot filter-label-icon"></i>
+                  District
+                </label>
+                <ng-select
+                  [items]="districtDropDown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select District"
+                  formControlName="DistrictId"
+                  class="custom-ng-select"
+                  id="DistrictId"
+                  appendTo="body">
+                </ng-select>
+              </div>
+
+              <!-- Status -->
+              <div class="form-group">
+                <label for="activeDeactive">
+                  <i class="fa-solid fa-circle-dot filter-label-icon"></i>
+                  Status
+                </label>
+                <select id="activeDeactive" formControlName="ActiveFilter" class="filter-select">
+                  <option value="1">Active</option>
+                  <option value="0">Deactive</option>
+                  <option value="-1">All</option>
+                </select>
+              </div>
+
+              <!-- Search / Reset Buttons -->
+              <div class="filter-btn-group">
+                <button type="button" (click)="onSearch()" class="btn-submit">
+                  <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+                <button type="button" (click)="resetFilter()" class="btn-clear">
+                  <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header Row — no Add button -->
+      <div class="section-header mb-4">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-table-list filter-header-icon"></i>
+          <h3 class="filter-header-title">Case Disposal List</h3>
+        </div>
+      </div>
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="caseList"
+          [columnDefs]="colDef"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select id="pageSize" (change)="onPageSizeChanged($event)" [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size:11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size:11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="downloadExcel()">
+            <img src="assets/excel-file.png" alt="excel"> Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="downloadPDF()">
+            <img src="assets/pdf.png" alt="pdf">  Export To PDF
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

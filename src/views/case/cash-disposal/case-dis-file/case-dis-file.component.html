@@ -1,0 +1,45 @@
+<!-- ===================== REMARKS & UPLOADS ===================== -->
+<div>
+
+    <!-- File Uploads -->
+    <div class="document-upload-row">
+
+        <!-- Charge Sheet First Page Thumbnail -->
+        <div class="form-group">
+            <label for="chargeSheetDocs">
+                Upload Charge Sheet First Page Thumbnail
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="chargeSheetDocs" (change)="onFileChange($event, fileType.chargeSheetDocs)">
+            <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">
+                {{ files[fileType.chargeSheetDocs]?.error }}
+            </span>
+        </div>
+
+        <!-- Full Charge Sheet PDF -->
+        <div class="form-group">
+            <label for="fullChargeSheetDocs">
+                Upload Full Charge Sheet PDF
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="fullChargeSheetDocs" (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
+            <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">
+                {{ files[fileType.fullChargeSheetDocs]?.error }}
+            </span>
+        </div>
+
+        <!-- Other Docs -->
+        <div class="form-group">
+            <label for="otherDocs">
+                Upload Other Doc. (If any)
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="otherDocs" (change)="onFileChange($event, fileType.otherDocs)">
+            <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">
+                {{ files[fileType.otherDocs]?.error }}
+            </span>
+        </div>
+
+       
+    </div>
+<div>
