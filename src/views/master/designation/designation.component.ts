@@ -216,45 +216,51 @@ export class DesignationComponent {
   }
 
   // ===================== EXPORT EXCEL =====================
-  excelExport() {
-    const reqParam = {
-      pageNo:   1,
-      pageSize: 999999
-    };
+excelExport() {
+  const reqParam = {
+    pageNo: 1,
+    pageSize: 999999
+  };
 
-    this.api.post(this.url.getDesignationList(), reqParam).subscribe({
-      next: (res: any) => {
-        if (res.data?.length > 0) {
-          const columnHeaders: { [key: string]: string } = {
-            rowID:                'Sr No',
-            designationName:      'Designation Name',
-            designationShortName: 'Designation Short Name'
+  this.api.post(this.url.getDesignationList(), reqParam).subscribe({
+    next: (res: any) => {
+      if (res.data?.length > 0) {
+
+        // ✅ Correct column mapping (MATCH GRID DATA)
+        const columnHeaders: { [key: string]: string } = {
+          srNo: 'Sr No',
+          designationEng: 'Designation English Name',
+          designationHindi: 'Designation Hindi Name'
+        };
+
+        // ✅ Add Sr No manually
+        const modifiedData = res.data.map((row: any, index: number) => {
+          return {
+            srNo: index + 1,
+            designationEng: row.designationEng,
+            designationHindi: row.designationHindi
           };
+        });
 
-          const modifiedData = res.data.map((row: any) => {
-            const modifiedRow: { [key: string]: any } = {};
-            Object.keys(columnHeaders).forEach((key: string) => {
-              if (row[key] !== undefined) {
-                modifiedRow[columnHeaders[key]] = row[key];
-              }
-            });
-            return modifiedRow;
-          });
+        const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
 
-          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-          this.excel.exportAgGridAsExcelWithHeading(
-            modifiedData,
-            columnHeaders,
-            'Designation List',
-            ' \n ( As on ' + formattedDate + ')'
-          );
-        } else {
-          this.notify.showNotification('info', 'No Record To Export');
-        }
-      },
-      error: (err: any) => { console.log(err); }
-    });
-  }
+        this.excel.exportAgGridAsExcelWithHeading(
+          modifiedData,
+          columnHeaders,
+          'Designation List',
+          ' \n ( As on ' + formattedDate + ')'
+        );
+
+      } else {
+        this.notify.showNotification('info', 'No Record To Export');
+      }
+    },
+    error: (err: any) => {
+      console.log(err);
+      this.notify.showNotification('error', 'Export Failed');
+    }
+  });
+}
 
   // ===================== EXPORT PDF =====================
   exportPDF() {

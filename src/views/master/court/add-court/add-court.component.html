@@ -1,7 +1,6 @@
 <div class="forms">
   <div class="complain-form">
 
-    <!-- ===================== FORM CARD ===================== -->
     <div class="person-card">
 
       <!-- Header -->
@@ -13,78 +12,46 @@
           </h3>
         </div>
 
-        <!-- Back Button -->
         <button type="button" class="filter-toggle-btn" (click)="onCancel()">
           <i class="fa-solid fa-arrow-left"></i>
           Back
         </button>
       </div>
 
-      <!-- Form Body -->
+      <!-- Form -->
       <form [formGroup]="addCourtForm">
         <div class="form-grid">
 
-          <!-- Court English Name -->
+          <!-- Court English -->
           <div class="form-group">
             <label for="courtEng">
-              <i class="fa-solid fa-font filter-label-icon"></i>
-              Court English Name
-              <sup class="text-red-500 text-base ml-0.5">*</sup>
+              Court English Name *
             </label>
             <input
               type="text"
               id="courtEng"
               formControlName="courtEng"
-              placeholder="Enter Court English Name"
-              autocomplete="off"
-              (keypress)="restrictChar.onlyAlphabets($event)"
               class="filter-select">
-            <div *ngIf="addCourtForm.get('courtEng')?.hasError('required') && addCourtForm.get('courtEng')?.touched"
-              class="form-error">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              Court English Name is required
-            </div>
-            <div *ngIf="addCourtForm.get('courtEng')?.hasError('pattern') && addCourtForm.get('courtEng')?.touched"
-              class="form-error">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              Court English Name should only contain alphabets
-            </div>
           </div>
 
-          <!-- Court Hindi Name -->
+          <!-- Court Hindi -->
           <div class="form-group">
             <label for="courtHin">
-              <i class="fa-solid fa-language filter-label-icon"></i>
-              Court Hindi Name
-              <sup class="text-red-500 text-base ml-0.5">*</sup>
+              Court Hindi Name *
             </label>
             <input
               type="text"
               id="courtHin"
               formControlName="courtHin"
-              placeholder="Enter Court Hindi Name"
-              autocomplete="off"
-              (keypress)="restrictChar.onlyAlphabets($event)"
               class="filter-select">
-            <div *ngIf="addCourtForm.get('courtHin')?.hasError('required') && addCourtForm.get('courtHin')?.touched"
-              class="form-error">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              Court Hindi Name is required
-            </div>
-            <div *ngIf="addCourtForm.get('courtHin')?.hasError('pattern') && addCourtForm.get('courtHin')?.touched"
-              class="form-error">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              Court Hindi Name should only contain alphabets
-            </div>
           </div>
 
-          <!-- Division -->
+          <!-- ✅ Division (FIXED) -->
           <div class="form-group">
             <label for="division">
-              <i class="fa-solid fa-map filter-label-icon"></i>
-              Division
-              <sup class="text-red-500 text-base ml-0.5">*</sup>
+              Division *
             </label>
+
             <ng-select
               [items]="divisionDropdown"
               bindLabel="text"
@@ -93,23 +60,17 @@
               placeholder="Select Division"
               formControlName="division"
               (change)="getDistrictDropdown()"
-              class="custom-ng-select"
-              id="division"
               appendTo="body">
             </ng-select>
-            <div *ngIf="addCourtForm.get('division')?.hasError('required') && addCourtForm.get('division')?.touched"
-              class="form-error">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              Division is required
-            </div>
+
           </div>
 
-          <!-- District -->
+          <!-- ✅ District (FIXED) -->
           <div class="form-group">
             <label for="district">
-              <i class="fa-solid fa-map-location-dot filter-label-icon"></i>
               District
             </label>
+
             <ng-select
               [items]="districtDropdown"
               bindLabel="text"
@@ -117,20 +78,17 @@
               [compareWith]="compareWithFunc"
               placeholder="Select District"
               formControlName="district"
-              class="custom-ng-select"
-              id="district"
               appendTo="body">
             </ng-select>
+
           </div>
 
-          <!-- Save / Cancel Buttons -->
+          <!-- Buttons -->
           <div class="filter-btn-group">
-            <button type="button" (click)="onSave()" class="btn-submit flex items-center gap-2">
-              <i class="fa-solid fa-floppy-disk"></i>
+            <button type="button" (click)="onSave()" class="btn-submit">
               Save
             </button>
-            <button type="button" (click)="onCancel()" class="btn-clear flex items-center gap-2">
-              <i class="fa-solid fa-xmark"></i>
+            <button type="button" (click)="onCancel()" class="btn-clear">
               Cancel
             </button>
           </div>
@@ -139,7 +97,6 @@
       </form>
 
     </div>
-    <!-- END FORM CARD -->
 
   </div>
 </div>

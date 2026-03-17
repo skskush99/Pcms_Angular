@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ColDef, Column, GridReadyEvent, ProvidedColumnGroup } from 'ag-grid-community';
@@ -90,7 +90,7 @@ export class AdminDepartmentComponent {
         field: 'IsActive',
         headerName: 'Action',
         pinned: 'right',
-        width: 100,
+        width: 120,
         cellRenderer: GridActionButtonComponent,
         cellRendererParams: {
           edit:   (field: any) => { this.editAdminDept(field); },
@@ -107,18 +107,33 @@ export class AdminDepartmentComponent {
   // ===================== GET LIST =====================
   getAdminDeptList() {
     const reqParam = {
-      pageNo:       this.currentPage,
-      pageSize:     this.pageSize,
-      sortBy:       this.sortColumn,
+      pageNo: this.currentPage,
+      pageSize: this.pageSize,
+      sortBy: this.sortColumn,
       isSortByDesc: this.sortBy === '0' ? false : true
     };
 
     this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
       next: (res: any) => {
-        this.adminDeptList = res.data;
-        this.totalRecords  = res.pagination[0].totalRecords;
+        if (res?.data) {
+
+          // ✅ Normalize ID (IMPORTANT FIX)
+          this.adminDeptList = res.data.map((x: any) => ({
+            ...x,
+            admDeptId: x.AdmDeptId
+          }));
+
+          this.totalRecords = res.pagination?.[0]?.totalRecords || 0;
+
+        } else {
+          this.adminDeptList = [];
+          this.totalRecords = 0;
+        }
       },
-      error: (err: any) => { console.log(err); }
+      error: (err: any) => {
+        console.log(err);
+        this.notify.showNotification('error', 'Failed to load data');
+      }
     });
   }
 
@@ -126,16 +141,16 @@ export class AdminDepartmentComponent {
   onColumnHeaderClicked(event: { column: Column | ProvidedColumnGroup }): void {
     if ('getSort' in event.column) {
       const column = event.column as Column;
-      const sort   = column.getSort();
+      const sort = column.getSort();
 
       if (sort === 'asc') {
-        this.sortColumn  = column.getColDef().field;
-        this.sortBy      = '0';
+        this.sortColumn = column.getColDef().field;
+        this.sortBy = '0';
         this.currentPage = 1;
         this.getAdminDeptList();
       } else if (sort === 'desc') {
-        this.sortColumn  = column.getColDef().field;
-        this.sortBy      = '1';
+        this.sortColumn = column.getColDef().field;
+        this.sortBy = '1';
         this.currentPage = 1;
         this.getAdminDeptList();
       }
@@ -144,28 +159,37 @@ export class AdminDepartmentComponent {
 
   // ===================== EDIT =====================
   editAdminDept(e: any) {
+
+    // ✅ FIX: ensure correct ID mapping
+    const payload = {
+      ...e,
+      admDeptId: e.admDeptId || e.AdmDeptId
+    };
+
     this._router.navigateByUrl('master/add-admin-dept', {
-      state: { addEditAdminDept: e }
+      state: { addEditAdminDept: payload }
     });
   }
 
   // ===================== DELETE / RESTORE =====================
   confirActiveDeactiveAdminDept(e: any) {
     const dialogRef = this.dialog.open(ConfirmationPopUpComponent, {
-      width:  '350px',
+      width: '350px',
       height: '170px',
-      data:   { msg: constants.confirmDelete }
+      data: { msg: constants.confirmDelete }
     });
 
     dialogRef.afterClosed().subscribe({
-      next: (res: any) => { if (res) this.activeDeactiveAdminDept(e); }
+      next: (res: any) => {
+        if (res) this.activeDeactiveAdminDept(e);
+      }
     });
   }
 
   activeDeactiveAdminDept(e: any) {
     const reqParam = {
-      admDeptId: e.AdmDeptId,
-      active:    !e.IsActive,
+      admDeptId: e.admDeptId || e.AdmDeptId,
+      active: !e.IsActive,
       updatedBy: 0
     };
 
@@ -185,12 +209,13 @@ export class AdminDepartmentComponent {
 
   // ===================== PAGINATION =====================
   onPageSizeChanged(event: any) {
-    this.pageSize    = Number(event.target.value);
+    this.pageSize = Number(event.target.value);
     this.currentPage = 1;
     this.getAdminDeptList();
   }
 
   changePage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.getAdminDeptList();
   }
@@ -203,46 +228,44 @@ export class AdminDepartmentComponent {
   // ===================== EXPORT EXCEL =====================
   exportExcel() {
     const reqParam = {
-      admDeptId:    0,
-      pageNo:       1,
-      pageSize:     999999,
-      sortBy:       '',
+      admDeptId: 0,
+      pageNo: 1,
+      pageSize: 999999,
+      sortBy: '',
       isSortByDesc: true
     };
 
     this.api.post(this.url.getadminDeptList(), reqParam).subscribe({
       next: (res: any) => {
-        if (res.status) {
-          if (res.data?.length) {
-            const columnHeaders: { [key: string]: string } = {
-              RowID:            'Sr No',
-              AdmDeptId:        'Department ID',
-              AdmDeptName:      'Department Name',
-              AdmDeptShortName: 'Department Short Name'
-            };
+        if (res.status && res.data?.length) {
 
-            const modifiedData = res.data.map((row: any) => {
-              const modifiedRow: { [key: string]: any } = {};
-              Object.keys(columnHeaders).forEach((key: string) => {
-                if (row[key] !== undefined) {
-                  modifiedRow[columnHeaders[key]] = row[key];
-                }
-              });
-              return modifiedRow;
+          const columnHeaders: { [key: string]: string } = {
+            RowID: 'Sr No',
+            AdmDeptName: 'Department Name',
+            AdmDeptShortName: 'Department Short Name'
+          };
+
+          const modifiedData = res.data.map((row: any) => {
+            const obj: any = {};
+            Object.keys(columnHeaders).forEach(key => {
+              if (row[key] !== undefined) {
+                obj[columnHeaders[key]] = row[key];
+              }
             });
+            return obj;
+          });
 
-            const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-            this.excel.exportAgGridAsExcelWithHeading(
-              modifiedData,
-              columnHeaders,
-              'Admin Department List',
-              ' \n ( As on ' + formattedDate + ')'
-            );
-          } else {
-            this.notify.showNotification('info', 'No Record To Export');
-          }
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+
+          this.excel.exportAgGridAsExcelWithHeading(
+            modifiedData,
+            columnHeaders,
+            'Admin Department List',
+            ' \n ( As on ' + formattedDate + ')'
+          );
+
         } else {
-          this.notify.showNotification('error', res.message);
+          this.notify.showNotification('info', 'No Record To Export');
         }
       },
       error: () => {
@@ -253,8 +276,6 @@ export class AdminDepartmentComponent {
 
   // ===================== EXPORT PDF =====================
   exportPDF(): void {
-    const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-    // TODO: hook PDF library
     this.notify.showNotification('info', 'PDF export coming soon');
   }
 }

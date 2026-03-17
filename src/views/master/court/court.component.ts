@@ -287,58 +287,64 @@ export class CourtComponent {
   }
 
   // ===================== EXPORT EXCEL =====================
-  exportExcel() {
-    const reqParam = {
-      divisionId:   this.courtFilterForm.value.division || 0,
-      districtId:   this.courtFilterForm.value.district || 0,
-      pageNo:       1,
-      pageSize:     999999,
-      sortBy:       '',
-      isSortByDesc: true
-    };
+exportExcel() {
+  const reqParam = {
+    divisionId: this.courtFilterForm.value.division || 0,
+    districtId: this.courtFilterForm.value.district || 0,
+    pageNo: 1,
+    pageSize: 999999,
+    sortBy: '',
+    isSortByDesc: true
+  };
 
-    this.api.post(this.url.getCourtsList(), reqParam).subscribe({
-      next: (res: any) => {
-        if (res.status) {
-          if (res.data?.length) {
-            const columnHeaders: { [key: string]: string } = {
-              RowID:        'Sr No',
-              JCourtEng:    'Court English Name',
-              JCourtHindi:  'Court Hindi Name',
-              DivisionName: 'Division Name',
-              DistrictName: 'District Name'
+  this.api.post(this.url.getCourtsList(), reqParam).subscribe({
+    next: (res: any) => {
+      if (res.status) {
+
+        if (res.data?.length > 0) {
+
+          // ✅ Column mapping (ONLY HEADER CHANGE)
+          const columnHeaders: { [key: string]: string } = {
+            RowID: 'Sr No',
+            JCourtEng: 'Court English Name',
+            JCourtHindi: 'Court Hindi Name',
+            DivisionName: 'Division Name',
+            DistrictName: 'District Name'
+          };
+
+          // ✅ IMPORTANT: DO NOT CHANGE KEYS
+          const modifiedData = res.data.map((row: any, index: number) => {
+            return {
+              RowID: index + 1, // fresh Sr No
+              JCourtEng: row.JCourtEng,
+              JCourtHindi: row.JCourtHindi,
+              DivisionName: row.DivisionName,
+              DistrictName: row.DistrictName
             };
+          });
 
-            const modifiedData = res.data.map((row: any) => {
-              const modifiedRow: { [key: string]: any } = {};
-              Object.keys(columnHeaders).forEach((key: string) => {
-                if (row[key] !== undefined) {
-                  modifiedRow[columnHeaders[key]] = row[key];
-                }
-              });
-              return modifiedRow;
-            });
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
 
-            const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-            this.excel.exportAgGridAsExcelWithHeading(
-              modifiedData,
-              columnHeaders,
-              'Court List',
-              ' \n ( As on ' + formattedDate + ')'
-            );
-          } else {
-            this.notify.showNotification('info', 'No Record To Export');
-          }
+          this.excel.exportAgGridAsExcelWithHeading(
+            modifiedData,
+            columnHeaders,
+            'Court List',
+            ' \n ( As on ' + formattedDate + ')'
+          );
+
         } else {
-          this.notify.showNotification('error', res.message);
+          this.notify.showNotification('info', 'No Record To Export');
         }
-      },
-      error: () => {
-        this.notify.showNotification('error', constants.apiError);
-      }
-    });
-  }
 
+      } else {
+        this.notify.showNotification('error', res.message);
+      }
+    },
+    error: () => {
+      this.notify.showNotification('error', constants.apiError);
+    }
+  });
+}
   // ===================== EXPORT PDF =====================
   exportPDF() {
     const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');

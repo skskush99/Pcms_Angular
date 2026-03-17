@@ -224,6 +224,10 @@ fillFormForEdit(data: any) {
       .map(crime => crime.offenceClassifId)
       .filter(id => id > 0);
 
+      const offenceClassifId = this.chargeSheetCrimeList
+      .map(crime => crime.offenceClassifId)
+      .filter(id => id > 0);
+
     const personAgainstIds = this.personList
       .map(person => person.personAgainstId)
       .filter(id => id > 0);
@@ -255,6 +259,7 @@ fillFormForEdit(data: any) {
     }
     classificationIDs.forEach(id => formData.append('classificationID', id.toString()));
     personAgainstIds.forEach(id => formData.append('PersonAgainstId', id.toString()));
+    offenceClassifId.forEach(id => formData.append('offenceClassifId', id.toString()));
     console.log('Final FormData:');
     formData.forEach((value, key) => console.log(`  ${key}:`, value));
     this.api.post(this.url.saveComplaint(), formData).subscribe({

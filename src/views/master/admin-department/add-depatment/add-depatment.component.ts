@@ -10,10 +10,7 @@ import { WordsRestrictService } from '../../../shared/services/words-restrict.se
 @Component({
   selector: 'app-add-depatment',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule
-  ],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-depatment.component.html',
   styleUrl: './add-depatment.component.css'
 })
@@ -21,7 +18,7 @@ export class AddDepatmentComponent {
 
   editAdminDept: any;
 
-  // ===================== FORM =====================
+  // ✅ FORM
   addAdminDeptForm: FormGroup = new FormGroup({
     adminDept: new FormControl(null, [
       Validators.required,
@@ -35,19 +32,25 @@ export class AddDepatmentComponent {
 
   constructor(
     public restrictChar: WordsRestrictService,
-    private notify:  NotificationService,
-    private api:     ApiService,
-    private url:     UrlService,
+    private notify: NotificationService,
+    private api: ApiService,
+    private url: UrlService,
     private _router: Router
   ) {}
 
-  // ===================== LIFECYCLE =====================
+  // ===================== INIT =====================
   ngOnInit(): void {
     this.editAdminDept = history.state?.addEditAdminDept;
 
     if (this.editAdminDept) {
-      this.addAdminDeptForm.controls['adminDept'].setValue(this.editAdminDept.AdmDeptName      || '');
-      this.addAdminDeptForm.controls['shortName'].setValue(this.editAdminDept.AdmDeptShortName || '');
+
+      console.log('EDIT DATA:', this.editAdminDept); // debug
+
+      // ✅ Bind values
+      this.addAdminDeptForm.patchValue({
+        adminDept: this.editAdminDept.AdmDeptName || '',
+        shortName: this.editAdminDept.AdmDeptShortName || ''
+      });
     }
   }
 
@@ -60,19 +63,24 @@ export class AddDepatmentComponent {
 
     const reqParam = {
       data: {
-        admDeptId:        this.editAdminDept?.admDeptId || 0,
-        admDeptName:      this.addAdminDeptForm.value.adminDept,
+        // 🔥 FIX: use correct ID mapping
+        admDeptId: this.editAdminDept?.admDeptId || this.editAdminDept?.AdmDeptId || 0,
+
+        admDeptName: this.addAdminDeptForm.value.adminDept,
         admDeptShortName: this.addAdminDeptForm.value.shortName,
-        active:           true,
-        createdBy:        0,
-        createdOn:        new Date().toISOString(),
-        updatedBy:        0,
-        updatedOn:        new Date().toISOString(),
-        deleteBy:         0,
-        deleteOn:         new Date().toISOString(),
-        rowID:            0
+
+        active: true,
+        createdBy: 0,
+        createdOn: new Date().toISOString(),
+        updatedBy: 0,
+        updatedOn: new Date().toISOString(),
+        deleteBy: 0,
+        deleteOn: new Date().toISOString(),
+        rowID: 0
       }
     };
+
+    console.log('FINAL PAYLOAD:', reqParam); // debug
 
     this.api.post(this.url.addEditAdminDept(), reqParam).subscribe({
       next: (res: any) => {
@@ -99,7 +107,7 @@ export class AddDepatmentComponent {
   // ===================== PASTE HANDLER =====================
   onPasteOnlyLetters(event: ClipboardEvent, controlName: string): void {
     event.preventDefault();
-    const pastedText  = event.clipboardData?.getData('text') || '';
+    const pastedText = event.clipboardData?.getData('text') || '';
     const lettersOnly = pastedText.replace(/[^a-zA-Z]/g, '');
     this.addAdminDeptForm.patchValue({ [controlName]: lettersOnly.trim() });
   }

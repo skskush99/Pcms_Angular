@@ -94,44 +94,45 @@ export class AddCourtComponent {
   }
 
   // ===================== SAVE =====================
-  onSave() {
-    if (!this.addCourtForm.valid) {
-      this.addCourtForm.markAllAsTouched();
-      return;
-    }
-
-    const reqParam = {
-      data: {
-        jCourtId:    this.editCourt?.jCourtId              || 0,
-        jCourtCode:  0,
-        jCourtEng:   this.addCourtForm.value.courtEng      || '',
-        jCourtHindi: this.addCourtForm.value.courtHin      || '',
-        divisionId:  this.addCourtForm.value.division      || 0,
-        districtId:  this.addCourtForm.value.district      || 0,
-        officeId:    1,
-        isActive:    true,
-        createdBy:   0,
-        updatedBy:   0
-      }
-    };
-
-    this.api.post(this.url.addEditCourt(), reqParam).subscribe({
-      next: (res: any) => {
-        if (res.status) {
-          this.notify.showNotification('success', res.msg || res.message);
-          window.scrollTo(0, 0);
-          this._router.navigateByUrl('master/court');
-        } else {
-          this.notify.showNotification('error', res.message);
-        }
-      },
-      error: () => {
-        this.notify.showNotification('error', constants.apiError);
-        window.scrollTo(0, 0);
-      }
-    });
+ onSave() {
+  if (!this.addCourtForm.valid) {
+    this.addCourtForm.markAllAsTouched();
+    return;
   }
 
+  const reqParam = {
+    data: {
+      // ✅ FIXED HERE
+      jCourtId: this.editCourt?.JCourtId || 0,
+
+      jCourtCode:  0,
+      jCourtEng:   this.addCourtForm.value.courtEng || '',
+      jCourtHindi: this.addCourtForm.value.courtHin || '',
+      divisionId:  this.addCourtForm.value.division || 0,
+      districtId:  this.addCourtForm.value.district || 0,
+      officeId:    1,
+      isActive:    true,
+      createdBy:   0,
+      updatedBy:   0
+    }
+  };
+
+  this.api.post(this.url.addEditCourt(), reqParam).subscribe({
+    next: (res: any) => {
+      if (res.status) {
+        this.notify.showNotification('success', res.msg || res.message);
+        window.scrollTo(0, 0);
+        this._router.navigateByUrl('master/court');
+      } else {
+        this.notify.showNotification('error', res.message);
+      }
+    },
+    error: () => {
+      this.notify.showNotification('error', constants.apiError);
+      window.scrollTo(0, 0);
+    }
+  });
+}
   // ===================== CANCEL =====================
   onCancel() {
     this._router.navigateByUrl('master/court');
