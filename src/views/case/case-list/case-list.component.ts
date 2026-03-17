@@ -31,7 +31,7 @@ import constants from '../../shared/utils/constants';
   providers: [DatePipe],
   animations: [
     trigger('slideInOut', [
-      state('in',  style({ height: '*',    opacity: 1 })),
+      state('in', style({ height: '*', opacity: 1 })),
       state('out', style({ height: '0px', opacity: 0 })),
       transition('in => out', [animate('200ms ease-in-out')]),
       transition('out => in', [animate('200ms ease-in')])
@@ -42,11 +42,11 @@ export class CaseListComponent implements OnInit {
 
   // ===================== GRID =====================
   colDef: ColDef[] = [];
-  caseList: any[]  = [];
+  caseList: any[] = [];
 
   // ===================== PAGINATION =====================
-  pageSize:     number = 10;
-  currentPage:  number = 1;
+  pageSize: number = 10;
+  currentPage: number = 1;
   totalRecords: number = 0;
 
   get totalPages(): number {
@@ -55,11 +55,12 @@ export class CaseListComponent implements OnInit {
 
   // ===================== SORTING =====================
   sortColumn: string | undefined = '';
-  sortBy:     string = '';
+  sortBy: string = '';
 
   // ===================== DROPDOWNS =====================
   districtDropDown: DropdownListInterface[] = [];
-  firYearDropdown:  DropdownListInterface[] = [];   // ← FIR Year list (same as CaseIdentificationComponent)
+  firYearDropdown: DropdownListInterface[] = [];   // ← FIR Year list (same as CaseIdentificationComponent)
+  thanaDropdown: DropdownListInterface[] = [];   // ← Police Station dropdown with code
   permissionByRole: any;
 
   // ===================== FILTER FORM =====================
@@ -67,14 +68,14 @@ export class CaseListComponent implements OnInit {
   // Added   : PSName, FIRNo, FIRYear
   caseFilterForm: FormGroup = new FormGroup({
     DistrictId: new FormControl(null, { nonNullable: true }),
-    PSName:     new FormControl('',   { nonNullable: true }),
-    FIRNo:      new FormControl('',   { nonNullable: true }),
-    FIRYear:    new FormControl(null, { nonNullable: true }),
+    PSName: new FormControl(null, { nonNullable: true }),   // ng-select — stores value (station code)
+    FIRNo: new FormControl('', { nonNullable: true }),
+    FIRYear: new FormControl(null, { nonNullable: true }),
   });
 
   // ===================== FILTER TOGGLE =====================
   isFormCollapsed = true;
-  buttonText      = 'Show Filter';
+  buttonText = 'Show Filter';
 
   get animationState() {
     return this.isFormCollapsed ? 'out' : 'in';
@@ -87,13 +88,13 @@ export class CaseListComponent implements OnInit {
   }
 
   constructor(
-    private dialog:   MatDialog,
-    private notify:   NotificationService,
-    private _router:  Router,
-    private api:      ApiService,
-    private url:      UrlService,
+    private dialog: MatDialog,
+    private notify: NotificationService,
+    private _router: Router,
+    private api: ApiService,
+    private url: UrlService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   // ===================== LIFECYCLE =====================
   ngOnInit(): void {
@@ -102,8 +103,9 @@ export class CaseListComponent implements OnInit {
     const ifPrevSize = history.state?.prevPageSize;
     if (ifPrevSize) this.pageSize = ifPrevSize;
 
-    this.firYearDropdown = createYearList(1950);   // same as CaseIdentificationComponent
+    this.firYearDropdown = createYearList(1950);
     this.getDistrictDropDown();
+    this.getPoliceStationDropdown();
     this.getCaseList();
   }
 
@@ -147,7 +149,7 @@ export class CaseListComponent implements OnInit {
         cellStyle: { whiteSpace: 'normal' },
         autoHeight: true
       },
-      {
+       {
         field: 'PSName',
         headerName: 'Police Station Name',
         filter: false,
@@ -186,7 +188,8 @@ export class CaseListComponent implements OnInit {
         autoHeaderHeight: true,
         cellStyle: { whiteSpace: 'normal' },
         autoHeight: true
-      },     
+      },
+     
       {
         field: 'TitleOfCase',
         headerName: 'Case Of Title',
@@ -206,8 +209,8 @@ export class CaseListComponent implements OnInit {
         filter: false,
         cellRenderer: GridActionButtonComponent,
         cellRendererParams: {
-          edit:       (field: any) => this.addEditCase(field),
-          delete:     (field: any) => this.confirmActiveDeactiveOffice(field),
+          edit: (field: any) => this.addEditCase(field),
+          delete: (field: any) => this.confirmActiveDeactiveOffice(field),
           permission: this.permissionByRole
         }
       }
@@ -218,16 +221,16 @@ export class CaseListComponent implements OnInit {
   onColumnHeaderClicked(event: { column: Column | ProvidedColumnGroup }): void {
     if ('getSort' in event.column) {
       const column = event.column as Column;
-      const sort   = column.getSort();
+      const sort = column.getSort();
 
       if (sort === 'asc') {
-        this.sortColumn  = column.getColDef().field;
-        this.sortBy      = '0';
+        this.sortColumn = column.getColDef().field;
+        this.sortBy = '0';
         this.currentPage = 1;
         this.getCaseList();
       } else if (sort === 'desc') {
-        this.sortColumn  = column.getColDef().field;
-        this.sortBy      = '1';
+        this.sortColumn = column.getColDef().field;
+        this.sortBy = '1';
         this.currentPage = 1;
         this.getCaseList();
       }
@@ -239,33 +242,47 @@ export class CaseListComponent implements OnInit {
     const f = this.caseFilterForm.value;
 
     const reqParam = {
-      pageNo:       this.currentPage,
-      pageSize:     this.pageSize,
-      districtId:   f.DistrictId || 0,
-      psName:       f.PSName     || '',
-      firNo:        f.FIRNo      || '',
-      firYear:      f.FIRYear    || 0,
-      sortBy:       this.sortColumn,
-      officeId:     0,
+      pageNo: this.currentPage,
+      pageSize: this.pageSize,
+      districtId: f.DistrictId || 0,
+      psName: f.PSName || '',
+      firNo: f.FIRNo || '',
+      firYear: f.FIRYear || 0,
+      sortBy: this.sortColumn,
+      officeId: 0,
+      registerType: -1,
       isSortByDesc: this.sortBy === '0' ? false : true,
-      cnrNo:        '',
-      jCourtId:     0
+      cnrNo: '',
+      jCourtId: 0
     };
 
     this.api.post(this.url.getCaseList(), reqParam).subscribe({
       next: (res: any) => {
-        this.caseList     = res.data;
+        this.caseList = res.data;
         this.totalRecords = res.pagination[0].totalRecords;
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
   // ===================== DROPDOWN =====================
   getDistrictDropDown() {
     this.api.get(this.url.getDistrictDropDown()).subscribe({
-      next:  (res: any) => { this.districtDropDown = res.data; },
-      error: () => {}
+      next: (res: any) => { this.districtDropDown = res.data; },
+      error: () => { }
+    });
+  }
+
+  /** Same pattern as CaseIdentificationComponent — label: "NAME (code)" */
+  getPoliceStationDropdown(): void {
+    this.api.get(this.url.getPoliceStationDropdownall()).subscribe({
+      next: (res: any) => {
+        this.thanaDropdown = (res.data || []).map((item: any) => ({
+          ...item,
+          text: `${item.text} (${item.value})`
+        }));
+      },
+      error: (err: Error) => { throw new Error(err?.message); }
     });
   }
 
@@ -283,7 +300,7 @@ export class CaseListComponent implements OnInit {
 
   // ===================== PAGINATION =====================
   onPageSizeChanged(event: any) {
-    this.pageSize    = Number(event.target.value);
+    this.pageSize = Number(event.target.value);
     this.currentPage = 1;
     this.getCaseList();
   }
@@ -306,13 +323,13 @@ export class CaseListComponent implements OnInit {
   // ===================== ACTIVE / DEACTIVE =====================
   confirmActiveDeactiveOffice(e: any) {
     const dialogRef = this.dialog.open(ConfirmationPopUpComponent, {
-      panelClass:   'confirm-dialog-panel',
+      panelClass: 'confirm-dialog-panel',
       disableClose: true,
-      width:        'auto',
-      height:       'auto',
-      maxWidth:     '96vw',
-      maxHeight:    'none',
-      data:         { msg: constants.confirmDelete }
+      width: 'auto',
+      height: 'auto',
+      maxWidth: '96vw',
+      maxHeight: 'none',
+      data: { msg: constants.confirmDelete }
     });
 
     dialogRef.afterClosed().subscribe({
@@ -322,8 +339,8 @@ export class CaseListComponent implements OnInit {
 
   activeDeactiveOffice(e: any) {
     const reqParam = {
-      officeId:  e?.OfficeId,
-      isActive:  !e?.IsActive,
+      officeId: e?.OfficeId,
+      isActive: !e?.IsActive,
       updatedBy: 0
     };
 
@@ -358,15 +375,15 @@ export class CaseListComponent implements OnInit {
       '( As on ' + formattedDate + ')'
     ];
     const columns = [
-      { header: 'Sr. No.',              dataKey: 'RowID'           },
-      { header: 'Dir Register Number',  dataKey: 'DirRegId'        },
-      { header: 'FIR No',               dataKey: 'FIRNo'           },
-      { header: 'FIR Year',             dataKey: 'FIRYear'         },
-      { header: 'District Name',        dataKey: 'DistrictNameEng' },
-      { header: 'Office Name',          dataKey: 'OfficeEng'       },
-      { header: 'Court Name',           dataKey: 'JCourtEng'       },
-      { header: 'Police Station',       dataKey: 'PSName'          },
-      { header: 'Case Title',           dataKey: 'TitleOfCase'     },
+      { header: 'Sr. No.', dataKey: 'RowID' },
+      { header: 'Dir Register Number', dataKey: 'DirRegId' },
+      { header: 'FIR No', dataKey: 'FIRNo' },
+      { header: 'FIR Year', dataKey: 'FIRYear' },
+      { header: 'District Name', dataKey: 'DistrictNameEng' },
+      { header: 'Office Name', dataKey: 'OfficeEng' },
+      { header: 'Court Name', dataKey: 'JCourtEng' },
+      { header: 'Police Station', dataKey: 'PSName' },
+      { header: 'Case Title', dataKey: 'TitleOfCase' },
     ];
   }
 }

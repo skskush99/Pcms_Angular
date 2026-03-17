@@ -480,4 +480,11 @@ export class UrlService {
     return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
   }
 
+    searchCctns() {
+    return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
+  }
+
+    getPoliceStationDropdownall() {
+    return `${this.masterUrl}/PoliceThana/AllPStationDropdown`
+  }
 }
