@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { ApiService } from '../../shared/services/api.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UrlService } from '../../shared/services/url.service';
+import { XlsxService } from '../../shared/services/xlsx.service';
 import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
 import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
 import constants from '../../shared/utils/constants';
@@ -42,11 +43,13 @@ export class CrimeClassificationComponent {
 
   // ===================== CONSTRUCTOR =====================
   constructor(
-    private notify: NotificationService,
-    private _router: Router,
-    private api: ApiService,
-    private dialog: MatDialog,
-    private url: UrlService
+    private notify:    NotificationService,
+    private _router:   Router,
+    private api:       ApiService,
+    private dialog:    MatDialog,
+    private url:       UrlService,
+    private excel:     XlsxService,
+    private datePipe:  DatePipe
   ) {}
 
   // ===================== LIFECYCLE =====================
@@ -204,5 +207,106 @@ export class CrimeClassificationComponent {
   changePage(page: number): void {
     this.currentPage = page;
     this.getCrimeClassificationList();
+  }
+
+  // ===================== EXPORT EXCEL =====================
+  exportExcel() {
+    // ✅ Fetch all records for export
+    const reqParam = {
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       this.sortColumn,
+      isSortByDesc: this.sortBy === '0' ? false : true
+    };
+
+    this.api.post(this.url.getCrimeClassificationList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Column headers mapping
+          const columnHeaders: { [key: string]: string } = {
+            RowID:                     'Sr No',
+            CrimeClsNameEnglish:       'Crime Classification Name',
+            CrimeClsNameHindi:         'Crime Classification Hindi Name'
+          };
+
+          // ✅ Transform data with row numbers
+          const modifiedData = res.data.map((row: any, index: number) => {
+            const modifiedRow: { [key: string]: any } = {
+              'Sr No': index + 1,
+              'Crime Classification Name': row.CrimeClsNameEnglish || '',
+              'Crime Classification Hindi Name': row.CrimeClsNameHindi || ''
+            };
+            return modifiedRow;
+          });
+
+          // ✅ Export to Excel
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          this.excel.exportAgGridAsExcelWithHeading(
+            modifiedData,
+            columnHeaders,
+            'Crime Classification List',
+            ' \n ( As on ' + formattedDate + ')'
+          );
+
+          this.notify.showNotification('success', 'Excel exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
+  }
+
+  // ===================== EXPORT PDF =====================
+  exportPDF() {
+    // ✅ Fetch all records for export
+    const reqParam = {
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       this.sortColumn,
+      isSortByDesc: this.sortBy === '0' ? false : true
+    };
+
+    this.api.post(this.url.getCrimeClassificationList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Prepare data with row numbers
+          const exportData = res.data.map((row: any, index: number) => ({
+            RowID: index + 1,
+            CrimeClsNameEnglish: row.CrimeClsNameEnglish || '',
+            CrimeClsNameHindi: row.CrimeClsNameHindi || ''
+          }));
+
+          // ✅ PDF Headers
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          const headers = [
+            'Government of Rajasthan',
+            'Prosecution Department',
+            '(Prosecution Case Management System)',
+            'Crime Classification List',
+            '( As on ' + formattedDate + ')'
+          ];
+
+          // ✅ PDF Columns
+          const columns = [
+            { header: 'Sr. No.',                           dataKey: 'RowID' },
+            { header: 'Crime Classification Name',         dataKey: 'CrimeClsNameEnglish' },
+            { header: 'Crime Classification Hindi Name',   dataKey: 'CrimeClsNameHindi' }
+          ];
+
+          // ✅ Export to PDF
+          this.excel.exportAllJsonPDF(headers, columns, exportData, 'Crime Classification List', true);
+
+          this.notify.showNotification('success', 'PDF exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
   }
 }

@@ -11,6 +11,7 @@ import { DropdownListInterface } from '../../shared/model/shared.model';
 import { ApiService } from '../../shared/services/api.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UrlService } from '../../shared/services/url.service';
+import { XlsxService } from '../../shared/services/xlsx.service';
 import { GridActionButtonComponent } from '../../shared/components/grid-action-button/grid-action-button.component';
 import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
 import constants from '../../shared/utils/constants';
@@ -62,12 +63,14 @@ export class CrimeSubActComponent {
     crimeAct:            new FormControl(null, { nonNullable: true })
   });
 
+  // ===================== CONSTRUCTOR =====================
   constructor(
     private dialog:   MatDialog,
     private notify:   NotificationService,
     private _router:  Router,
     private api:      ApiService,
     private url:      UrlService,
+    private excel:    XlsxService,
     private datePipe: DatePipe
   ) {}
 
@@ -327,31 +330,122 @@ export class CrimeSubActComponent {
     });
   }
 
-  // ===================== EXPORT EXCEL (stub) =====================
+  // ===================== EXPORT EXCEL =====================
   exportExcel() {
-    this.notify.showNotification('info', 'Excel export coming soon');
+    // ✅ Fetch all records for export
+    const reqParam = {
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       this.sortColumn,
+      isSortByDesc: this.sortBy === '0' ? false : true,
+      crimeClsId:   this.crimeSubActForm.value.crimeClassification || 0,
+      crimeActId:   this.crimeSubActForm.value.crimeAct            || 0
+    };
+
+    this.api.post(this.url.getCrimeSubActList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Column headers mapping
+          const columnHeaders: { [key: string]: string } = {
+            RowID:                       'Sr No',
+            CrimeSubActNameEnglish:      'Crime Sub Act Name',
+            CrimeSubActNameHindi:        'Crime Sub Act Hindi Name',
+            CrimeSubActShortName:        'Sub Act Short Name',
+            CrimeSubActDescription:      'Sub Act Description',
+            CrimeActNameEnglish:         'Act Name',
+            CrimeClsNameEnglish:         'Classification Name'
+          };
+
+          // ✅ Transform data with row numbers
+          const modifiedData = res.data.map((row: any, index: number) => {
+            const modifiedRow: { [key: string]: any } = {
+              'Sr No': index + 1,
+              'Crime Sub Act Name': row.CrimeSubActNameEnglish || '',
+              'Crime Sub Act Hindi Name': row.CrimeSubActNameHindi || '',
+              'Sub Act Short Name': row.CrimeSubActShortName || '',
+              'Sub Act Description': row.CrimeSubActDescription || '',
+              'Act Name': row.CrimeActNameEnglish || '',
+              'Classification Name': row.CrimeClsNameEnglish || ''
+            };
+            return modifiedRow;
+          });
+
+          // ✅ Export to Excel
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          this.excel.exportAgGridAsExcelWithHeading(
+            modifiedData,
+            columnHeaders,
+            'Crime Sub Act List',
+            ' \n ( As on ' + formattedDate + ')'
+          );
+
+          this.notify.showNotification('success', 'Excel exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
   }
 
-  // ===================== EXPORT PDF (stub) =====================
+  // ===================== EXPORT PDF =====================
   exportPDF() {
-    const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-    const headers = [
-      'Government of Rajasthan',
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
-      'Crime Sub Act List',
-      '( As on ' + formattedDate + ')'
-    ];
+    // ✅ Fetch all records for export
+    const reqParam = {
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       this.sortColumn,
+      isSortByDesc: this.sortBy === '0' ? false : true,
+      crimeClsId:   this.crimeSubActForm.value.crimeClassification || 0,
+      crimeActId:   this.crimeSubActForm.value.crimeAct            || 0
+    };
 
-    const columns = [
-      { header: 'Sr. No.',                dataKey: 'RowID' },
-      { header: 'Crime Sub Act Name',     dataKey: 'CrimeSubActNameEnglish' },
-      { header: 'Sub Act Hindi Name',     dataKey: 'CrimeSubActNameHindi' },
-      { header: 'Sub Act Short Name',     dataKey: 'CrimeSubActShortName' },
-      { header: 'Act Name',               dataKey: 'CrimeActNameEnglish' },
-      { header: 'Classification Name',    dataKey: 'CrimeClsNameEnglish' }
-    ];
+    this.api.post(this.url.getCrimeSubActList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Prepare data with row numbers
+          const exportData = res.data.map((row: any, index: number) => ({
+            RowID: index + 1,
+            CrimeSubActNameEnglish: row.CrimeSubActNameEnglish || '',
+            CrimeSubActNameHindi: row.CrimeSubActNameHindi || '',
+            CrimeSubActShortName: row.CrimeSubActShortName || '',
+            CrimeActNameEnglish: row.CrimeActNameEnglish || '',
+            CrimeClsNameEnglish: row.CrimeClsNameEnglish || ''
+          }));
 
-    // this.excel.exportAllJsonPDF(headers, columns, this.crimeSubActList, 'Crime Sub Act List', true);
+          // ✅ PDF Headers
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          const headers = [
+            'Government of Rajasthan',
+            'Prosecution Department',
+            '(Prosecution Case Management System)',
+            'Crime Sub Act List',
+            '( As on ' + formattedDate + ')'
+          ];
+
+          // ✅ PDF Columns
+          const columns = [
+            { header: 'Sr. No.',                dataKey: 'RowID' },
+            { header: 'Crime Sub Act Name',     dataKey: 'CrimeSubActNameEnglish' },
+            { header: 'Sub Act Hindi Name',     dataKey: 'CrimeSubActNameHindi' },
+            { header: 'Sub Act Short Name',     dataKey: 'CrimeSubActShortName' },
+            { header: 'Act Name',               dataKey: 'CrimeActNameEnglish' },
+            { header: 'Classification Name',    dataKey: 'CrimeClsNameEnglish' }
+          ];
+
+          // ✅ Export to PDF
+          this.excel.exportAllJsonPDF(headers, columns, exportData, 'Crime Sub Act List', true);
+
+          this.notify.showNotification('success', 'PDF exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
   }
 }

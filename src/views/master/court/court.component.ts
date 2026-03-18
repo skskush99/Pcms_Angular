@@ -287,23 +287,22 @@ export class CourtComponent {
   }
 
   // ===================== EXPORT EXCEL =====================
-exportExcel() {
-  const reqParam = {
-    divisionId: this.courtFilterForm.value.division || 0,
-    districtId: this.courtFilterForm.value.district || 0,
-    pageNo: 1,
-    pageSize: 999999,
-    sortBy: '',
-    isSortByDesc: true
-  };
+  exportExcel() {
+    // ✅ Fetch all records for export
+    const reqParam = {
+      jCourtId:     0,
+      divisionId:   this.courtFilterForm.value.division || 0,
+      districtId:   this.courtFilterForm.value.district || 0,
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       '',
+      isSortByDesc: true
+    };
 
-  this.api.post(this.url.getCourtsList(), reqParam).subscribe({
-    next: (res: any) => {
-      if (res.status) {
-
-        if (res.data?.length > 0) {
-
-          // ✅ Column mapping (ONLY HEADER CHANGE)
+    this.api.post(this.url.getCourtsList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Column headers mapping
           const columnHeaders: { [key: string]: string } = {
             RowID: 'Sr No',
             JCourtEng: 'Court English Name',
@@ -312,19 +311,19 @@ exportExcel() {
             DistrictName: 'District Name'
           };
 
-          // ✅ IMPORTANT: DO NOT CHANGE KEYS
+          // ✅ Transform data with sequential row numbers
           const modifiedData = res.data.map((row: any, index: number) => {
             return {
-              RowID: index + 1, // fresh Sr No
-              JCourtEng: row.JCourtEng,
-              JCourtHindi: row.JCourtHindi,
-              DivisionName: row.DivisionName,
-              DistrictName: row.DistrictName
+              RowID: index + 1,
+              JCourtEng: row.JCourtEng || '',
+              JCourtHindi: row.JCourtHindi || '',
+              DivisionName: row.DivisionName || '',
+              DistrictName: row.DistrictName || ''
             };
           });
 
+          // ✅ Export to Excel
           const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-
           this.excel.exportAgGridAsExcelWithHeading(
             modifiedData,
             columnHeaders,
@@ -332,38 +331,74 @@ exportExcel() {
             ' \n ( As on ' + formattedDate + ')'
           );
 
+          // ✅ Success notification
+          this.notify.showNotification('success', 'Excel exported successfully');
         } else {
           this.notify.showNotification('info', 'No Record To Export');
         }
-
-      } else {
-        this.notify.showNotification('error', res.message);
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
       }
-    },
-    error: () => {
-      this.notify.showNotification('error', constants.apiError);
-    }
-  });
-}
+    });
+  }
+
   // ===================== EXPORT PDF =====================
   exportPDF() {
-    const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-    const headers = [
-      'Government of Rajasthan',
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
-      'Court List',
-      '( As on ' + formattedDate + ')',
-    ];
+    // ✅ Fetch all records for export
+    const reqParam = {
+      jCourtId:     0,
+      divisionId:   this.courtFilterForm.value.division || 0,
+      districtId:   this.courtFilterForm.value.district || 0,
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       '',
+      isSortByDesc: true
+    };
 
-    const columns = [
-      { header: 'Sr. No.',       dataKey: 'RowID' },
-      { header: 'Court English', dataKey: 'JCourtEng' },
-      { header: 'Court Hindi',   dataKey: 'JCourtHindi' },
-      { header: 'Division',      dataKey: 'DivisionName' },
-      { header: 'District',      dataKey: 'DistrictName' }
-    ];
+    this.api.post(this.url.getCourtsList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Prepare data with sequential row numbers
+          const exportData = res.data.map((row: any, index: number) => ({
+            RowID: index + 1,
+            JCourtEng: row.JCourtEng || '',
+            JCourtHindi: row.JCourtHindi || '',
+            DivisionName: row.DivisionName || '',
+            DistrictName: row.DistrictName || ''
+          }));
 
-    this.excel.exportAllJsonPDF(headers, columns, this.courtList, 'Court List', true);
+          // ✅ PDF Headers
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          const headers = [
+            'Government of Rajasthan',
+            'Prosecution Department',
+            '(Prosecution Case Management System)',
+            'Court List',
+            '( As on ' + formattedDate + ')'
+          ];
+
+          // ✅ PDF Columns
+          const columns = [
+            { header: 'Sr. No.',       dataKey: 'RowID' },
+            { header: 'Court English', dataKey: 'JCourtEng' },
+            { header: 'Court Hindi',   dataKey: 'JCourtHindi' },
+            { header: 'Division',      dataKey: 'DivisionName' },
+            { header: 'District',      dataKey: 'DistrictName' }
+          ];
+
+          // ✅ Export to PDF
+          this.excel.exportAllJsonPDF(headers, columns, exportData, 'Court List', true);
+
+          // ✅ Success notification
+          this.notify.showNotification('success', 'PDF exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
   }
 }

@@ -12,7 +12,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <!-- Add FIR Status -->
+          <!-- ✅ Add FIR Status -->
           <button type="button" class="filter-toggle-btn" (click)="addNewFirStatus()">
             <i class="fa-solid fa-plus"></i>
             Add FIR Status
@@ -71,8 +71,17 @@
           </button>
         </div>
 
-        <!-- Right: empty (no export implemented) -->
-        <div class="download-buttons"></div>
+        <!-- ✅ Right: Excel + PDF download buttons -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="exportExcel()">
+            <img src="assets/excel-file.png" alt="excel">
+            Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+            Export To PDF
+          </button>
+        </div>
 
       </div>
       <!-- END BOTTOM ACTION BAR -->

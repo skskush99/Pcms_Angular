@@ -157,6 +157,11 @@ export const routes: Routes = [
     path: 'add-case-decision-reason',
     loadComponent: () => import('../views/master/case-decision-reason/add-case-decision-reason/add-case-decision-reason.component').then(m => m.AddCaseDecisionReasonComponent),
     canActivate: []
+    },    
+    {
+    path: 'raj-master-data',
+    loadComponent: () => import('../views/master/raj-master-data/raj-master-data.component').then(m => m.RajMasterDataComponent),
+    canActivate: []
     },
    
 ]
