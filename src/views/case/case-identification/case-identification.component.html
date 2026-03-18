@@ -2,16 +2,14 @@
 
     <!-- ===== REGISTER TYPE ===== -->
     <div class="ci-field-block">
-        <p class="ci-field-label">
-            Register Type <span class="required">*</span>
-        </p>
+        <p class="ci-field-label">Register Type <span class="required">*</span></p>
         <div class="radio-group radio-group-bordered">
             <label class="radio-option">
-                <input type="radio" formControlName="regType" value="1" />
+                <input type="radio" formControlName="regType" value="1" (change)="onRegTypeChange()" />
                 <span>Diar Register</span>
             </label>
             <label class="radio-option">
-                <input type="radio" formControlName="regType" value="2" />
+                <input type="radio" formControlName="regType" value="2" (change)="onRegTypeChange()" />
                 <span>Final Register (FR)</span>
             </label>
         </div>
@@ -19,9 +17,7 @@
 
     <!-- ===== SEARCH CASE VIA ===== -->
     <div class="ci-field-block" style="margin-top:20px;">
-        <p class="ci-field-label">
-            Search Case Via <span class="required">*</span>
-        </p>
+        <p class="ci-field-label">Search Case Via <span class="required">*</span></p>
         <div class="radio-group radio-group-bordered">
             <label class="radio-option">
                 <input type="radio" formControlName="searchCaseVia" value="1" />
@@ -51,26 +47,23 @@
                 <ng-select [items]="thanaDropdown" bindLabel="text" bindValue="value" [virtualScroll]="true"
                     placeholder="Select Thana" formControlName="thana" class="custom-ng-select" appendTo="body">
                 </ng-select>
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('thana')?.touched && caseIdentificationForm.get('thana')?.errors?.['required']">
+                    Thana is required
+                </span>
             </div>
 
-            <!-- FIR No — min 1 digit, max 4 digits, only digits allowed -->
+            <!-- FIR No -->
             <div class="form-group">
                 <label for="firNo">FIR No. <span class="required">*</span></label>
-                <input
-                    type="text"
-                    id="firNo"
-                    formControlName="firNo"
+                <input type="text" id="firNo" formControlName="firNo"
                     placeholder="Enter FIR No. (max 4 digits)"
-                    autocomplete="off"
-                    maxlength="4"
+                    autocomplete="off" maxlength="4"
                     (keypress)="onFirNoKeyPress($event)">
-
-                <!-- Required -->
                 <span class="form-error"
                     *ngIf="caseIdentificationForm.get('firNo')?.touched && caseIdentificationForm.get('firNo')?.errors?.['required']">
                     FIR No. is required
                 </span>
-                <!-- Only digits allowed -->
                 <span class="form-error"
                     *ngIf="caseIdentificationForm.get('firNo')?.touched && caseIdentificationForm.get('firNo')?.errors?.['pattern']">
                     FIR No. must contain digits only
@@ -84,26 +77,42 @@
                     placeholder="Select Year of FIR"
                     formControlName="firYear" class="custom-ng-select" appendTo="body">
                 </ng-select>
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('firYear')?.touched && caseIdentificationForm.get('firYear')?.errors?.['required']">
+                    Year of FIR is required
+                </span>
+            </div>
+
+            <!-- CCTNS Button — hidden for Final Register (FR) -->
+            <div *ngIf="isFirDetailsFilled() && !isFR"
+                style="grid-column: 1 / -1; display:flex; justify-content:flex-end; margin-top:4px;">
+                <button type="button" class="btn-search"
+                    [disabled]="cctnsSuccess"
+                    [style.opacity]="cctnsSuccess ? '0.5' : '1'"
+                    [style.cursor]="cctnsSuccess ? 'not-allowed' : 'pointer'"
+                    (click)="onCctnsSearch()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    {{ cctnsSuccess ? 'CCTNS (Fetched ✓)' : 'CCTNS' }}
+                </button>
             </div>
 
         </div>
     </div>
+
+
     } @else {
     <div class="ci-fields-card">
         <div class="cnr-search-row">
-
             <div class="form-group cnr-input">
                 <label for="cisCnr">CIS / CNR No. <span class="required">*</span></label>
-                <input type="text" id="cisCnr" formControlName="cisCnr" placeholder="Enter CIS or CNR No."
-                    autocomplete="off">
+                <input type="text" id="cisCnr" formControlName="cisCnr"
+                    placeholder="Enter CIS or CNR No." autocomplete="off">
             </div>
-
             <div class="cnr-btn">
                 <button type="button" class="btn-search" (click)="searnCnrCis()">
                     <i class="fa-solid fa-magnifying-glass"></i> Search
                 </button>
             </div>
-
         </div>
     </div>
     }

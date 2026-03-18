@@ -1,31 +1,20 @@
 <!-- ===================== STEPPER TABS ===================== -->
 <div class="stepper-tabs">
   <div class="stepper-row">
-
     @for (item of formsName; track $index) {
-
-      <!-- Step Button -->
       <button type="button" class="stepper-step"
         [class.stepper-active]="currentForm === $index + 1"
         [class.stepper-done]="$index + 1 < currentForm">
-
         <span class="stepper-circle">
           <i *ngIf="$index + 1 < currentForm" class="fa-solid fa-check" style="font-size:0.65rem;"></i>
           <span *ngIf="$index + 1 >= currentForm">{{ $index + 1 }}</span>
         </span>
-
         <span class="stepper-label">{{ item }}</span>
       </button>
-
-      <!-- Connector Line -->
       @if ($index < formsName.length - 1) {
-        <div class="stepper-line"
-          [class.stepper-line-done]="$index + 1 < currentForm">
-        </div>
+        <div class="stepper-line" [class.stepper-line-done]="$index + 1 < currentForm"></div>
       }
-
     }
-
   </div>
 </div>
 
@@ -36,60 +25,60 @@
     @if (currentForm == 1) {
       <app-case-identification
         [caseId]="caseId"
-        (caseIdentification)="saveAndNext($event)">
+        (caseIdentification)="saveAndNext($event)"
+        (cctnsDataReceived)="onCctnsDataReceived($event)"
+        (regTypeChanged)="onRegTypeChanged($event)">
       </app-case-identification>
     }
 
     @if (currentForm == 2) {
       <app-fir-charges-sheet
-        (firChargeSheetC)="saveAndNext($event)"
-        [caseId]="caseId">
+        [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
+        (firChargeSheetC)="saveAndNext($event)">
       </app-fir-charges-sheet>
     }
 
     @if (currentForm == 3) {
       <app-case-parties
         [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
         (caseParty)="saveAndNext($event)">
       </app-case-parties>
     }
 
     @if (currentForm == 4) {
-      <!-- caseSubmitted event → navigateToCaseList() -->
       <app-case-review-submit
         [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
         (caseSubmitted)="navigateToCaseList()">
       </app-case-review-submit>
     }
 
     <!-- ===================== NAVIGATION BUTTONS ===================== -->
     <div class="form-actions">
-
-      <!-- Step 1: Back to Case List -->
       @if (currentForm === 1) {
-        <button type="button" class="btn-clear"
-          (click)="navigateToCaseList()">
-          <i class="fa-solid fa-arrow-left"></i>
-          Back
+        <button type="button" class="btn-clear" (click)="navigateToCaseList()">
+          <i class="fa-solid fa-arrow-left"></i> Back
         </button>
       }
-
-      <!-- Step 2+: Previous Step -->
       @if (currentForm > 1) {
-        <button type="button" class="btn-clear"
-          (click)="formPrev()">
-          <i class="fa-solid fa-arrow-left"></i>
-          Previous
+        <button type="button" class="btn-clear" (click)="formPrev()">
+          <i class="fa-solid fa-arrow-left"></i> Previous
         </button>
       }
-
-      <!-- Save & Next / Submit -->
-      <button type="button" class="btn-submit" (click)="formNext()">
+      <button type="button" class="btn-submit"
+        [disabled]="currentForm === 1 && !step1Unlocked"
+        [style.opacity]="currentForm === 1 && !step1Unlocked ? '0.5' : '1'"
+        [style.cursor]="currentForm === 1 && !step1Unlocked ? 'not-allowed' : 'pointer'"
+        (click)="formNext()">
         {{ currentForm === formsName.length ? 'Submit' : 'Save & Next' }}
         <i *ngIf="currentForm !== formsName.length" class="fa-solid fa-arrow-right"></i>
-        <i *ngIf="currentForm === formsName.length"  class="fa-solid fa-paper-plane"></i>
+        <i *ngIf="currentForm === formsName.length" class="fa-solid fa-paper-plane"></i>
       </button>
-
     </div>
 
   </div>

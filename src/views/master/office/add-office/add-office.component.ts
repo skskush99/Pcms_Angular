@@ -41,15 +41,21 @@ export class AddOfficeComponent {
     private _router: Router
   ) {}
 
-  // ===================== LIFECYCLE =====================
+  // ===================== INIT =====================
   ngOnInit(): void {
     this.editOffice = history.state?.office;
 
     if (this.editOffice) {
+
+      console.log('EDIT DATA:', this.editOffice); // 🔍 debug
+
       this.addOfficeForm.patchValue({
-        officeEng: this.editOffice?.OfficeEng  || '',
-        officeHin: this.editOffice?.OfficeHin  || '',
-        district:  this.editOffice?.DistrictId || null
+        officeEng: this.editOffice?.OfficeEng || '',
+
+        // 🔥 FIX HERE (handle both possible keys)
+        officeHin: this.editOffice?.OfficeHin || this.editOffice?.OfficeHindi || '',
+
+        district: this.editOffice?.DistrictId || null
       });
     }
 
@@ -78,15 +84,20 @@ export class AddOfficeComponent {
 
     const reqParam = {
       data: {
-        officeId:   this.editOffice?.OfficeId || 0,
-        officeEng:  this.addOfficeForm.value.officeEng,
+        officeId: this.editOffice?.OfficeId || 0,
+        officeEng: this.addOfficeForm.value.officeEng,
+
+        // 🔥 always send correct field name
         officeHindi: this.addOfficeForm.value.officeHin || '',
+
         districtId: this.addOfficeForm.value.district,
-        isActive:   1,
-        createdBy:  0,
-        updatedBy:  0
+        isActive: 1,
+        createdBy: 0,
+        updatedBy: 0
       }
     };
+
+    console.log('FINAL PAYLOAD:', reqParam);
 
     this.api.post(this.url.addEditOffice(), reqParam).subscribe({
       next: (res: any) => {

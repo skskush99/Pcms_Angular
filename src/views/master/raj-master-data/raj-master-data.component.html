@@ -1,22 +1,82 @@
 <div class="forms">
   <div class="complain-form">
 
+    <!-- ===================== FILTER SECTION ===================== -->
+    <div class="filter-card mb-5">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <h3 class="filter-header-title">Raj Master Data Filter</h3>
+        </div>
+       
+      </div>
+
+      <!-- Filter Form -->
+      <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <div class="filter-card-body">
+          <form [formGroup]="districtFilterForm">
+            <div class="form-grid">
+
+              <!-- ✅ NEW: Master Data Dropdown with 6 options -->
+              <div class="form-group">
+                <label for="masterData">
+                  <i class="fa-solid fa-database filter-label-icon"></i>
+                  Master Data
+                </label>
+                <ng-select
+                  [items]="masterDataDropdown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select Master Data Type"
+                  formControlName="masterData"
+                  class="custom-ng-select"
+                  id="masterData"
+                  [clearable]="true"
+                  appendTo="body">
+                </ng-select>
+              </div>
+
+              <!-- Search / Reset Buttons -->
+              <div class="filter-btn-group">
+                <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                  <i class="fa-solid fa-plus"></i>
+                  Add Raj Master Data 
+                </button>
+                <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Reset
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <!-- END FILTER SECTION -->
+
     <!-- ===================== TABLE SECTION ===================== -->
     <div class="person-card">
 
       <!-- Table Header Row -->
       <div class="section-header mb-4">
         <div class="flex items-center gap-2">
-          <i class="fa-solid fa-list filter-header-icon"></i>
-          <h3 class="filter-header-title">Crime Classification List</h3>
+          <i class="fa-solid fa-table-list filter-header-icon"></i>
+          <h3 class="filter-header-title">Raj Master Data List</h3>
         </div>
 
         <div class="flex items-center gap-2">
-          <!-- ✅ Add Crime Classification -->
-          <button type="button" class="filter-toggle-btn" (click)="addNewAdminDept()">
+      
+          <!-- ✅ Add Master Data -->
+          @if(permissionByRole?.isAddPermission) {
+          <button type="button" class="filter-toggle-btn" (click)="addDistrict()">
             <i class="fa-solid fa-plus"></i>
-            Add Crime Classification
+            Add Master Data
           </button>
+          }
         </div>
       </div>
 
@@ -25,10 +85,8 @@
         <ag-grid-angular
           class="ag-theme-quartz"
           style="height: 500px; width: 100%;"
-          [rowData]="crimeClassificationList"
+          [rowData]="districtList"
           [columnDefs]="colDef"
-          (gridReady)="onGridReady($event)"
-          (columnHeaderClicked)="onColumnHeaderClicked($event)"
           [pagination]="false">
         </ag-grid-angular>
       </div>
@@ -71,15 +129,15 @@
           </button>
         </div>
 
-        <!-- ✅ Right: Excel + PDF download buttons -->
+        <!-- Right: Excel + PDF download -->
         <div class="download-buttons">
           <button class="download-btn excel" (click)="exportExcel()">
             <img src="assets/excel-file.png" alt="excel">
-            Export To Excel
+             Export To Excel
           </button>
           <button class="download-btn pdf" (click)="exportPDF()">
             <img src="assets/pdf.png" alt="pdf">
-            Export To PDF
+             Export To PDF
           </button>
         </div>
 

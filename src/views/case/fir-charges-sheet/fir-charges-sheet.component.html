@@ -7,88 +7,88 @@
 
   <form [formGroup]="firDetailsForm">
 
-    <!-- Row 1: FIR No, FIR Date, Station Name, Thana Code -->
     <div class="form-grid-4">
 
       <div class="form-group">
-        <label for="firNo">
-          FIR संख्या (CCTNS)
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="firNo"
-          formControlName="firNo"
-          placeholder="Enter FIR संख्या (CCTNS)"
-          autocomplete="off">
+        <label for="firNo">FIR संख्या (CCTNS) <span class="required">*</span></label>
+        <input type="text" id="firNo" formControlName="firNo" placeholder="Enter FIR संख्या (CCTNS)" autocomplete="off">
       </div>
 
       <div class="form-group">
-        <label>
-          FIR की तिथि (CCTNS)
-          <span class="required">*</span>
-        </label>
+        <label>FIR की तिथि (CCTNS) <span class="required">*</span></label>
         <app-date-picker formControlName="firDate"></app-date-picker>
       </div>
 
       <div class="form-group">
-        <label for="stationName">
-          थाना का नाम (CCTNS)
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="stationName"
-          formControlName="stationName"
-          placeholder="Enter थाना का नाम (CCTNS)"
-          autocomplete="off">
+        <label for="stationName">थाना का नाम (CCTNS) <span class="required">*</span></label>
+        <input type="text" id="stationName" formControlName="stationName" placeholder="Enter थाना का नाम (CCTNS)" autocomplete="off">
       </div>
 
       <div class="form-group">
-        <label for="thanaCode">
-          थाना कोड (CCTNS)
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="thanaCode"
-          formControlName="thanaCode"
-          placeholder="Enter थाना कोड (CCTNS)"
-          autocomplete="off">
+        <label for="thanaCode">थाना कोड (CCTNS) <span class="required">*</span></label>
+        <input type="text" id="thanaCode" formControlName="thanaCode" placeholder="Enter थाना कोड (CCTNS)" autocomplete="off">
       </div>
 
     </div>
 
-    <hr class="section-divider">
+    <!-- CCTNS Police Station + IO Grid — only for Diar Register -->
+    @if (!isFR && cctnsStationOfficers.length) {
+    <div style="margin-top:16px;">
+      <p class="ci-field-label" style="margin-bottom:8px;">
+        <i class="fa-solid fa-circle-info" style="color:#5a8bb8; margin-right:6px;"></i>
+        CCTNS Police Station &amp; Investigating Officer
+        <span class="section-subtitle" style="margin-left:6px; font-weight:400;">(Click Edit to use in form)</span>
+      </p>
+      <div class="grid-table-wrapper">
+        <table>
+          <thead>
+            <tr style="background: linear-gradient(to right, #5a8bb8, #6b9bc8, #759fce);">
+              <th style="color:#000000; font-weight:700;">Sr No.</th>
+              <th style="color:#000000; font-weight:700;">Police Station</th>
+              <th style="color:#000000; font-weight:700;">Officer Name</th>
+              <th style="color:#000000; font-weight:700;">Rank / Designation</th>
+              <th style="color:#000000; font-weight:700;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of cctnsStationOfficers; track $index) {
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td style="text-align:start;">{{ item.policeStationName }}</td>
+              <td style="text-align:start;">{{ item.officerName }}</td>
+              <td>{{ item.officerRank }}</td>
+              <td>
+                <div class="tbl-action-cell">
+                  <i class="fa-solid fa-pen-to-square tbl-icon-edit" title="Use in Form" (click)="editCctnsStation(item)"></i>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    }
 
-    <!-- Row 2: Adhikari Fields + Add Button -->
+    <!-- Adhikari section — shown in BOTH Diar and FR modes -->
+
+    <hr class="section-divider" style="margin-top:16px;">
+
     <div class="classification-row">
 
       <div class="form-group">
-        <label for="adhiName">
-          अनुसन्धान अधिकारी का नाम
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="adhiName"
-          formControlName="adhiName"
-          placeholder="Enter अनुसन्धान अधिकारी का नाम"
-          autocomplete="off">
+        <label for="adhiName">अनुसन्धान अधिकारी का नाम <span class="required">*</span></label>
+        <input type="text" id="adhiName" formControlName="adhiName" placeholder="Enter अनुसन्धान अधिकारी का नाम" autocomplete="off">
       </div>
 
       <div class="form-group">
-        <label for="adhiDesignation">
-          अनुसन्धान अधिकारी का पद
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="adhiDesignation"
-          formControlName="adhiDesignation"
-          placeholder="Enter अनुसन्धान अधिकारी का पद"
-          autocomplete="off">
+        <label for="adhiDesignation">अनुसन्धान अधिकारी का पद <span class="required">*</span></label>
+        <input type="text" id="adhiDesignation" formControlName="adhiDesignation" placeholder="Enter अनुसन्धान अधिकारी का पद" autocomplete="off">
       </div>
 
       <div class="form-group">
-        <label for="adhiThana">
-          अनुसन्धान अधिकारी का थाना
-          <span class="required">*</span>
-        </label>
-        <input type="text" id="adhiThana"
-          formControlName="adhiThana"
-          placeholder="Enter अनुसन्धान अधिकारी का थाना"
-          autocomplete="off">
+        <label for="adhiThana">अनुसन्धान अधिकारी का थाना <span class="required">*</span></label>
+        <input type="text" id="adhiThana" formControlName="adhiThana" placeholder="Enter अनुसन्धान अधिकारी का थाना" autocomplete="off">
       </div>
 
       <div class="addbtn">
@@ -101,12 +101,11 @@
 
     </div>
 
-    <!-- Adhikari Table -->
     @if (adhikaris.length) {
       <div class="grid-table-wrapper mt-3">
         <table>
           <thead>
-            <tr style="background-color: #3a6ea5;">
+            <tr style="background: linear-gradient(to right, #4471a6, #5a8bb8, #6b9bc8);">
               <th style="color:#000000; font-weight:700;">Sr No.</th>
               <th style="color:#000000; font-weight:700;">Name</th>
               <th style="color:#000000; font-weight:700;">Designation</th>
@@ -123,10 +122,8 @@
                 <td>{{ item?.PostingPlace }}</td>
                 <td>
                   <div class="tbl-action-cell">
-                    <i class="fa-solid fa-pen-to-square tbl-icon-edit"
-                      (click)="editAdhikari(item)" title="Edit"></i>
-                    <i class="fa-solid fa-trash tbl-icon-delete"
-                      (click)="removeAdhikari(item?.InvestId)" title="Delete"></i>
+                    <i class="fa-solid fa-pen-to-square tbl-icon-edit" (click)="editAdhikari(item)" title="Edit"></i>
+                    <i class="fa-solid fa-trash tbl-icon-delete" (click)="removeAdhikari(item?.InvestId)" title="Delete"></i>
                   </div>
                 </td>
               </tr>
@@ -150,163 +147,265 @@
   <div class="person-card">
     <form [formGroup]="chargeSheetForm">
 
-      <!-- Row 1: CS No, CS Date, Filing Date, Investigating Officer, Case Title -->
-      <div class="form-grid mb-4">
+      <!-- ══════════════════════════════════════════
+           DIAR REGISTER fields
+           Shown when regType = '1'
+      ══════════════════════════════════════════ -->
+      @if (!isFR) {
 
-        <div class="form-group">
-          <label for="chargeSheetNo">
-            Charge-Sheet No.
-            <span class="required">*</span>
-          </label>
-          <input type="text" id="chargeSheetNo"
-            formControlName="chargeSheetNo"
-            placeholder="Enter Charge-Sheet No."
-            autocomplete="off">
+        <div class="form-grid mb-4">
+
+          <div class="form-group">
+            <label for="chargeSheetNo">Charge-Sheet No. <span class="required">*</span></label>
+            <input type="text" id="chargeSheetNo" formControlName="chargeSheetNo" placeholder="Enter Charge-Sheet No." autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label>Charge-Sheet Date <span class="required">*</span></label>
+            <app-date-picker formControlName="chartSheetDate"></app-date-picker>
+          </div>
+
+          <div class="form-group">
+            <label>Date of Filing Before Court <span class="required">*</span></label>
+            <app-date-picker formControlName="dateFilingBeforeCourt"></app-date-picker>
+          </div>
+
+          <div class="form-group">
+            <label for="investigatingOfficer">Investigating Officer (Name &amp; Rank) <span class="required">*</span></label>
+            <input type="text" id="investigatingOfficer" formControlName="investigatingOfficer" placeholder="Enter Investigating Officer (Name & Rank)" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="caseTitle">Case Title <span class="required">*</span></label>
+            <input type="text" id="caseTitle" formControlName="caseTitle" placeholder="Enter Case Title" autocomplete="off">
+          </div>
+
         </div>
 
-        <div class="form-group">
-          <label>
-            Charge-Sheet Date
-            <span class="required">*</span>
-          </label>
-          <app-date-picker formControlName="chartSheetDate"></app-date-picker>
-        </div>
+    
 
-        <div class="form-group">
-          <label>
-            Date of Filing Before Court
-            <span class="required">*</span>
-          </label>
-          <app-date-picker formControlName="dateFilingBeforeCourt"></app-date-picker>
-        </div>
-
-        <div class="form-group">
-          <label for="investigatingOfficer">
-            Investigating Officer (Name & Rank)
-            <span class="required">*</span>
-          </label>
-          <input type="text" id="investigatingOfficer"
-            formControlName="investigatingOfficer"
-            placeholder="Enter Investigating Officer (Name & Rank)"
-            autocomplete="off">
-        </div>
-
-        <div class="form-group">
-          <label for="caseTitle">
-            Case Title
-            <span class="required">*</span>
-          </label>
-          <input type="text" id="caseTitle"
-            formControlName="caseTitle"
-            placeholder="Enter Case Title"
-            autocomplete="off">
-        </div>
-
-      </div>
-
-      <!-- Row 2: Classification + Acts + Sections + Add -->
-      <div class="classification-row">
-
-        <div class="form-group">
-          <label for="classification">
-            अपराध का वर्गीकरण (Classification)
-            <span class="required">*</span>
-          </label>
-          <ng-select
-            [items]="classificationDropdown"
-            bindLabel="text"
-            bindValue="value"
-            [compareWith]="compareWithFunc"
-            (change)="getActsDropdown()"
-            placeholder="Select Classification"
-            formControlName="classification"
-            class="custom-ng-select"
-            id="classification"
-            appendTo="body">
-          </ng-select>
-        </div>
-
-        <div class="form-group">
-          <label for="acts">
-            अधिनियम (Acts)
-            <span class="required">*</span>
-          </label>
-          <ng-select
-            [items]="actsDropdown"
-            bindLabel="text"
-            bindValue="value"
-            [compareWith]="compareWithFunc"
-            (change)="getCrimeSubActDropdown()"
-            placeholder="Select Act"
-            formControlName="acts"
-            class="custom-ng-select"
-            id="acts"
-            appendTo="body">
-          </ng-select>
-        </div>
-
-        <div class="form-group">
-          <label for="sections">
-            धाराएँ (Sections)
-            <span class="required">*</span>
-          </label>
-          <ng-select
-            [items]="sectionsDropdown"
-            bindLabel="text"
-            bindValue="value"
-            [compareWith]="compareWithFunc"
-            placeholder="Select Section"
-            formControlName="sections"
-            class="custom-ng-select"
-            id="sections"
-            appendTo="body">
-          </ng-select>
-        </div>
-
-        <div class="addbtn">
-          <button type="button" class="btn-add-inline" (click)="addChargeSheetCrime()">
-            <i *ngIf="!editOffenceId" class="fa-solid fa-plus"></i>
-            <i *ngIf="editOffenceId" class="fa-solid fa-check"></i>
-            {{ editOffenceId ? 'Save' : 'Add' }}
-          </button>
-        </div>
-
-      </div>
-
-      <!-- Crime List Table -->
-      @if (chargeSheetCrimeList.length) {
-        <div class="grid-table-wrapper mt-3">
-          <table>
-            <thead>
-              <tr style="background-color: #3a6ea5;">
-                <th style="color:#000000; font-weight:700;">Sr No.</th>
-                <th style="color:#000000; font-weight:700;">Classification</th>
-                <th style="color:#000000; font-weight:700;">Act</th>
-                <th style="color:#000000; font-weight:700;">Section</th>
-                <th style="color:#000000; font-weight:700;">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (item of chargeSheetCrimeList; track $index) {
+        <!-- CCTNS Sections & Acts grid — only Diar Register -->
+        @if (cctnsOffences.length) {
+        <div style="margin-bottom:16px;">
+          <p class="ci-field-label" style="margin-bottom:8px;">
+            <i class="fa-solid fa-circle-info" style="color:#5a8bb8; margin-right:6px;"></i>
+            CCTNS Sections &amp; Acts
+            <span class="section-subtitle" style="margin-left:6px; font-weight:400;">(Click Edit to auto-fill dropdowns below)</span>
+          </p>
+          <div class="grid-table-wrapper">
+            <table>
+              <thead>
+                <tr style="background: linear-gradient(to right, #4471a6, #5a8bb8, #6b9bc8);">
+                  <th style="color:#000000; font-weight:700;">Sr No.</th>
+                  <th style="color:#000000; font-weight:700;">Classification</th>
+                  <th style="color:#000000; font-weight:700;">Act</th>
+                  <th style="color:#000000; font-weight:700;">Section</th>
+                  <th style="color:#000000; font-weight:700;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of cctnsOffences; track $index) {
                 <tr>
                   <td>{{ $index + 1 }}</td>
-                  <td style="text-align:start;">{{ item?.ClassificationName }}</td>
-                  <td>{{ item?.ActsName }}</td>
-                  <td>{{ item?.SectionsName }}</td>
+                  <td style="text-align:start;">{{ item.classificationName }}</td>
+                  <td style="text-align:start;">{{ item.actsName }}</td>
+                  <td>{{ item.sectionsName }}</td>
                   <td>
                     <div class="tbl-action-cell">
-                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
-                        (click)="editChargeSheetOffence(item)" title="Edit"></i>
-                      <i class="fa-solid fa-trash tbl-icon-delete"
-                        (click)="deleteChargeSheetOffence(item)" title="Delete"></i>
+                      <i class="fa-solid fa-pen-to-square tbl-icon-edit" title="Fill dropdowns" (click)="editCctnsOffence(item)"></i>
                     </div>
                   </td>
                 </tr>
-              }
-            </tbody>
-          </table>
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
-      }
+        }
+
+        <!-- Classification + Acts + Sections row — Diar Register -->
+        <div class="classification-row">
+
+          <div class="form-group">
+            <label for="classification">अपराध का वर्गीकरण (Classification) <span class="required">*</span></label>
+            <ng-select [items]="classificationDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" (change)="getActsDropdown()" placeholder="Select Classification" formControlName="classification" class="custom-ng-select" id="classification" appendTo="body"></ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="acts">अधिनियम (Acts) <span class="required">*</span></label>
+            <ng-select [items]="actsDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" (change)="getCrimeSubActDropdown()" placeholder="Select Act" formControlName="acts" class="custom-ng-select" id="acts" appendTo="body"></ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="sections">धाराएँ (Sections) <span class="required">*</span></label>
+            <ng-select [items]="sectionsDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" placeholder="Select Section" formControlName="sections" class="custom-ng-select" id="sections" appendTo="body"></ng-select>
+          </div>
+
+          <div class="addbtn">
+            <button type="button" class="btn-add-inline" (click)="addChargeSheetCrime()">
+              <i *ngIf="!editOffenceId" class="fa-solid fa-plus"></i>
+              <i *ngIf="editOffenceId" class="fa-solid fa-check"></i>
+              {{ editOffenceId ? 'Save' : 'Add' }}
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Crime List Table — Diar Register -->
+        @if (chargeSheetCrimeList.length) {
+          <div class="grid-table-wrapper mt-3">
+            <table>
+              <thead>
+                <tr style="background: linear-gradient(to right, #4471a6, #5a8bb8, #6b9bc8);">
+                  <th style="color:#000000; font-weight:700;">Sr No.</th>
+                  <th style="color:#000000; font-weight:700;">Classification</th>
+                  <th style="color:#000000; font-weight:700;">Act</th>
+                  <th style="color:#000000; font-weight:700;">Section</th>
+                  <th style="color:#000000; font-weight:700;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of chargeSheetCrimeList; track $index) {
+                  <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td style="text-align:start;">{{ item?.ClassificationName }}</td>
+                    <td>{{ item?.ActsName }}</td>
+                    <td>{{ item?.SectionsName }}</td>
+                    <td>
+                      <div class="tbl-action-cell">
+                        <i class="fa-solid fa-pen-to-square tbl-icon-edit" (click)="editChargeSheetOffence(item)" title="Edit"></i>
+                        <i class="fa-solid fa-trash tbl-icon-delete" (click)="deleteChargeSheetOffence(item)" title="Delete"></i>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+      }<!-- /!isFR -->
+
+
+      <!-- ══════════════════════════════════════════
+           FINAL REGISTER (FR) fields
+           Shown when regType = '2'
+      ══════════════════════════════════════════ -->
+      @if (isFR) {
+
+        <div class="form-grid mb-4">
+
+          <!-- FR संख्या (CCTNS) -->
+          <div class="form-group">
+            <label for="frNo">FR संख्या (CCTNS) <span class="required">*</span></label>
+            <input type="text" id="frNo" formControlName="frNo" placeholder="Enter FR संख्या (CCTNS)" autocomplete="off">
+          </div>
+
+          <!-- FR दिनांक (CCTNS) -->
+          <div class="form-group">
+            <label>FR दिनांक (CCTNS) <span class="required">*</span></label>
+            <app-date-picker formControlName="frDate"></app-date-picker>
+          </div>
+
+          <!-- प्रस्तुत करने की तिथि (न्यायालय में) -->
+          <div class="form-group">
+            <label>प्रस्तुत करने की तिथि (न्यायालय में) <span class="required">*</span></label>
+            <app-date-picker formControlName="presentationDate"></app-date-picker>
+          </div>
+
+          <!-- एफआर स्थिति का चयन करें -->
+          <div class="form-group">
+            <label for="frStatus">एफआर स्थिति का चयन करें <span class="required">*</span></label>
+            <ng-select
+              [items]="frStatusDropdown"
+              bindLabel="text"
+              bindValue="value"
+              placeholder="Select FR Status"
+              formControlName="frStatus"
+              class="custom-ng-select"
+              id="frStatus"
+              appendTo="body">
+            </ng-select>
+          </div>
+
+          <!-- CIS / CNR Details — only when FR Status = Rejected -->
+          @if (showCisCnr) {
+          <div class="form-group">
+            <label for="cisCnrDetails">CIS / CNR Details <span class="required">*</span></label>
+            <input type="text" id="cisCnrDetails" formControlName="cisCnrDetails" placeholder="Enter CIS / CNR Details" autocomplete="off">
+          </div>
+          }
+
+          <!-- Case Title -->
+          <div class="form-group">
+            <label for="caseTitleFR">Case Title <span class="required">*</span></label>
+            <input type="text" id="caseTitleFR" formControlName="caseTitle" placeholder="Enter Case Title" autocomplete="off">
+          </div>
+
+        </div>
+
+        <!-- Classification + Acts + Sections row — FR -->
+        <div class="classification-row">
+
+          <div class="form-group">
+            <label for="classificationFR">अपराध का वर्गीकरण (Classification) <span class="required">*</span></label>
+            <ng-select [items]="classificationDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" (change)="getActsDropdown()" placeholder="Select Classification" formControlName="classification" class="custom-ng-select" id="classificationFR" appendTo="body"></ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="actsFR">अधिनियम (Acts) <span class="required">*</span></label>
+            <ng-select [items]="actsDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" (change)="getCrimeSubActDropdown()" placeholder="Select Act" formControlName="acts" class="custom-ng-select" id="actsFR" appendTo="body"></ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="sectionsFR">धाराएँ (Sections) <span class="required">*</span></label>
+            <ng-select [items]="sectionsDropdown" bindLabel="text" bindValue="value" [compareWith]="compareWithFunc" placeholder="Select Section" formControlName="sections" class="custom-ng-select" id="sectionsFR" appendTo="body"></ng-select>
+          </div>
+
+          <div class="addbtn">
+            <button type="button" class="btn-add-inline" (click)="addChargeSheetCrime()">
+              <i *ngIf="!editOffenceId" class="fa-solid fa-plus"></i>
+              <i *ngIf="editOffenceId" class="fa-solid fa-check"></i>
+              {{ editOffenceId ? 'Save' : 'Add' }}
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Crime List Table — FR -->
+        @if (chargeSheetCrimeList.length) {
+          <div class="grid-table-wrapper mt-3">
+            <table>
+              <thead>
+                <tr style="background: linear-gradient(to right, #4471a6, #5a8bb8, #6b9bc8);">
+                  <th style="color:#000000; font-weight:700;">Sr No.</th>
+                  <th style="color:#000000; font-weight:700;">Classification</th>
+                  <th style="color:#000000; font-weight:700;">Act</th>
+                  <th style="color:#000000; font-weight:700;">Section</th>
+                  <th style="color:#000000; font-weight:700;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of chargeSheetCrimeList; track $index) {
+                  <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td style="text-align:start;">{{ item?.ClassificationName }}</td>
+                    <td>{{ item?.ActsName }}</td>
+                    <td>{{ item?.SectionsName }}</td>
+                    <td>
+                      <div class="tbl-action-cell">
+                        <i class="fa-solid fa-pen-to-square tbl-icon-edit" (click)="editChargeSheetOffence(item)" title="Edit"></i>
+                        <i class="fa-solid fa-trash tbl-icon-delete" (click)="deleteChargeSheetOffence(item)" title="Delete"></i>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+      }<!-- /isFR -->
 
     </form>
   </div>

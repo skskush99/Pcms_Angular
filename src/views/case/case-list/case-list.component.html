@@ -8,7 +8,7 @@
       <div class="filter-card-header" (click)="toggleForm()">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-filter filter-header-icon"></i>
-          <span class="filter-header-title">Dier Registration Filter</span>
+          <span class="filter-header-title">Case List Filter</span>
         </div>
         <button type="button" class="filter-toggle-btn">
           <i class="fa-solid fa-filter"></i>
@@ -45,12 +45,17 @@
                 <i class="fa-solid fa-building-shield filter-label-icon"></i>
                 Police Station
               </label>
-              <input
-                type="text"
-                id="PSName"
+              <ng-select
+                [items]="thanaDropdown"
+                bindLabel="text"
+                bindValue="value"
+                [virtualScroll]="true"
+                placeholder="Select Police Station"
                 formControlName="PSName"
-                placeholder="Enter Police Station"
-                autocomplete="off">
+                class="custom-ng-select"
+                id="PSName"
+                appendTo="body">
+              </ng-select>
             </div>
 
             <!-- FIR Number -->
@@ -110,7 +115,7 @@
       <div class="section-header mb-4">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-folder-open filter-header-icon"></i>
-          <h3 class="filter-header-title">Pending Dier Registration Case List</h3>
+          <h3 class="filter-header-title">Pending Case List</h3>
         </div>
         <div class="flex items-center gap-2">
           <button type="button" (click)="addCase()" class="filter-toggle-btn flex items-center gap-2">

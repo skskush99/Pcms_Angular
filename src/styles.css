@@ -788,7 +788,7 @@ body.mat-typography h3 {
   padding: 25px;
   border-radius: 10px;
   background: var(--app-card);
-  border-top: 4px solid #2563eb;
+  border-top: 4px solid #6c9bc9;
 }
 
 .form-title {
@@ -1080,18 +1080,17 @@ textarea {
   input[type="radio"] {
     width: 15px;
     height: 15px;
-    accent-color: #496D7E;
+    accent-color: #4887a5;
     cursor: pointer;
     flex-shrink: 0;
   }
 
   &:has(input:checked) {
-    border-color: #5a8bb8;
+    border-color: #6a9ac7;
     background: rgba(90, 139, 184, 0.08);
-    color: #1e40af;
+    color: #5281ad;
     font-weight: 600;
   }
-
   &:hover {
     border-color: #a3b8cc;
   }
@@ -1454,9 +1453,14 @@ td {
   font-size: 13px;
 }
 
-th {
+/* th {
   font-weight: 600;
   background: var(--form-section-bg);
+} */
+
+th {
+    font-weight: 600;
+    background: #c2d7eb;
 }
 
 .tbl-row-highlight {
@@ -2017,14 +2021,14 @@ th {
 
   &.stepper-active {
     .stepper-circle {
-      background: #2b4bb4;
+      background: #6393c0;
       color: #fff;
-      border-color: #5a8bb8;
+      border-color: #ffffff;
       box-shadow: 0 0 0 3px rgba(90, 139, 184, 0.25);
     }
 
     .stepper-label {
-      color: #1e40af;
+      color: #456685;
       font-weight: 700;
     }
   }

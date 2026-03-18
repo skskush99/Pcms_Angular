@@ -288,7 +288,9 @@ export class CourtComponent {
 
   // ===================== EXPORT EXCEL =====================
   exportExcel() {
+    // ✅ Fetch all records for export
     const reqParam = {
+      jCourtId:     0,
       divisionId:   this.courtFilterForm.value.division || 0,
       districtId:   this.courtFilterForm.value.district || 0,
       pageNo:       1,
@@ -299,38 +301,40 @@ export class CourtComponent {
 
     this.api.post(this.url.getCourtsList(), reqParam).subscribe({
       next: (res: any) => {
-        if (res.status) {
-          if (res.data?.length) {
-            const columnHeaders: { [key: string]: string } = {
-              RowID:        'Sr No',
-              JCourtEng:    'Court English Name',
-              JCourtHindi:  'Court Hindi Name',
-              DivisionName: 'Division Name',
-              DistrictName: 'District Name'
+        if (res.status && res.data?.length) {
+          // ✅ Column headers mapping
+          const columnHeaders: { [key: string]: string } = {
+            RowID: 'Sr No',
+            JCourtEng: 'Court English Name',
+            JCourtHindi: 'Court Hindi Name',
+            DivisionName: 'Division Name',
+            DistrictName: 'District Name'
+          };
+
+          // ✅ Transform data with sequential row numbers
+          const modifiedData = res.data.map((row: any, index: number) => {
+            return {
+              RowID: index + 1,
+              JCourtEng: row.JCourtEng || '',
+              JCourtHindi: row.JCourtHindi || '',
+              DivisionName: row.DivisionName || '',
+              DistrictName: row.DistrictName || ''
             };
+          });
 
-            const modifiedData = res.data.map((row: any) => {
-              const modifiedRow: { [key: string]: any } = {};
-              Object.keys(columnHeaders).forEach((key: string) => {
-                if (row[key] !== undefined) {
-                  modifiedRow[columnHeaders[key]] = row[key];
-                }
-              });
-              return modifiedRow;
-            });
+          // ✅ Export to Excel
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          this.excel.exportAgGridAsExcelWithHeading(
+            modifiedData,
+            columnHeaders,
+            'Court List',
+            ' \n ( As on ' + formattedDate + ')'
+          );
 
-            const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-            this.excel.exportAgGridAsExcelWithHeading(
-              modifiedData,
-              columnHeaders,
-              'Court List',
-              ' \n ( As on ' + formattedDate + ')'
-            );
-          } else {
-            this.notify.showNotification('info', 'No Record To Export');
-          }
+          // ✅ Success notification
+          this.notify.showNotification('success', 'Excel exported successfully');
         } else {
-          this.notify.showNotification('error', res.message);
+          this.notify.showNotification('info', 'No Record To Export');
         }
       },
       error: () => {
@@ -341,23 +345,60 @@ export class CourtComponent {
 
   // ===================== EXPORT PDF =====================
   exportPDF() {
-    const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
-    const headers = [
-      'Government of Rajasthan',
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
-      'Court List',
-      '( As on ' + formattedDate + ')',
-    ];
+    // ✅ Fetch all records for export
+    const reqParam = {
+      jCourtId:     0,
+      divisionId:   this.courtFilterForm.value.division || 0,
+      districtId:   this.courtFilterForm.value.district || 0,
+      pageNo:       1,
+      pageSize:     999999,
+      sortBy:       '',
+      isSortByDesc: true
+    };
 
-    const columns = [
-      { header: 'Sr. No.',       dataKey: 'RowID' },
-      { header: 'Court English', dataKey: 'JCourtEng' },
-      { header: 'Court Hindi',   dataKey: 'JCourtHindi' },
-      { header: 'Division',      dataKey: 'DivisionName' },
-      { header: 'District',      dataKey: 'DistrictName' }
-    ];
+    this.api.post(this.url.getCourtsList(), reqParam).subscribe({
+      next: (res: any) => {
+        if (res.status && res.data?.length) {
+          // ✅ Prepare data with sequential row numbers
+          const exportData = res.data.map((row: any, index: number) => ({
+            RowID: index + 1,
+            JCourtEng: row.JCourtEng || '',
+            JCourtHindi: row.JCourtHindi || '',
+            DivisionName: row.DivisionName || '',
+            DistrictName: row.DistrictName || ''
+          }));
 
-    this.excel.exportAllJsonPDF(headers, columns, this.courtList, 'Court List', true);
+          // ✅ PDF Headers
+          const formattedDate = this.datePipe.transform(new Date(), 'dd/MM/yyyy hh:mm a');
+          const headers = [
+            'Government of Rajasthan',
+            'Prosecution Department',
+            '(Prosecution Case Management System)',
+            'Court List',
+            '( As on ' + formattedDate + ')'
+          ];
+
+          // ✅ PDF Columns
+          const columns = [
+            { header: 'Sr. No.',       dataKey: 'RowID' },
+            { header: 'Court English', dataKey: 'JCourtEng' },
+            { header: 'Court Hindi',   dataKey: 'JCourtHindi' },
+            { header: 'Division',      dataKey: 'DivisionName' },
+            { header: 'District',      dataKey: 'DistrictName' }
+          ];
+
+          // ✅ Export to PDF
+          this.excel.exportAllJsonPDF(headers, columns, exportData, 'Court List', true);
+
+          // ✅ Success notification
+          this.notify.showNotification('success', 'PDF exported successfully');
+        } else {
+          this.notify.showNotification('info', 'No Record To Export');
+        }
+      },
+      error: () => {
+        this.notify.showNotification('error', constants.apiError);
+      }
+    });
   }
 }

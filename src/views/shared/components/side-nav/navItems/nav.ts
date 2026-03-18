@@ -224,7 +224,11 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/case-decision-reason'
       },
-
+      {
+        englishName: 'Raj Master',
+        icon: 'fa fa-angle-double-right',
+        linkPage: 'master/raj-master-data'
+      },
       //   {
       //     englishName: 'Law Dept Lawyer',
       //     icon: 'fa fa-angle-double-right',
