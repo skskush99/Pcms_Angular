@@ -1,0 +1,113 @@
+<div class="px-2 lg:px-4 h-full">
+  <div class="rounded-3xl p-3 bg-[#496D7E] min-h-[90vh]">
+    <div class="bg-white rounded-xl shadow-lg px-2 xl:px-4">
+      <!-- Header -->
+      <div class="flex justify-between items-center px-5 py-3 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">Permission Mapping {{userId ? 'User Wise' : 'Role Wise'}}</h2>
+      </div>
+
+      <!-- Menu Mapping Form -->
+      <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" class="p-6">
+        <div class="bg-white rounded-md shadow-sm">
+          @for (menu of menuMappingOption; track $index) {
+          <div class="border-b border-gray-100 last:border-0 py-3">
+            <!-- Main Menu Item -->
+            <div class="flex items-center gap-3 px-4">
+              <input type="checkbox" 
+                [disabled]="ifview"
+                [(ngModel)]="menu.isSelected" 
+                [name]="'menu-' + menu.id"
+                (ngModelChange)="updateSubMenus(menu)"
+                class="w-4 h-4 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]">
+              <label class="text-gray-700 font-medium capitalize">{{ menu.englishName }}</label>
+            </div>
+
+            <!-- Sub Menu Items -->
+            @if (menu.subMenus.length > 0) {
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-2 pl-12 pr-4 mt-2">
+              @for (sub of menu.subMenus; track $index) {
+                <div class="flex flex-col gap-3">
+              <div class="flex items-center gap-3">
+                <input type="checkbox" 
+                  [disabled]="ifview"
+                  [(ngModel)]="sub.isSelected" 
+                  [name]="'sub-' + sub.id"
+                  (ngModelChange)="updateParentMenu(menu)"
+                  class="w-3.5 h-3.5 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]">
+                <label (click)="subMenuStatus(sub)" class="text-sm  capitalize whitespace-nowrap overflow-hidden text-ellipsis font-semibold text-green-500 hover:text-green-600 hover:underline cursor-pointer">
+                  {{ sub.englishName }}
+                </label>
+                
+              </div>
+              <div @onOff class="permissionSelection flex items-center justify-between w-full py-2.5" *ngIf="currClickedSubMenu == sub.id">
+                <div>
+                  <input type="checkbox" 
+                  [disabled]="ifview"
+                  [name]="'add-' + sub.id"
+                  [(ngModel)]="sub.isAddPermission"
+                  (ngModelChange)="updateParentMenu(menu)"
+                  class="w-3.5 h-3.5 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]">
+                <label  class="text-sm  capitalize whitespace-nowrap overflow-hidden text-ellipsis ">
+                  Add
+                </label>
+                </div>
+                
+                
+                <div>
+                  <input type="checkbox" 
+                  [disabled]="ifview"
+                  [name]="'edit-' + sub.id"
+                  [(ngModel)]="sub.isEditPermission"
+                  (ngModelChange)="updateParentMenu(menu)"
+                  class="w-3.5 h-3.5 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]">
+                <label  class="text-sm  capitalize whitespace-nowrap overflow-hidden text-ellipsis ">
+                  Update
+                </label>
+                </div>
+                
+                
+                
+                <div>
+                  <input type="checkbox" 
+                  [disabled]="ifview"
+                  [name]="'delete-' + sub.id"
+                  [(ngModel)]="sub.isDeletePermission"
+                  (ngModelChange)="updateParentMenu(menu)"
+                  class="w-3.5 h-3.5 text-[#496D7E] border-gray-300 rounded focus:ring-[#496D7E]">
+                <label  class="text-sm  capitalize whitespace-nowrap overflow-hidden text-ellipsis">
+                  Delete
+                </label>
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+              }
+              
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-4 mt-6">
+          <button type="button" 
+            (click)="onCancel()"
+            class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md transition-colors duration-200 text-sm">
+            {{ifview ? 'Back' : 'Cancel'}}
+          </button>
+          @if (!ifview) {
+          <button type="submit"
+            class="px-4 py-2 bg-[#496D7E] hover:bg-[#3a5866] text-white font-medium rounded-md transition-colors duration-200 text-sm">
+            Save
+          </button>
+        }
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

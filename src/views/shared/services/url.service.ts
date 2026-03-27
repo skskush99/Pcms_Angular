@@ -93,6 +93,22 @@ export class UrlService {
 
   // MASTER URL's
 
+  getMenuMapping(){
+    return `${this.masterUrl}/MenuMapping/GetMenu`
+  }
+
+  editMenuMapping(){
+    return `${this.masterUrl}/MenuMapping/AddEditMenu`
+  }
+  
+  
+  addEditUserWiseMenuMapping(){
+    // return `${this.masterUrl}/MenuMapping/AddEditMenu`
+    return ''
+  }
+
+
+
 
   getUserMenu(){
     return `${this.masterUrl}/UserLogin/GetUserMenuList`
