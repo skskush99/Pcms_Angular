@@ -46,7 +46,6 @@ class="fixed h-[calc(100vh-56px)] left-0 w-64 lg:w-64 xl:w-64 flex-shrink-0 flex
                                     </div>
                                 </ng-container>
                             </div>
-
                                 <ng-container  *ngIf="child.subMenus  && activeSubIndex === j" class="duration-700">
                                     <ul @onOff class="ml-4 subChildren flex flex-col gap-1.5 mt-2 pl-3 border-l-2 border-white/20"> 
                                         <li *ngFor="let subChild of child.subMenus; let k = index" 
@@ -72,3 +71,4 @@ class="fixed h-[calc(100vh-56px)] left-0 w-64 lg:w-64 xl:w-64 flex-shrink-0 flex
     </div>
     
 </aside>
+

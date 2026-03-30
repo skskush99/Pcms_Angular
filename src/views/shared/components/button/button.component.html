@@ -1,9 +1,30 @@
-<button
+<!-- <button
   [type]="type"
   [disabled]="disabled"
   [class]="buttonClasses"
   (click)="onClick()"
 >
   {{ label }}
-</button>
+</button> -->
 
+@if (isIconOnly) {
+  <button
+    [type]="type"
+    [disabled]="disabled"
+    [class]="fileActionClass"
+    [title]="icon === 'edit' ? 'Edit' : 'Delete'"
+    (click)="onClick()">
+    <i [class]="iconClass"></i>
+  </button>
+} @else {
+  <button
+    [type]="type"
+    [disabled]="disabled"
+    [class]="buttonClasses"
+    (click)="onClick()">
+    @if (icon) {
+      <i [class]="iconClass"></i>
+    }
+    {{ label }}
+  </button>
+}

@@ -9,8 +9,6 @@ import { ColDef, Column, ICellRendererParams, ProvidedColumnGroup } from 'ag-gri
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DropdownListInterface } from '../../shared/model/shared.model';
-import { ConfirmationPopUpComponent } from '../../shared/components/confirmation-pop-up/confirmation-pop-up.component';
-import constants from '../../shared/utils/constants';
 import { ApiService } from '../../shared/services/api.service';
 import { UrlService } from '../../shared/services/url.service';
 
@@ -70,12 +68,12 @@ export class CashDisposalComponent implements OnInit {
 
   // ===================== CONSTRUCTOR =====================
   constructor(
-    private dialog:    MatDialog,
-    private notify:    NotificationService,
-    private _router:   Router,
-    private api:       ApiService,
-    private url:       UrlService,
-    private datePipe:  DatePipe
+    private dialog:   MatDialog,
+    private notify:   NotificationService,
+    private _router:  Router,
+    private api:      ApiService,
+    private url:      UrlService,
+    private datePipe: DatePipe
   ) {}
 
   // ===================== LIFECYCLE =====================
@@ -105,91 +103,78 @@ export class CashDisposalComponent implements OnInit {
         pinned:     'left'
       },
 
-      // Complaint No
+      // DIER No
       {
-        field:            'ComplaintNo',
-        headerName:       'Complaint No',
+        field:            'DierNo',
+        headerName:       'DIER No',
         wrapHeaderText:   true,
         autoHeaderHeight: true,
         width:            130,
         filter:           false
       },
 
-      // Complaint Date
+      // FR No
       {
-        field:            'ComplaintDate',
-        headerName:       'Complaint Date',
+        field:            'FRNo',
+        headerName:       'FR No',
         wrapHeaderText:   true,
         autoHeaderHeight: true,
-        width:            130,
+        width:            120,
         filter:           false,
-        valueFormatter:   (params: any) => params.value ? new Date(params.value).toLocaleDateString('en-IN') : ''
+        valueFormatter:   (params: any) => params.value ?? '-'
       },
 
-      // Complaint Type
+      // District Name
       {
-        field:            'ComplaintTypeID',
-        headerName:       'Complaint Type',
+        field:            'DistrictNameEng',
+        headerName:       'District',
         wrapHeaderText:   true,
         autoHeaderHeight: true,
         width:            130,
+        filter:           false
+      },
+
+      // Office Name
+      {
+        field:            'OfficeEng',
+        headerName:       'Office',
+        wrapHeaderText:   true,
+        autoHeaderHeight: true,
+        cellStyle:        { whiteSpace: 'normal' },
+        autoHeight:       true,
+        flex:             1,
+        filter:           false
+      },
+
+      // Court Name
+      {
+        field:            'JCourtEng',
+        headerName:       'Court',
+        wrapHeaderText:   true,
+        autoHeaderHeight: true,
+        cellStyle:        { whiteSpace: 'normal' },
+        autoHeight:       true,
+        flex:             1,
+        filter:           false
+      },
+
+      // FIR Date
+      {
+        field:            'FIRDt',
+        headerName:       'FIR Date',
+        wrapHeaderText:   true,
+        autoHeaderHeight: true,
+        width:            120,
         filter:           false,
         valueFormatter:   (params: any) => {
-          if (params.value === 0) return 'निजी परिवाद';
-          if (params.value === 1) return 'सरकारी परिवाद';
-          return params.value ?? '';
+          if (!params.value) return '-';
+          const date = new Date(params.value);
+          if (date.getFullYear() <= 1900) return '-';
+          return date.toLocaleDateString('en-IN');
         }
       },
 
-      // Department Name
-      {
-        field:            'AdmDeptName',
-        headerName:       'Department',
-        wrapHeaderText:   true,
-        autoHeaderHeight: true,
-        cellStyle:        { whiteSpace: 'normal' },
-        autoHeight:       true,
-        flex:             1,
-        filter:           false
-      },
-
-      // Officer Name & Designation
-      {
-        field:            'DeptOfficerNameDesignation',
-        headerName:       'Officer Name & Designation',
-        wrapHeaderText:   true,
-        autoHeaderHeight: true,
-        cellStyle:        { whiteSpace: 'normal' },
-        autoHeight:       true,
-        width:            180,
-        filter:           false
-      },
-
-      // Offence Brief
-      {
-        field:            'OffenceBrief',
-        headerName:       'Brief Description',
-        wrapHeaderText:   true,
-        autoHeaderHeight: true,
-        cellStyle:        { whiteSpace: 'normal' },
-        autoHeight:       true,
-        flex:             1,
-        filter:           false
-      },
-
-      // Date Filed in Court
-      {
-        field:            'DateFiledInCourt',
-        headerName:       'Date Filed in Court',
-        wrapHeaderText:   true,
-        autoHeaderHeight: true,
-        width:            150,
-        filter:           false,
-        valueFormatter:   (params: any) => params.value ? new Date(params.value).toLocaleDateString('en-IN') : ''
-      },
-
       // ===================== ACTION COLUMN =====================
-      // Single "Cash Disposal" button — sends cashId, navigates to registration page
       {
         field:      'action',
         headerName: 'Action',
@@ -197,13 +182,14 @@ export class CashDisposalComponent implements OnInit {
         width:      150,
         cellRenderer: (params: ICellRendererParams) => {
           const btn = document.createElement('button');
-          btn.innerHTML   = 'Case Disposal';
-          btn.className   = 'btn-approve';
+          btn.innerHTML     = 'Case Disposal';
+          btn.className     = 'btn-approve';
           btn.style.cssText = 'width:auto; padding:5px 12px; font-size:12px; white-space:nowrap;';
           btn.addEventListener('click', () => {
+            // ✅ Pass the full row data as caseData so stepper can bind all fields
             this._router.navigateByUrl('case/cash-disposal-registration', {
               state: {
-                cashId:   params.data?.CashId ?? params.data?.cashId ?? params.data?.id,
+                caseData: params.data,   // full row object with DirRegId, Steps, etc.
                 pageSize: this.pageSize
               }
             });
@@ -220,17 +206,30 @@ export class CashDisposalComponent implements OnInit {
     const reqParam = {
       pageNo:       this.currentPage,
       pageSize:     this.pageSize,
+      districtId:   this.caseFilterForm.value.DistrictId ?? 0,
+      psName:       '',
+      firNo:        '',
+      firYear:      0,
       sortBy:       this.sortColumn,
+      officeId:     0,
+      registerType: -1,
       isSortByDesc: this.sortBy === '0' ? false : true,
+      cnrNo:        '',
+      jCourtId:     0
     };
 
-    this.api.post(this.url.GetComplaintDetailsList(), reqParam).subscribe({
+    this.api.post(this.url.GetDisposalDetailsList(), reqParam).subscribe({
       next: (res: any) => {
-        this.caseList     = res.data;
-        this.totalRecords = res.pagination[0].totalRecords;
+        if (res?.data) {
+          this.caseList     = res.data;
+          this.totalRecords = res.pagination?.[0]?.totalRecords ?? res.data?.length ?? 0; 
+        } else {
+          this.caseList     = [];
+          this.totalRecords = 0;
+        }
       },
       error: (_err: any) => {
-        this.notify.showNotification('error', 'Failed to load complaint list');
+        this.notify.showNotification('error', 'Failed to load disposal list');
       }
     });
   }
@@ -251,7 +250,6 @@ export class CashDisposalComponent implements OnInit {
     if ('getSort' in event.column) {
       const column = event.column as Column;
       const sort   = column.getSort();
-
       if (sort === 'asc' || sort === 'desc') {
         this.sortColumn  = column.getColDef().field;
         this.sortBy      = sort === 'asc' ? '0' : '1';
@@ -276,7 +274,8 @@ export class CashDisposalComponent implements OnInit {
   }
 
   resetFilter(): void {
-    this.caseFilterForm.reset();
+    this.caseFilterForm.reset({ DistrictId: null, ActiveFilter: '1' });
+    this.currentPage = 1;
     this.GetComplaintList();
   }
 
@@ -288,6 +287,7 @@ export class CashDisposalComponent implements OnInit {
   }
 
   changePage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.GetComplaintList();
   }

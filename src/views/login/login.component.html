@@ -1,43 +1,120 @@
-<div class="layout h-screen flex justify-center items-start mt-12 px-4 sm:px-8 md:px-12">
-    <form [formGroup]="loginForm" class="loginForm grid grid-cols-12 w-full max-w-3xl gap-6 bg-white py-8 rounded-lg h-auto">
-  
-      <!-- Logo Section -->
-      <div class="logo col-span-12 place-self-center">
-        <!-- <img src="../../assets/lites_new.jpeg" alt="Logo" class="h-32 mx-auto"> -->
-        <img src="assets/pamc_logo.jpeg" alt="Logo" class="h-32 mx-auto">
+<div class="login-page">
+
+  <!-- ── Left decorative panel ── -->
+  <div class="login-left" aria-hidden="true">
+    <div class="login-left__overlay"></div>
+
+    <!-- floating rings -->
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+
+    <div class="login-left__content">
+      <div class="login-left__logo-wrap">
+        <img src="assets/remove back logo.png" alt="PCMS Logo" class="login-left__logo">
       </div>
-  
-      <!-- Welcome Text -->
-      <div class="col-span-12 place-self-center text-center">
-        <h2 class="text-2xl md:text-xl font-bold">Welcome To PAMC</h2>
-        <p class="text-lg md:text-xl">Sign In </p>
-      </div>
-  
-      <!-- Form Fields -->
-      <div class="fields col-span-12 flex flex-col gap-2 justify-center items-center">
-        <div class="userName flex flex-col gap-2 w-full max-w-md">
-          <label for="userName" class="text-left">User Name</label>
-          <div class="border border-[#c7c8c9] w-full rounded-md overflow-hidden py-1 bg-white">
-            <input type="text" formControlName="userName" id="userName" class="w-full outline-none px-2 py-1 font-normal" placeholder="Enter User Name">
-          </div>
+      <h1 class="login-left__title">PCMS</h1>
+      <p class="login-left__subtitle">Prosecution Case Management System</p>
+      <div class="login-left__divider"></div>
+      <p class="login-left__tagline">Streamlining justice through digital excellence</p>
+
+      <!-- decorative stats -->
+      <div class="login-left__stats">
+        <div class="lstat">
+          <span class="lstat__num">24/7</span>
+          <span class="lstat__label">Availability</span>
         </div>
-  
-        <div class="password flex flex-col gap-2 w-full max-w-md">
-          <label for="password" class="text-left">Password</label>
-          <div class="border border-[#c7c8c9] w-full rounded-md overflow-hidden py-1 bg-white">
-            <input type="password" formControlName="password" id="password" class="w-full outline-none px-2 py-1 font-normal" placeholder="Enter Password">
-          </div>
-          <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
-            <p class="ml-1 text-red-500">Password is required</p>
-          </div>
+        <div class="lstat-sep"></div>
+        <div class="lstat">
+          <span class="lstat__num">100%</span>
+          <span class="lstat__label">Secure</span>
         </div>
-  
-        <!-- Action Button -->
-        <div class="actionBtn mt-5">
-          <button type="submit" class="bg-blue-500 w-full rounded-lg flex items-center text-sm px-4 py-1.5 text-white  font-semibold outline-none" (click)="onSignIn()">Sign In</button>
+        <div class="lstat-sep"></div>
+        <div class="lstat">
+          <span class="lstat__num">Gov</span>
+          <span class="lstat__label">Certified</span>
         </div>
       </div>
-  
-    </form>
+    </div>
   </div>
-  
+
+  <!-- ── Right form panel ── -->
+  <div class="login-right">
+    <div class="login-card">
+
+      <!-- top accent bar -->
+      <div class="login-card__topbar"></div>
+
+      <!-- mobile logo (hidden on desktop) -->
+      <div class="login-card__mobile-logo">
+        <img src="assets/pcms_logo.jpeg" alt="Logo">
+      </div>
+
+      <div class="login-card__header">
+        <div class="login-card__icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="login-card__title">Welcome Back</h2>
+        <p class="login-card__sub">Sign in to your PCMS account</p>
+      </div>
+
+      <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSignIn()" autocomplete="off">
+
+        <!-- Username -->
+        <div class="lf-group" [class.lf-group--error]="loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched">
+          <label class="lf-label" for="userName">
+            <i class="fa-solid fa-user lf-label__icon"></i>
+            User Name
+          </label>
+          <div class="lf-input-wrap">
+            <input
+              type="text"
+              id="userName"
+              formControlName="userName"
+              class="lf-input"
+              placeholder="Enter your username"
+              autocomplete="username"
+            >
+            <span class="lf-input__focus-line"></span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="lf-group" [class.lf-group--error]="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          <label class="lf-label" for="password">
+            <i class="fa-solid fa-lock lf-label__icon"></i>
+            Password
+          </label>
+          <div class="lf-input-wrap">
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="lf-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            >
+            <span class="lf-input__focus-line"></span>
+          </div>
+          <p class="lf-error" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            <i class="fa-solid fa-circle-exclamation"></i> Password is required
+          </p>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="lf-btn" (click)="onSignIn()">
+          <span class="lf-btn__text">Sign In</span>
+          <span class="lf-btn__icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></span>
+          <span class="lf-btn__shine"></span>
+        </button>
+
+      </form>
+
+      <p class="login-card__footer">
+        Prosecution Case Management System &copy; 2025
+      </p>
+
+    </div>
+  </div>
+
+</div>

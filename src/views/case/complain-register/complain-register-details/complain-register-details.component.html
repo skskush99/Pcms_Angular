@@ -40,17 +40,36 @@
                 </ng-select>
               </div>
 
-              <!-- Status -->
+              <!-- Complaint No -->
               <div class="form-group">
-                <label for="activeDeactive">
-                  <i class="fa-solid fa-circle-dot filter-label-icon"></i>
-                  Status
+                <label for="ComplaintNo">
+                  <i class="fa-solid fa-file-lines filter-label-icon"></i>
+                  Complaint No. (अल्फान्यूमेरिक)
                 </label>
-                <select id="activeDeactive" formControlName="ActiveFilter" class="filter-select">
-                  <option value="1">Active</option>
-                  <option value="0">Deactive</option>
-                  <option value="-1">All</option>
-                </select>
+                <input
+                  type="text"
+                  id="ComplaintNo"
+                  formControlName="ComplaintNo"
+                  placeholder="Enter Complaint No."
+                  class="filter-select">
+              </div>
+
+              <!-- Complaint Type -->
+              <div class="form-group">
+                <label for="ComplaintTypeID">
+                  <i class="fa-solid fa-list filter-label-icon"></i>
+                  Complaint Type (परिवाद का प्रकार)
+                </label>
+                <ng-select
+                  [items]="complaintTypeDropdown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select Complaint Type"
+                  formControlName="ComplaintTypeID"
+                  class="custom-ng-select"
+                  id="ComplaintTypeID"
+                  appendTo="body">
+                </ng-select>
               </div>
 
               <!-- Search / Reset Buttons -->
@@ -141,11 +160,11 @@
         <div class="download-buttons">
           <button class="download-btn excel" (click)="downloadExcel()">
             <img src="assets/excel-file.png" alt="excel">
-             Export To Excel
+            Export To Excel
           </button>
           <button class="download-btn pdf" (click)="downloadPDF()">
             <img src="assets/pdf.png" alt="pdf">
-             Export To PDF
+            Export To PDF
           </button>
         </div>
 

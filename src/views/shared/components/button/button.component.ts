@@ -72,6 +72,79 @@
 
 
 
+// import { CommonModule } from '@angular/common';
+// import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+
+// @Component({
+//   selector: 'app-button',
+//   standalone: true,
+//   imports: [CommonModule],
+//   templateUrl: './button.component.html',
+//   styleUrls: ['./button.component.css'],
+//   encapsulation: ViewEncapsulation.None,
+//    host: {                              
+//     '[style.display]': '"contents"',
+//     '[style.background]': '"none"',
+//     '[style.border]': '"none"',
+//     '[style.padding]': '"0"',
+//   }
+// })
+// export class ButtonComponent {
+
+//   @Input() label: string = '';
+//   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+//   @Input() look: string = '';
+//   @Input() disabled: boolean = false;
+//   @Input() bgType: number = 0;
+//   @Input() icon: string = '';  // ← NEW
+
+//   @Output() clicked = new EventEmitter<void>();
+
+//   private bgMap: Record<number, string> = {
+//     1: 'btn-type-1',
+//     2: 'btn-type-2',
+//     3: 'btn-type-3',
+//     4: 'btn-type-4',
+//     5: 'btn-type-5',
+//     6: 'btn-type-6',
+//     7: 'btn-type-7',
+//   };
+
+//   private iconMap: Record<string, string> = {  // ← NEW
+//     'edit'   : 'fa-solid fa-pen-to-square tbl-icon-edit',
+//     'delete' : 'fa-solid fa-trash tbl-icon-delete',
+//     'add'    : 'fa-solid fa-plus',
+//     'search' : 'fa-solid fa-magnifying-glass',
+//     'reset'  : 'fa-solid fa-rotate-left',
+//     'filter' : 'fa-solid fa-sliders',
+//     'excel'  : 'fa-solid fa-file-excel',
+//     'pdf'    : 'fa-solid fa-file-pdf',
+//   };
+
+//   get iconClass(): string {  
+//     return this.iconMap[this.icon] || this.icon;
+//   }
+
+//   get isIconOnly(): boolean { 
+//     return (this.icon === 'edit' || this.icon === 'delete') && !this.label;
+//   }
+
+//   get buttonClasses(): string {
+//     if (this.isIconOnly) return '';
+//     const bgClass = this.bgMap[this.bgType] || '';
+//     return `app-btn ${bgClass} ${this.look}`.trim();
+//   }
+
+//   onClick() {
+//     if (!this.disabled) {
+//       this.clicked.emit();
+//     }
+ 
+//   }
+// }
+
+
+
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
@@ -82,7 +155,7 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css'],
   encapsulation: ViewEncapsulation.None,
-   host: {                              
+  host: {
     '[style.display]': '"contents"',
     '[style.background]': '"none"',
     '[style.border]': '"none"',
@@ -96,7 +169,7 @@ export class ButtonComponent {
   @Input() look: string = '';
   @Input() disabled: boolean = false;
   @Input() bgType: number = 0;
-  @Input() icon: string = '';  // ← NEW
+  @Input() icon: string = '';
 
   @Output() clicked = new EventEmitter<void>();
 
@@ -110,9 +183,9 @@ export class ButtonComponent {
     7: 'btn-type-7',
   };
 
-  private iconMap: Record<string, string> = {  // ← NEW
-    'edit'   : 'fa-solid fa-pen-to-square tbl-icon-edit',
-    'delete' : 'fa-solid fa-trash tbl-icon-delete',
+  private iconMap: Record<string, string> = {
+    'edit'   : 'fa-solid fa-pen-to-square',
+    'delete' : 'fa-solid fa-trash',
     'add'    : 'fa-solid fa-plus',
     'search' : 'fa-solid fa-magnifying-glass',
     'reset'  : 'fa-solid fa-rotate-left',
@@ -121,16 +194,24 @@ export class ButtonComponent {
     'pdf'    : 'fa-solid fa-file-pdf',
   };
 
-  get iconClass(): string {  
+  get iconClass(): string {
     return this.iconMap[this.icon] || this.icon;
   }
 
-  get isIconOnly(): boolean { 
+  get isIconOnly(): boolean {
     return (this.icon === 'edit' || this.icon === 'delete') && !this.label;
   }
 
+  // edit → 'btn-file-action preview'  (blue)
+  // delete → 'btn-file-action delete' (red)
+  get fileActionClass(): string {
+    if (this.icon === 'edit')   return 'btn-file-action preview';
+    if (this.icon === 'delete') return 'btn-file-action delete';
+    return '';
+  }
+
   get buttonClasses(): string {
-    if (this.isIconOnly) return '';
+    if (this.isIconOnly) return this.fileActionClass;
     const bgClass = this.bgMap[this.bgType] || '';
     return `app-btn ${bgClass} ${this.look}`.trim();
   }

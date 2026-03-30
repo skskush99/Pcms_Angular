@@ -11,14 +11,41 @@
 } -->
 
 
-<!-- Edit / Delete icons -->
-<div class="tbl-action-cell" *ngIf="!Type">
+<!-- <div class="tbl-action-cell" *ngIf="!Type">
   <i class="fa-solid fa-pen-to-square tbl-icon-edit"
      (click)="edit()"
      title="Edit"></i>
   <i class="fa-solid fa-trash tbl-icon-delete"
      (click)="delete()"
      title="Delete"></i>
+</div>
+
+@if (Type == 'permissionMappingApprove') {
+  <div class="tbl-action-cell">
+    <button
+      (click)="permissionMappingApprove()"
+      [class]="params.data?.UserMapped ? 'btn-approved' : 'btn-approve'">
+      {{ params.data?.UserMapped == 1 ? 'Approved' : params.data?.UserMapped == 2 ? 'Rejected' : 'Approve' }}
+    </button>
+  </div>
+
+} -->
+
+
+<div class="tbl-action-cell" *ngIf="!Type">
+
+  <!-- Edit button -->
+  <button type="button" class="btn-file-action preview"
+     (click)="edit()" title="Edit">
+    <i class="fa-solid fa-pen-to-square"></i>
+  </button>
+
+  <!-- Delete button -->
+  <button type="button" class="btn-file-action delete"
+     (click)="delete()" title="Delete">
+    <i class="fa-solid fa-trash"></i>
+  </button>
+
 </div>
 
 <!-- Permission Mapping Approve -->

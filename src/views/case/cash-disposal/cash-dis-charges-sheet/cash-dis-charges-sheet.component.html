@@ -55,8 +55,8 @@
 
     <hr class="section-divider">
 
-    <!-- Row 2: Adhikari Fields + Add Button -->
-    <div class="classification-row">
+    <!-- Row 2: Adhikari Fields + Add Button (hidden in readonly mode) -->
+    <div class="classification-row" *ngIf="!isReadonly">
 
       <div class="form-group">
         <label for="adhiName">
@@ -91,10 +91,15 @@
           autocomplete="off">
       </div>
 
+      <!-- Add button -->
       <div class="addbtn">
-        <button type="button" class="btn-add-inline" (click)="addAdhikari()">
+        <button type="button" class="btn-add-inline"
+          [disabled]="isReadonly"
+          [style.opacity]="isReadonly ? '0.45' : '1'"
+          [style.cursor]="isReadonly ? 'not-allowed' : 'pointer'"
+          (click)="addAdhikari()">
           <i *ngIf="!adhikariEditId" class="fa-solid fa-plus"></i>
-          <i *ngIf="adhikariEditId" class="fa-solid fa-check"></i>
+          <i *ngIf="adhikariEditId"  class="fa-solid fa-check"></i>
           {{ adhikariEditId ? 'Save' : 'Add' }}
         </button>
       </div>
@@ -103,30 +108,34 @@
 
     <!-- Adhikari Table -->
     @if (adhikaris.length) {
-      <div class="grid-table-wrapper mt-3">
-        <table>
+      <div class="inline-grid-wrapper mt-3">
+        <table class="inline-grid-table">
           <thead>
-            <tr style="background-color: #3a6ea5;">
-              <th style="color:#000000; font-weight:700;">Sr No.</th>
-              <th style="color:#000000; font-weight:700;">Name</th>
-              <th style="color:#000000; font-weight:700;">Designation</th>
-              <th style="color:#000000; font-weight:700;">Thana</th>
-              <th style="color:#000000; font-weight:700;">Action</th>
+            <tr>
+              <th>Sr No.</th>
+              <th>Name</th>
+              <th>Designation</th>
+              <th>Thana</th>
+              <th *ngIf="!isReadonly">Action</th>
             </tr>
           </thead>
           <tbody>
             @for (item of adhikaris; track $index) {
               <tr>
                 <td>{{ $index + 1 }}</td>
-                <td style="text-align:start;">{{ item?.InvestName }}</td>
+                <td class="text-left">{{ item?.InvestName }}</td>
                 <td>{{ item?.RankName }}</td>
                 <td>{{ item?.PostingPlace }}</td>
-                <td>
-                  <div class="tbl-action-cell">
-                    <i class="fa-solid fa-pen-to-square tbl-icon-edit"
-                      (click)="editAdhikari(item)" title="Edit"></i>
-                    <i class="fa-solid fa-trash tbl-icon-delete"
-                      (click)="removeAdhikari(item?.InvestId)" title="Delete"></i>
+                <td *ngIf="!isReadonly">
+                  <div class="inline-tbl-actions">
+                    <button type="button" class="tbl-btn-edit"
+                      (click)="editAdhikari(item)" title="Edit">
+                      <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </button>
+                    <button type="button" class="tbl-btn-delete"
+                      (click)="removeAdhikari(item?.InvestId)" title="Delete">
+                      <i class="fa-solid fa-trash"></i> Delete
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -182,7 +191,7 @@
 
         <div class="form-group">
           <label for="investigatingOfficer">
-            Investigating Officer (Name & Rank)
+            Investigating Officer (Name &amp; Rank)
             <span class="required">*</span>
           </label>
           <input type="text" id="investigatingOfficer"
@@ -204,8 +213,8 @@
 
       </div>
 
-      <!-- Row 2: Classification + Acts + Sections + Add -->
-      <div class="classification-row">
+      <!-- Classification + Acts + Sections + Add (hidden in readonly mode) -->
+      <div class="classification-row" *ngIf="!isReadonly">
 
         <div class="form-group">
           <label for="classification">
@@ -263,10 +272,15 @@
           </ng-select>
         </div>
 
+        <!-- Add button -->
         <div class="addbtn">
-          <button type="button" class="btn-add-inline" (click)="addChargeSheetCrime()">
+          <button type="button" class="btn-add-inline"
+            [disabled]="isReadonly"
+            [style.opacity]="isReadonly ? '0.45' : '1'"
+            [style.cursor]="isReadonly ? 'not-allowed' : 'pointer'"
+            (click)="addChargeSheetCrime()">
             <i *ngIf="!editOffenceId" class="fa-solid fa-plus"></i>
-            <i *ngIf="editOffenceId" class="fa-solid fa-check"></i>
+            <i *ngIf="editOffenceId"  class="fa-solid fa-check"></i>
             {{ editOffenceId ? 'Save' : 'Add' }}
           </button>
         </div>
@@ -275,30 +289,34 @@
 
       <!-- Crime List Table -->
       @if (chargeSheetCrimeList.length) {
-        <div class="grid-table-wrapper mt-3">
-          <table>
+        <div class="inline-grid-wrapper mt-3">
+          <table class="inline-grid-table">
             <thead>
-              <tr style="background-color: #3a6ea5;">
-                <th style="color:#000000; font-weight:700;">Sr No.</th>
-                <th style="color:#000000; font-weight:700;">Classification</th>
-                <th style="color:#000000; font-weight:700;">Act</th>
-                <th style="color:#000000; font-weight:700;">Section</th>
-                <th style="color:#000000; font-weight:700;">Action</th>
+              <tr>
+                <th>Sr No.</th>
+                <th>Classification</th>
+                <th>Act</th>
+                <th>Section</th>
+                <th *ngIf="!isReadonly">Action</th>
               </tr>
             </thead>
             <tbody>
               @for (item of chargeSheetCrimeList; track $index) {
                 <tr>
                   <td>{{ $index + 1 }}</td>
-                  <td style="text-align:start;">{{ item?.ClassificationName }}</td>
+                  <td class="text-left">{{ item?.ClassificationName }}</td>
                   <td>{{ item?.ActsName }}</td>
                   <td>{{ item?.SectionsName }}</td>
-                  <td>
-                    <div class="tbl-action-cell">
-                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
-                        (click)="editChargeSheetOffence(item)" title="Edit"></i>
-                      <i class="fa-solid fa-trash tbl-icon-delete"
-                        (click)="deleteChargeSheetOffence(item)" title="Delete"></i>
+                  <td *ngIf="!isReadonly">
+                    <div class="inline-tbl-actions">
+                      <button type="button" class="tbl-btn-edit"
+                        (click)="editChargeSheetOffence(item)" title="Edit">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                      </button>
+                      <button type="button" class="tbl-btn-delete"
+                        (click)="deleteChargeSheetOffence(item)" title="Delete">
+                        <i class="fa-solid fa-trash"></i> Delete
+                      </button>
                     </div>
                   </td>
                 </tr>
