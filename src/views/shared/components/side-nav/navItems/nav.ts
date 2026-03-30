@@ -14,21 +14,11 @@ const navData = [
         englishName: 'User Registration',
         linkPage: 'user/user-registration'
       },
-      // {
-      //   icon: 'fa fa-angle-double-right',
-      //   englishName: 'User Role Mapping',
-      //   linkPage: 'user/user-role-mapping'
-      // },
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Add Role',
         linkPage: 'user/permission-mapping-list'
       },
-      // {
-      //     icon : 'fa fa-angle-double-right',
-      //     englishName : 'Add Menu',
-      //     linkPage : 'user/add-menu'
-      // },
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Permission Mapping',
@@ -36,28 +26,6 @@ const navData = [
       },
     ]
   },
-  //   {
-  //     icon: 'fa-solid fa-users-gear',
-  //     englishName: 'Pre-Litigation',
-  //     linkPage: 'n',
-  //     subMenus: [
-  //       {
-  //         icon: 'fa-solid fa-file',
-  //         englishName: 'Notice For Demand Of Justice',
-  //         linkPage: 'pre-litigation/notice-demand-justice'
-  //       },
-  //       {
-  //         icon: 'fa-solid fa-file',
-  //         englishName: 'Notice Under 80 CPC',
-  //         linkPage: 'pre-litigation/notice-under-80-cpc'
-  //       },
-  //       {
-  //         icon: 'fa-solid fa-file',
-  //         englishName: 'Arbitration',
-  //         linkPage: 'pre-litigation/arbitration'
-  //       },
-  //     ]
-  //   },
   {
     icon: 'fa-solid fa-gear',
     englishName: 'Masters',
@@ -68,31 +36,11 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/admin-dept'
       },
-      //   {
-      //     englishName: 'HoD/Units/Department',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/unit-dept-list'
-      //   },
       {
         englishName: 'Office',
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/office'
       },
-      //   {
-      //     englishName: 'OIC',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/oic-list'
-      //   },
-      //   {
-      //     englishName: 'Lawyer',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/lawyer-list'
-      //   },
-      //   {
-      //     englishName: 'Court Type',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/court-type-list'
-      //   },
       {
         englishName: 'Court',
         icon: 'fa fa-angle-double-right',
@@ -158,52 +106,6 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/fir-status'
       },
-      //   {
-      //     englishName: 'Court Place',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/court-place'
-      //   },
-      //   {
-      //     englishName: 'Subject Category',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/subject-category-list'
-      //   },
-      //   {
-      //     englishName: 'Subject Sub Category',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/subject-sub-category-list'
-      //   },
-      //   {
-      //     englishName: 'Subject Matters',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/subject-matters-list'
-      //   },
-      // {
-      //     englishName : 'Add State',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'add-state'
-      // },
-
-      //   {
-      //     englishName: 'Subject Sub Matters',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/subject-sub-matters-list'
-      //   },
-      //   {
-      //     englishName: 'Sub Priority',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/sub-priority-list'
-      //   },
-      //   {
-      //     englishName: 'Case Abbreviation',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/case-abbreviation-list'
-      //   },
-      //   {
-      //     englishName: 'News',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/news-list'
-      //   },
       {
         englishName: 'Circular Order',
         icon: 'fa fa-angle-double-right',
@@ -229,81 +131,11 @@ const navData = [
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/raj-master-data'
       },
-      //   {
-      //     englishName: 'Law Dept Lawyer',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/law-dept-lawyer'
-      //   },
-      //   {
-      //     englishName: 'Law Dept Office',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/law-dept-office'
-      //   },
-      //   {
-      //     englishName: 'Law Dept Sign Authority',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/law-dept-signature-authority'
-      //   },
-      //   {
-      //     englishName: 'Law Dept cc',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/law-dept-cc'
-      //   },
-      //   {
-      //     englishName: 'Grouping',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/grouping'
-      //   },
-      //   {
-      //     englishName: 'Fee Slab',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/fee-slab'
-      //   },
-      //   {
-      //     englishName: 'Head',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/head'
-      //   },
       {
         englishName: 'Requested Info',
         icon: 'fa fa-angle-double-right',
         linkPage: 'master/requested-info'
       },
-      //   {
-      //     englishName: 'Lawyer Bank',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/lawyer-bank-list'
-      //   },
-      //   {
-      //     englishName: 'Lawyer Verified By',
-      //     icon: 'fa fa-angle-double-right',
-      //     linkPage: 'master/lawyer-verified-by-list'
-      //   },
-      // {
-      //     englishName : 'Add District',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'master/add-district'
-      // },
-      // {
-      //     englishName : 'Add Division',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'master/add-division'
-      // },
-      // {
-      //     englishName : 'Add Place',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'add-place'
-      // },
-      // {
-      //     englishName : 'Add State',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'add-state'
-      // },
-      // {
-      //     englishName : 'Tehsil',
-      //     icon : 'fa fa-angle-double-right',
-      //     linkPage : 'master/tehsil'
-      // },
 
     ]
   },
@@ -317,11 +149,6 @@ const navData = [
         englishName: 'Case Registration',
         linkPage: 'case/case-list'
       },
-      // {
-      //   icon: 'fa fa-angle-double-right',
-      //   englishName: 'Complaint Register',
-      //   linkPage: 'case/complaint-register'
-      // },
       {
         icon: 'fa fa-angle-double-right',
         englishName: 'Complaint Register',
@@ -339,16 +166,11 @@ const navData = [
       },
     ]
   },
-
-
-
   {
     icon: 'fa-solid fa-users-gear',
     englishName: 'Report',
     linkPage: 'nz',
     subMenus: [
-
-      // ================= SUMMARY =================
       {
         icon: 'fa-solid fa-folder',
         englishName: 'Summary',
@@ -424,13 +246,8 @@ const navData = [
           }
         ]
       }
-
     ]
   }
-
-
-
-
 ]
 
 export default navData

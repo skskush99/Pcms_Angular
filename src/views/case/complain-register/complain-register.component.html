@@ -1,147 +1,128 @@
-<!-- <h2 class="form-title mb-3">
-  {{ complaintRegId > 0 ? 'Edit Complaint' : 'Register Complaint (No FIR logged)' }}
-</h2> -->
-
-
+<!-- ===================== COMPLAINT REGISTER FORM ===================== -->
 <div class="forms">
     <form [formGroup]="complaintRegForm">
         <div class="complain-form">
-            <h2 class="form-title mb-3">Register Complaint (No FIR logged)</h2>
 
             <div class="form-grid">
-                <!-- Complaint No -->
                 <div class="form-group">
-                    <label>
-                        Complaint No. (अल्फान्यूमेरिक)
-                        <span class="required">*</span>
-                    </label>
+                    <label>Complaint No. (अल्फान्यूमेरिक) <span class="required">*</span></label>
                     <input type="text" formControlName="complaintNo" placeholder="Enter Complaint No">
                 </div>
-
-                <!-- Complaint Date -->
                 <div class="form-group">
-                    <label>
-                        Complaint Date
-                        <span class="required">*</span>
-                    </label>
+                    <label>Complaint Date <span class="required">*</span></label>
                     <app-date-picker formControlName="complaintDate"></app-date-picker>
                 </div>
-
-                <!-- Complaint Type -->
                 <div class="form-group">
-                    <label>
-                        Complaint Type (परिवाद का प्रकार)
-                        <span class="required">*</span>
-                    </label>
+                    <label>Complaint Type (परिवाद का प्रकार) <span class="required">*</span></label>
                     <ng-select [items]="complaintTypeDropdown" bindLabel="text" bindValue="value"
-                        formControlName="complaintType" placeholder="Select Complaint Type" [clearable]="true"
-                        [searchable]="false">
+                        formControlName="complaintType" placeholder="Select Complaint Type"
+                        [clearable]="true" [searchable]="false">
                     </ng-select>
                 </div>
             </div>
 
-            <!-- OFFENCE CLASSIFICATION SECTION -->
-            <div class="offence-section" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+            <!-- ===================== OFFENCE CLASSIFICATION SECTION ===================== -->
+            <div class="offence-section mt-4" *ngIf="isPrivateComplaint || isGovernmentComplaint">
+
                 <div class="person-header">
-                    <h3 class="section-title">Offence Classification</h3>
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-scale-balanced" style="color:#5a8bb8;font-size:15px;"></i>
+                        <h3 class="section-title">Offence Classification</h3>
+                        <span class="count-badge" *ngIf="chargeSheetCrimeList.length">
+                            {{ chargeSheetCrimeList.length }}
+                        </span>
+                    </div>
                     <p class="section-subtitle">Select classification, act and sections, then add them to the list.</p>
                 </div>
+
                 <form [formGroup]="chargeSheetForm">
+
+                    <!-- Input Row -->
                     <div class="classification-row">
 
-                        <!-- अपराध का वर्गीकरण (Classification) -->
                         <div class="form-group">
-                            <label for="classification" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                अपराध का वर्गीकरण (Classification)
-                                <sup class="text-red-500 text-lg font-semibold">*</sup>
+                            <label for="classification">
+                                अपराध का वर्गीकरण (Classification) <span class="required">*</span>
                             </label>
-                            <ng-select [items]="classificationDropdown" bindLabel="text" (change)="getActsDropdown()"
-                                bindValue="value" placeholder="Select Classification" formControlName="classification"
+                            <ng-select [items]="classificationDropdown" bindLabel="text"
+                                (change)="getActsDropdown()" bindValue="value"
+                                placeholder="Select Classification" formControlName="classification"
                                 class="custom-ng-select" id="classification">
                             </ng-select>
                         </div>
 
-                        <!-- अधिनियम (Acts) -->
                         <div class="form-group">
-                            <label for="acts" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                अधिनियम (Acts)
-                                <sup class="text-red-500 text-lg font-semibold">*</sup>
+                            <label for="acts">
+                                अधिनियम (Acts) <span class="required">*</span>
                             </label>
                             <ng-select [items]="actsDropdown" bindLabel="text" bindValue="value"
-                                (change)="getCrimeSubActDropdown()" placeholder="Select Act" formControlName="acts"
-                                class="custom-ng-select" id="acts">
+                                (change)="getCrimeSubActDropdown()" placeholder="Select Act"
+                                formControlName="acts" class="custom-ng-select" id="acts">
                             </ng-select>
                         </div>
 
-                        <!-- धाराएँ (Sections) -->
                         <div class="form-group">
-                            <label for="sections" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                धाराएँ (Sections)
-                                <sup class="text-red-500 text-lg font-semibold">*</sup>
+                            <label for="sections">
+                                धाराएँ (Sections) <span class="required">*</span>
                             </label>
                             <ng-select [items]="sectionsDropdown" bindLabel="text" bindValue="value"
-                                placeholder="Select Section" formControlName="sections" class="custom-ng-select"
-                                id="sections">
+                                placeholder="Select Section" formControlName="sections"
+                                class="custom-ng-select" id="sections">
                             </ng-select>
                         </div>
 
-                        <!-- Add / Update / Cancel Buttons -->
-                        <div class="addbtn flex gap-2">
-                            <button type="button" (click)="addChargeSheetCrime()"
-                                class="border border-[#72A0CB] text-[#72A0CB] rounded-lg px-3.5 py-1.5 hover:scale-95 duration-300 text-base">
-                                <i class="fa-solid" [ngClass]="isEditingCrime ? 'fa-check' : 'fa-plus'"></i>
-                                {{ isEditingCrime ? 'Update' : 'Add' }}
-                            </button>
-
-                            <button type="button" *ngIf="isEditingCrime" (click)="cancelEditCrime()"
-                                class="border border-gray-400 text-gray-600 rounded-lg px-3.5 py-1.5 hover:scale-95 duration-300 text-base">
-                                <i class="fa-solid fa-times"></i> Cancel
+                        <!-- Add mode -->
+                        <div class="addbtn" *ngIf="!isEditingCrime">
+                            <button type="button" class="btn-add-inline"  (click)="addChargeSheetCrime()">
+                                <i class="fa-solid fa-plus"></i> Add
                             </button>
                         </div>
-                    </div>
 
+                        <!-- Edit mode -->
+                        <div class="addbtn edit-mode-btns" *ngIf="isEditingCrime">
+                            <button type="button" class="btn-list-update-icon"
+                                (click)="addChargeSheetCrime()" title="Update">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button type="button" class="btn-list-cancel"
+                                (click)="cancelEditCrime()" title="Cancel">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                    <!-- / classification-row -->
+
+                    <!-- Classification Table — only renders when list has data -->
                     @if (chargeSheetCrimeList.length) {
-                    <div class="adhikariTable mt-4">
-                        <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+                    <div class="inline-grid-wrapper mt-4">
+                        <table class="inline-grid-table">
                             <thead>
-                                <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
-                                    <th
-                                        class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">
-                                        Sr No.</th>
-                                    <th
-                                        class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">
-                                        Classification</th>
-                                    <th
-                                        class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">
-                                        Act</th>
-                                    <th
-                                        class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">
-                                        Section</th>
-                                    <th
-                                        class="px-4 py-1.5 text-center text-sm font-semibold text-gray-700 border-r border-gray-300">
-                                        Action</th>
+                                <tr>
+                                    <th style="width:60px;">Sr No.</th>
+                                    <th>Classification</th>
+                                    <th>Act</th>
+                                    <th>Section</th>
+                                    <th style="width:130px;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody>
                                 @for (item of chargeSheetCrimeList; track $index) {
-                                <tr class="hover:bg-gray-50 transition-colors"
-                                    [class.bg-blue-50]="editingCrimeIndex === $index">
-                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">
-                                        {{$index + 1}}</td>
-                                    <td class="px-4 py-1.5 text-sm text-start text-gray-700 border-r font-base">
-                                        {{item?.classification?.text}}</td>
-                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">
-                                        {{item?.act?.text}}</td>
-                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">
-                                        {{item?.section?.text}}</td>
-                                    <td class="px-4 py-1.5 text-sm text-center text-gray-700 border-r font-base">
-                                        <div class="flex justify-center gap-3">
-                                            <i (click)="editChargeSheetCrime($index)"
-                                                class="fa-solid fa-pen-to-square text-lg text-blue-600 cursor-pointer hover:text-blue-800"
-                                                title="Edit"></i>
-                                            <i (click)="removeChargeSheetCrime($index)"
-                                                class="fa-solid fa-trash text-lg text-red-500 cursor-pointer hover:text-red-700"
-                                                title="Delete"></i>
+                                <tr [class.editing-row]="editingCrimeIndex === $index">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="text-left">{{ item?.classification?.text }}</td>
+                                    <td>{{ item?.act?.text }}</td>
+                                    <td>{{ item?.section?.text }}</td>
+                                    <td>
+                                        <div class="inline-tbl-actions">
+                                            <button type="button" class="tbl-btn-edit"
+                                                (click)="editChargeSheetCrime($index)" title="Edit">
+                                                <i class="fa-solid fa-pen-to-square"></i>                                             
+                                            </button>
+                                            <button type="button" class="tbl-btn-delete"
+                                                (click)="confirmRemoveChargeSheetCrime($index)" title="Delete">
+                                                <i class="fa-solid fa-trash-can"></i>                                            
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -150,26 +131,21 @@
                         </table>
                     </div>
                     }
+
                 </form>
             </div>
+            <!-- ===================== END OFFENCE CLASSIFICATION ===================== -->
 
-            <!-- Department and Officer (Only for Government Complaint - सरकारी परिवाद) -->
+            <!-- Department and Officer -->
             <div class="form-grid mt-4" *ngIf="isGovernmentComplaint">
                 <div class="form-group">
-                    <label>
-                        Department
-                        <span class="required">*</span>
-                    </label>
-                    <ng-select [items]="deptDropdown" bindLabel="text" bindValue="value" formControlName="department"
-                        placeholder="Select Department" appendTo="body">
+                    <label>Department <span class="required">*</span></label>
+                    <ng-select [items]="deptDropdown" bindLabel="text" bindValue="value"
+                        formControlName="department" placeholder="Select Department" appendTo="body">
                     </ng-select>
                 </div>
-
                 <div class="form-group officer-field-span">
-                    <label>
-                        Officer Name & Designation
-                        <span class="required">*</span>
-                    </label>
+                    <label>Officer Name & Designation <span class="required">*</span></label>
                     <input type="text" formControlName="officeranddesignation"
                         placeholder="Enter Officer Name & Designation">
                 </div>
@@ -178,101 +154,109 @@
             <!-- Brief Description -->
             <div class="form-grid mt-4" *ngIf="isPrivateComplaint || isGovernmentComplaint">
                 <div class="form-group full-width-grid">
-                    <label>
-                        Brief Description of Offence
-                        <span class="required">*</span>
-                    </label>
+                    <label>Brief Description of Offence <span class="required">*</span></label>
                     <textarea rows="4" formControlName="descOffence" placeholder="Enter Description"></textarea>
                 </div>
             </div>
 
-            <!-- PERSON SECTION -->
+            <!-- ===================== PERSON SECTION ===================== -->
             <div class="person-section" *ngIf="isPrivateComplaint || isGovernmentComplaint">
-                <div class="person-header">
-                    <h3 class="section-title">Person(s) Against Whom Case is Filed</h3>
-                    <p class="section-subtitle">Add one or more persons related to this complaint.</p>
-                </div>
-                <div class="person-card">
-                    <form [formGroup]="personTempForm">
-                        <div class="grid grid-cols-5 gap-3 items-end">
-                            <div class="form-group">
-                                <label class="block text-sm font-semibold mb-1">
-                                    Name <sup class="text-red-500">*</sup>
-                                </label>
-                                <input type="text" placeholder="Enter Person(s) Name"
-                                    formControlName="caseFiledAgainstName" class="w-full border rounded px-2 py-1">
-                            </div>
+                <div class="offence-section" style="margin-top: 20px;">
 
-                            <div class="form-group">
-                                <label class="block text-sm font-semibold mb-1">
-                                    Address <sup class="text-red-500">*</sup>
-                                </label>
-                                <input type="text" placeholder="Enter Person(s) Address"
-                                    formControlName="caseFiledAgainstAddress" class="w-full border rounded px-2 py-1">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="block text-sm font-semibold mb-1">
-                                    Designation <sup class="text-red-500">*</sup>
-                                </label>
-                                <input type="text" placeholder="Enter Person(s) Designation"
-                                    formControlName="caseFiledAgainstDesignation"
-                                    class="w-full border rounded px-2 py-1">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="block text-sm font-semibold mb-1">
-                                    Institution <sup class="text-red-500">*</sup>
-                                </label>
-                                <input type="text" placeholder="Enter Person(s) Institution"
-                                    formControlName="caseFiledAgainstInstituation"
-                                    class="w-full border rounded px-2 py-1">
-                            </div>
-
-                            <div class="flex gap-2">
-                                <button type="button" (click)="addPersonToList()"
-                                    class="border border-[#72A0CB] text-[#72A0CB] rounded-lg px-3 py-1.5 hover:scale-95 duration-300">
-                                    <i class="fa-solid" [ngClass]="isEditingPerson ? 'fa-check' : 'fa-plus'"></i>
-                                    {{ isEditingPerson ? 'Update' : 'Add' }}
-                                </button>
-
-                                <button type="button" *ngIf="isEditingPerson" (click)="cancelEdit()"
-                                    class="border border-gray-400 text-gray-600 rounded-lg px-3 py-1.5 hover:scale-95 duration-300">
-                                    <i class="fa-solid fa-times"></i> Cancel
-                                </button>
-                            </div>
+                    <div class="person-header">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-user-group" style="color:#5a8bb8;font-size:15px;"></i>
+                            <h3 class="section-title">Person(s) Against Whom Case is Filed</h3>
+                            <span class="count-badge" *ngIf="personList.length">
+                                {{ personList.length }}
+                            </span>
                         </div>
+                        <p class="section-subtitle">Add one or more persons related to this complaint.</p>
+                    </div>
 
+                    <form [formGroup]="personTempForm">
+
+                        <!-- Input Row -->
+                        <div class="person-input-row">
+
+                            <div class="form-group">
+                                <label>Name <span class="required">*</span></label>
+                                <input type="text" placeholder="Enter Name"
+                                    formControlName="caseFiledAgainstName" class="person-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address <span class="required">*</span></label>
+                                <input type="text" placeholder="Enter Address"
+                                    formControlName="caseFiledAgainstAddress" class="person-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Designation <span class="required">*</span></label>
+                                <input type="text" placeholder="Enter Designation"
+                                    formControlName="caseFiledAgainstDesignation" class="person-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Institution <span class="required">*</span></label>
+                                <input type="text" placeholder="Enter Institution"
+                                    formControlName="caseFiledAgainstInstituation" class="person-input">
+                            </div>
+
+                            <!-- Add mode -->
+                            <div class="person-btn-cell" *ngIf="!isEditingPerson">
+                                <button type="button" class="btn-add-inline"  (click)="addPersonToList()">
+                                    <i class="fa-solid fa-user-plus"></i> Add
+                                </button>
+                            </div>
+
+                            <!-- Edit mode -->
+                            <div class="person-btn-cell edit-mode-btns" *ngIf="isEditingPerson">
+                                <button type="button" class="btn-list-update-icon"
+                                    (click)="addPersonToList()" title="Update">
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                                <button type="button" class="btn-list-cancel"
+                                    (click)="cancelEdit()" title="Cancel">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <!-- / person-input-row -->
+
+                        <!-- Person Table — only renders when list has data -->
                         @if (personList.length) {
-                        <div class="mt-4">
-                            <table class="min-w-full w-full divide-y divide-gray-200 table-auto">
+                        <div class="inline-grid-wrapper mt-4">
+                            <table class="inline-grid-table">
                                 <thead>
-                                    <tr class="bg-gradient-to-r from-[#e8f4f8] to-[#f0f7fa]">
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Sr No.</th>
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Name</th>
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Address</th>
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Designation</th>
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Institution</th>
-                                        <th class="px-4 py-2 border-r text-sm font-semibold">Action</th>
+                                    <tr>
+                                        <th style="width:60px;">Sr No.</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Designation</th>
+                                        <th>Institution</th>
+                                        <th style="width:130px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @for (item of personList; track $index) {
-                                    <tr class="hover:bg-gray-50" [class.bg-blue-50]="editingPersonIndex === $index">
-                                        <td class="px-4 py-2 border-r text-center text-sm">{{$index + 1}}</td>
-                                        <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstName}}</td>
-                                        <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstAddress}}</td>
-                                        <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstDesignation}}</td>
-                                        <td class="px-4 py-2 border-r text-sm">{{item.caseFiledAgainstInstituation}}
-                                        </td>
-                                        <td class="px-4 py-2 border-r text-center">
-                                            <div class="flex justify-center gap-3">
-                                                <i (click)="editPerson($index)"
-                                                    class="fa-solid fa-pen-to-square text-lg text-blue-600 cursor-pointer hover:text-blue-800"
-                                                    title="Edit"></i>
-                                                <i (click)="removePerson($index)"
-                                                    class="fa-solid fa-trash text-lg text-red-500 cursor-pointer hover:text-red-700"
-                                                    title="Delete"></i>
+                                    <tr [class.editing-row]="editingPersonIndex === $index">
+                                        <td>{{ $index + 1 }}</td>
+                                        <td class="text-left">{{ item.caseFiledAgainstName }}</td>
+                                        <td class="text-left">{{ item.caseFiledAgainstAddress }}</td>
+                                        <td>{{ item.caseFiledAgainstDesignation }}</td>
+                                        <td>{{ item.caseFiledAgainstInstituation }}</td>
+                                        <td>
+                                            <div class="inline-tbl-actions">
+                                                <button type="button" class="tbl-btn-edit"
+                                                    (click)="editPerson($index)" title="Edit">
+                                                    <i class="fa-solid fa-pen-to-square"></i>                                                   
+                                                </button>
+                                                <button type="button" class="tbl-btn-delete"
+                                                    (click)="confirmRemovePerson($index)" title="Delete">
+                                                    <i class="fa-solid fa-trash-can"></i>                                                  
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -281,54 +265,110 @@
                             </table>
                         </div>
                         }
+
                     </form>
                 </div>
             </div>
+            <!-- ===================== END PERSON SECTION ===================== -->
 
-            <!-- Document Upload Section -->
-            <div class="document-upload-row">
+            <!-- ===================== DATE + DOCUMENT UPLOAD ===================== -->
+            <div class="document-upload-row" style="margin-top: 20px;">
+
                 <div class="form-group">
-                    <label>
-                        Date filed in Court
-                        <span class="required">*</span>
-                    </label>
+                    <label>Date filed in Court <span class="required">*</span></label>
                     <app-date-picker formControlName="datefiledincourt"></app-date-picker>
                 </div>
 
                 <div class="form-group">
-                    <label for="CfpNo">
+                    <label for="chargeSheetDocs">
                         Complaint First Page <span class="required">*</span>
+                        <span class="section-subtitle">(Mandatory)</span>
                     </label>
-                    <input type="file" id="CfpNo" formControlName="CfpNo" placeholder=" Complaint First Page"
-                        autocomplete="off" (change)="onFileChange($event , fileType.chargeSheetDocs)">
-
-                    <div *ngIf="files[fileType.chargeSheetDocs]?.error">
-                        <p class="text-red-500 ml-1">{{files[fileType.chargeSheetDocs]?.error}}</p>
+                    <div class="file-upload-row">
+                        <input type="file" id="chargeSheetDocs" accept="application/pdf"
+                            (change)="onFileChange($event, fileType.chargeSheetDocs)">
+                        <button *ngIf="files[fileType.chargeSheetDocs]?.file && !files[fileType.chargeSheetDocs]?.error"
+                            type="button" class="btn-preview-file" title="Preview File"
+                            (click)="viewFile(fileType.chargeSheetDocs)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button *ngIf="files[fileType.chargeSheetDocs]?.file"
+                            type="button" class="btn-remove-file" title="Remove File"
+                            (click)="confirmDeleteFile(fileType.chargeSheetDocs)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
+                    <span class="form-hint">Only PDF, max 5MB</span>
+                    <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">
+                        {{ files[fileType.chargeSheetDocs]?.error }}
+                    </span>
+                    <span *ngIf="files[fileType.chargeSheetDocs]?.file && !files[fileType.chargeSheetDocs]?.error"
+                        class="form-success">
+                        <i class="fa-solid fa-check-circle"></i>
+                        {{ files[fileType.chargeSheetDocs]!.file.name }}
+                    </span>
                 </div>
 
                 <div class="form-group">
-                    <label for="fullComplaintPDF">
-                        Full Complaint PDF
+                    <label for="fullChargeSheetDocs">
+                        Full Complaint PDF <span class="section-subtitle">(Optional)</span>
                     </label>
-                    <input type="file" id="fullComplaintPDF" placeholder=" Complaint First Page" autocomplete="off"
-                        (change)="onFileChange($event , fileType.fullChargeSheetDocs)">
-                    <div *ngIf="files[fileType.fullChargeSheetDocs]?.error">
-                        <p class="text-red-500 ml-1">{{files[fileType.fullChargeSheetDocs]?.error}}</p>
+                    <div class="file-upload-row">
+                        <input type="file" id="fullChargeSheetDocs" accept="application/pdf"
+                            (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
+                        <button *ngIf="files[fileType.fullChargeSheetDocs]?.file && !files[fileType.fullChargeSheetDocs]?.error"
+                            type="button" class="btn-preview-file" title="Preview File"
+                            (click)="viewFile(fileType.fullChargeSheetDocs)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button *ngIf="files[fileType.fullChargeSheetDocs]?.file"
+                            type="button" class="btn-remove-file" title="Remove File"
+                            (click)="confirmDeleteFile(fileType.fullChargeSheetDocs)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
+                    <span class="form-hint">Only PDF, max 5MB</span>
+                    <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">
+                        {{ files[fileType.fullChargeSheetDocs]?.error }}
+                    </span>
+                    <span *ngIf="files[fileType.fullChargeSheetDocs]?.file && !files[fileType.fullChargeSheetDocs]?.error"
+                        class="form-success">
+                        <i class="fa-solid fa-check-circle"></i>
+                        {{ files[fileType.fullChargeSheetDocs]!.file.name }}
+                    </span>
                 </div>
 
                 <div class="form-group">
-                    <label for="uploadOtherDocNo">
-                        Upload Other Doc. (If any)
+                    <label for="otherDocs">
+                        Upload Other Doc. (If any) <span class="section-subtitle">(Optional)</span>
                     </label>
-                    <input type="file" id="uploadOtherDocNo" placeholder="   Upload Other Doc. (If any)"
-                        autocomplete="off" (change)="onFileChange($event , fileType.otherDocs)">
-                    <div *ngIf="files[fileType.otherDocs]?.error">
-                        <p class="text-red-500 ml-1">{{files[fileType.otherDocs]?.error}}</p>
+                    <div class="file-upload-row">
+                        <input type="file" id="otherDocs" accept="application/pdf"
+                            (change)="onFileChange($event, fileType.otherDocs)">
+                        <button *ngIf="files[fileType.otherDocs]?.file && !files[fileType.otherDocs]?.error"
+                            type="button" class="btn-preview-file" title="Preview File"
+                            (click)="viewFile(fileType.otherDocs)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button *ngIf="files[fileType.otherDocs]?.file"
+                            type="button" class="btn-remove-file" title="Remove File"
+                            (click)="confirmDeleteFile(fileType.otherDocs)">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
+                    <span class="form-hint">Only PDF, max 5MB</span>
+                    <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">
+                        {{ files[fileType.otherDocs]?.error }}
+                    </span>
+                    <span *ngIf="files[fileType.otherDocs]?.file && !files[fileType.otherDocs]?.error"
+                        class="form-success">
+                        <i class="fa-solid fa-check-circle"></i>
+                        {{ files[fileType.otherDocs]!.file.name }}
+                    </span>
                 </div>
+
             </div>
+            <!-- ===================== END DATE + DOCUMENT UPLOAD ===================== -->
 
             <!-- Declaration Checkbox -->
             <div class="checkbox-group">
@@ -341,12 +381,19 @@
                 </label>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="form-actions" *ngIf="isPrivateComplaint || isGovernmentComplaint">
-                <button type="button" class="btn-clear" (click)="onClear()">Clear</button>
-                <button type="submit" class="btn-submit" [disabled]="complaintRegForm.invalid"
-                    (click)="onSubmit()">Submit</button>
+            <!-- ===================== BOTTOM ACTION BAR ===================== -->
+            <div class="form-actions">
+                <button type="button" class="btn-back" (click)="onBack()">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </button>
+                <ng-container *ngIf="isPrivateComplaint || isGovernmentComplaint">
+                    <button type="button" class="btn-clear" (click)="onClear()">Clear</button>
+                    <button type="submit" class="btn-submit" [disabled]="complaintRegForm.invalid"
+                        (click)="onSubmit()">Submit</button>
+                </ng-container>
             </div>
+            <!-- ===================== END BOTTOM ACTION BAR ===================== -->
+
         </div>
     </form>
 </div>

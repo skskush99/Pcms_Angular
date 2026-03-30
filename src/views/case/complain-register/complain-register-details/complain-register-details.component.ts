@@ -59,10 +59,18 @@ export class ComplainRegisterDetailsComponent {
   permissionByRole: any;
   colDef: ColDef[] = [];
 
+  // ✅ CHANGE 1: Complaint Type dropdown (same as register form)
+  complaintTypeDropdown: DropdownListInterface[] = [
+    { value: '0', text: 'निजी परिवाद' },
+    { value: '1', text: 'सरकारी परिवाद' }
+  ];
+
   // ===================== FILTER FORM =====================
+  // ✅ CHANGE 1: Status hata diya, ComplaintNo + ComplaintTypeID add kiye
   caseFilterForm: FormGroup = new FormGroup({
-    DistrictId:   new FormControl(null, { nonNullable: true }),
-    ActiveFilter: new FormControl('1',  { nonNullable: true }),
+    DistrictId:      new FormControl(null, { nonNullable: true }),
+    ComplaintNo:     new FormControl(null, { nonNullable: true }),
+    ComplaintTypeID: new FormControl(null, { nonNullable: true }),
   });
 
   // ===================== COMPUTED =====================
@@ -92,7 +100,7 @@ export class ComplainRegisterDetailsComponent {
     if (ifPrevSize) this.pageSize = ifPrevSize;
 
     this.getDistrictDropDown();
-    this.GetComplaintList();   // ← call new function
+    this.GetComplaintList();
 
     this.isFormCollapsed = true;
     this.updateButtonText(true);
@@ -110,7 +118,6 @@ export class ComplainRegisterDetailsComponent {
         width: 70,
         pinned: 'left'
       },
- 
 
       // Complaint No
       {
@@ -218,18 +225,19 @@ export class ComplainRegisterDetailsComponent {
     ];
   }
 
-  // ===================== GET COMPLAINT LIST (NEW) =====================
+  // ===================== GET COMPLAINT LIST =====================
   GetComplaintList() {
     const reqParam = {
-      pageNo:       this.currentPage,
-      pageSize:     this.pageSize,
-      // districtId:   this.caseFilterForm.value.DistrictId || 0,
-      // isActive:     Number(this.caseFilterForm.value.ActiveFilter),
-      sortBy:       this.sortColumn,
-      isSortByDesc: this.sortBy === '0' ? false : true,
+      pageNo:          this.currentPage,
+      pageSize:        this.pageSize,
+      districtId:      this.caseFilterForm.value.DistrictId      || null,
+      complaintNo:     this.caseFilterForm.value.ComplaintNo     || '',
+      complaintTypeID: this.caseFilterForm.value.ComplaintTypeID ?? null,
+      sortBy:          this.sortColumn,
+      isSortByDesc:    this.sortBy === '0' ? false : true,
     };
-   this.api.post(this.url.GetComplaintDetailsList(), reqParam).subscribe({   
-      //this.api.post(this.url.GetComplaintDetailsList(reqParam), {}).subscribe({
+
+    this.api.post(this.url.GetComplaintDetailsList(), reqParam).subscribe({
       next: (res: any) => {
         this.caseList     = res.data;
         this.totalRecords = res.pagination[0].totalRecords;
@@ -243,13 +251,14 @@ export class ComplainRegisterDetailsComponent {
 
   // ===================== ON EDIT CLICK =====================
   onEditComplaint(rowData: any) {
-    // Navigate to complaint register form with full row data
     this._router.navigate(['/case/complaint-register'], {
       state: {
-        editData:        rowData,              // full row object
-        ComplaintRegNo:  rowData.ComplaintRegNo,
-        ComplaintNo:     rowData.ComplaintNo,
-        pageSize:        this.pageSize
+        editData:       rowData,
+        // ✅ CHANGE 2: ComplaintRegId explicitly pass karo
+        ComplaintRegId: rowData.ComplaintRegId,
+        ComplaintRegNo: rowData.ComplaintRegNo,
+        ComplaintNo:    rowData.ComplaintNo,
+        pageSize:       this.pageSize
       }
     });
   }
@@ -283,14 +292,6 @@ export class ComplainRegisterDetailsComponent {
         this.GetComplaintList();
       }
     }
-  }
-
-  // ===================== DROPDOWN =====================
-  getDistrictDropDown() {
-    this.api.get(this.url.getDistrictDropDown()).subscribe({
-      next:  (res: any) => { this.districtDropDown = res.data; },
-      error: (err: any) => { console.log(err); }
-    });
   }
 
   // ===================== FILTER ACTIONS =====================
@@ -371,4 +372,14 @@ export class ComplainRegisterDetailsComponent {
     const formattedDate = this.datePipe.transform(currentDate, 'dd/MM/yyyy hh:mm a');
     // TODO: hook PDF library
   }
+
+
+   // ===================== DROPDOWN =====================
+  getDistrictDropDown() {
+    this.api.get(this.url.getDistrictDropDown()).subscribe({
+      next:  (res: any) => { this.districtDropDown = res.data; },
+      error: (err: any) => { console.log(err); }
+    });
+  }
+
 }

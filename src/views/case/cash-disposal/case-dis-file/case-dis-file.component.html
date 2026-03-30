@@ -1,45 +1,243 @@
-<!-- ===================== REMARKS & UPLOADS ===================== -->
 <div>
 
-    <!-- File Uploads -->
-    <div class="document-upload-row">
+  <div class="document-upload-row">
 
-        <!-- Charge Sheet First Page Thumbnail -->
-        <div class="form-group">
-            <label for="chargeSheetDocs">
-                Upload Charge Sheet First Page Thumbnail
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="chargeSheetDocs" (change)="onFileChange($event, fileType.chargeSheetDocs)">
-            <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">
+    <!-- ═══════════════ Charge Sheet Thumbnail ═══════════════ -->
+    <div class="form-group">
+
+      <label for="chargeSheetDocs">
+        <i class="fa-solid fa-file-image" style="color:#5a8bb8; margin-right:5px;"></i>
+        Upload Charge Sheet First Page Thumbnail
+        <span class="required">*</span>
+      </label>
+
+      <!-- Existing saved file -->
+      <div *ngIf="existingFiles[fileType.chargeSheetDocs]" class="upload-file-card upload-file-card--saved">
+        <div class="upload-file-card__icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <div class="upload-file-card__info">
+          <span class="upload-file-card__name" [title]="existingFiles[fileType.chargeSheetDocs]!.fileName">
+            {{ existingFiles[fileType.chargeSheetDocs]!.fileName }}
+          </span>
+          <span class="upload-file-card__meta">Saved file · PDF</span>
+        </div>
+        <button type="button" class="upload-file-card__action"
+          title="Preview File" (click)="openExistingFile(fileType.chargeSheetDocs)">
+          <i class="fa-solid fa-eye"></i>
+        
+        </button>
+      </div>
+
+      <!-- New file input -->
+      <div *ngIf="!existingFiles[fileType.chargeSheetDocs]" class="upload-drop-zone"
+        [class.upload-drop-zone--has-file]="files[fileType.chargeSheetDocs]?.file && !files[fileType.chargeSheetDocs]?.error"
+        [class.upload-drop-zone--error]="files[fileType.chargeSheetDocs]?.error">
+
+        <ng-container *ngIf="!files[fileType.chargeSheetDocs]?.file; else chargeThumbSelected">
+          <div class="upload-drop-zone__idle">
+            <div class="upload-drop-zone__icon-wrap">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <p class="upload-drop-zone__text">
+              Drag &amp; drop or
+              <label for="chargeSheetDocs" class="upload-drop-zone__browse">browse file</label>
+            </p>
+            <p class="upload-drop-zone__hint">PDF only &nbsp;·&nbsp; max 5 MB</p>
+            <input type="file" id="chargeSheetDocs" accept="application/pdf"
+              (change)="onFileChange($event, fileType.chargeSheetDocs)" style="display:none;">
+          </div>
+        </ng-container>
+
+        <ng-template #chargeThumbSelected>
+          <div class="upload-drop-zone__selected">
+            <div class="upload-drop-zone__file-icon"
+              [class.upload-drop-zone__file-icon--error]="files[fileType.chargeSheetDocs]?.error">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div class="upload-drop-zone__file-info">
+              <span class="upload-drop-zone__file-name">
+                {{ files[fileType.chargeSheetDocs]!.file.name }}
+              </span>
+              <span *ngIf="!files[fileType.chargeSheetDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--ok">
+                <i class="fa-solid fa-circle-check"></i> Ready to upload
+              </span>
+              <span *ngIf="files[fileType.chargeSheetDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--err">
+                <i class="fa-solid fa-triangle-exclamation"></i>
                 {{ files[fileType.chargeSheetDocs]?.error }}
-            </span>
-        </div>
+              </span>
+            </div>
+            <button *ngIf="!files[fileType.chargeSheetDocs]?.error"
+              type="button" class="upload-drop-zone__preview-btn"
+              title="Preview" (click)="openNewFile(fileType.chargeSheetDocs)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </ng-template>
 
-        <!-- Full Charge Sheet PDF -->
-        <div class="form-group">
-            <label for="fullChargeSheetDocs">
-                Upload Full Charge Sheet PDF
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="fullChargeSheetDocs" (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
-            <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">
-                {{ files[fileType.fullChargeSheetDocs]?.error }}
-            </span>
-        </div>
-
-        <!-- Other Docs -->
-        <div class="form-group">
-            <label for="otherDocs">
-                Upload Other Doc. (If any)
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="otherDocs" (change)="onFileChange($event, fileType.otherDocs)">
-            <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">
-                {{ files[fileType.otherDocs]?.error }}
-            </span>
-        </div>
-
-       
+      </div>
     </div>
-<div>
+
+
+    <!-- ═══════════════ Full Charge Sheet PDF ═══════════════ -->
+    <div class="form-group">
+
+      <label for="fullChargeSheetDocs">
+        <i class="fa-solid fa-file-pdf" style="color:#dc2626; margin-right:5px;"></i>
+        Upload Full Charge Sheet PDF
+        <span class="required">*</span>
+      </label>
+
+      <!-- Existing saved file -->
+      <div *ngIf="existingFiles[fileType.fullChargeSheetDocs]" class="upload-file-card upload-file-card--saved">
+        <div class="upload-file-card__icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <div class="upload-file-card__info">
+          <span class="upload-file-card__name" [title]="existingFiles[fileType.fullChargeSheetDocs]!.fileName">
+            {{ existingFiles[fileType.fullChargeSheetDocs]!.fileName }}
+          </span>
+          <span class="upload-file-card__meta">Saved file · PDF</span>
+        </div>
+        <button type="button" class="upload-file-card__action"
+          title="Preview File" (click)="openExistingFile(fileType.fullChargeSheetDocs)">
+          <i class="fa-solid fa-eye"></i>
+          
+        </button>
+      </div>
+
+      <!-- New file input -->
+      <div *ngIf="!existingFiles[fileType.fullChargeSheetDocs]" class="upload-drop-zone"
+        [class.upload-drop-zone--has-file]="files[fileType.fullChargeSheetDocs]?.file && !files[fileType.fullChargeSheetDocs]?.error"
+        [class.upload-drop-zone--error]="files[fileType.fullChargeSheetDocs]?.error">
+
+        <ng-container *ngIf="!files[fileType.fullChargeSheetDocs]?.file; else fullCSSelected">
+          <div class="upload-drop-zone__idle">
+            <div class="upload-drop-zone__icon-wrap">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <p class="upload-drop-zone__text">
+              Drag &amp; drop or
+              <label for="fullChargeSheetDocs" class="upload-drop-zone__browse">browse file</label>
+            </p>
+            <p class="upload-drop-zone__hint">PDF only &nbsp;·&nbsp; max 5 MB</p>
+            <input type="file" id="fullChargeSheetDocs" accept="application/pdf"
+              (change)="onFileChange($event, fileType.fullChargeSheetDocs)" style="display:none;">
+          </div>
+        </ng-container>
+
+        <ng-template #fullCSSelected>
+          <div class="upload-drop-zone__selected">
+            <div class="upload-drop-zone__file-icon"
+              [class.upload-drop-zone__file-icon--error]="files[fileType.fullChargeSheetDocs]?.error">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div class="upload-drop-zone__file-info">
+              <span class="upload-drop-zone__file-name">
+                {{ files[fileType.fullChargeSheetDocs]!.file.name }}
+              </span>
+              <span *ngIf="!files[fileType.fullChargeSheetDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--ok">
+                <i class="fa-solid fa-circle-check"></i> Ready to upload
+              </span>
+              <span *ngIf="files[fileType.fullChargeSheetDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--err">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                {{ files[fileType.fullChargeSheetDocs]?.error }}
+              </span>
+            </div>
+            <button *ngIf="!files[fileType.fullChargeSheetDocs]?.error"
+              type="button" class="upload-drop-zone__preview-btn"
+              title="Preview" (click)="openNewFile(fileType.fullChargeSheetDocs)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+
+
+    <!-- ═══════════════ Other Documents (optional) ═══════════════ -->
+    <div class="form-group">
+
+      <label for="otherDocs">
+        <i class="fa-solid fa-paperclip" style="color:#6b7280; margin-right:5px;"></i>
+        Upload Other Doc. (If any)
+        <span class="upload-optional-badge">Optional</span>
+      </label>
+
+      <!-- Existing saved file -->
+      <div *ngIf="existingFiles[fileType.otherDocs]" class="upload-file-card upload-file-card--saved">
+        <div class="upload-file-card__icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <div class="upload-file-card__info">
+          <span class="upload-file-card__name" [title]="existingFiles[fileType.otherDocs]!.fileName">
+            {{ existingFiles[fileType.otherDocs]!.fileName }}
+          </span>
+          <span class="upload-file-card__meta">Saved file · PDF</span>
+        </div>
+        <button type="button" class="upload-file-card__action"
+          title="Preview File" (click)="openExistingFile(fileType.otherDocs)">
+          <i class="fa-solid fa-eye"></i>
+          
+        </button>
+      </div>
+
+      <!-- New file input -->
+      <div *ngIf="!existingFiles[fileType.otherDocs]" class="upload-drop-zone upload-drop-zone--optional"
+        [class.upload-drop-zone--has-file]="files[fileType.otherDocs]?.file && !files[fileType.otherDocs]?.error"
+        [class.upload-drop-zone--error]="files[fileType.otherDocs]?.error">
+
+        <ng-container *ngIf="!files[fileType.otherDocs]?.file; else otherDocsSelected">
+          <div class="upload-drop-zone__idle">
+            <div class="upload-drop-zone__icon-wrap upload-drop-zone__icon-wrap--gray">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <p class="upload-drop-zone__text">
+              Drag &amp; drop or
+              <label for="otherDocs" class="upload-drop-zone__browse upload-drop-zone__browse--gray">browse file</label>
+            </p>
+            <p class="upload-drop-zone__hint">PDF only &nbsp;·&nbsp; max 5 MB</p>
+            <input type="file" id="otherDocs" accept="application/pdf"
+              (change)="onFileChange($event, fileType.otherDocs)" style="display:none;">
+          </div>
+        </ng-container>
+
+        <ng-template #otherDocsSelected>
+          <div class="upload-drop-zone__selected">
+            <div class="upload-drop-zone__file-icon"
+              [class.upload-drop-zone__file-icon--error]="files[fileType.otherDocs]?.error">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div class="upload-drop-zone__file-info">
+              <span class="upload-drop-zone__file-name">
+                {{ files[fileType.otherDocs]!.file.name }}
+              </span>
+              <span *ngIf="!files[fileType.otherDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--ok">
+                <i class="fa-solid fa-circle-check"></i> Ready to upload
+              </span>
+              <span *ngIf="files[fileType.otherDocs]?.error"
+                class="upload-drop-zone__file-status upload-drop-zone__file-status--err">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                {{ files[fileType.otherDocs]?.error }}
+              </span>
+            </div>
+            <button *ngIf="!files[fileType.otherDocs]?.error"
+              type="button" class="upload-drop-zone__preview-btn"
+              title="Preview" (click)="openNewFile(fileType.otherDocs)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </ng-template>
+
+      </div>
+    </div><!-- /otherDocs -->
+
+  </div><!-- /document-upload-row -->
+
+</div>

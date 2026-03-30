@@ -1,58 +1,428 @@
-<!-- ===================== REMARKS & UPLOADS ===================== -->
-<div>
+<form [formGroup]="caseSubmitForm">
 
-    <h3 class="section-title" style="margin-bottom:20px;">Remarks & Uploads</h3>
 
-    <!-- Remarks -->
-    <form [formGroup]="caseSubmitForm">
-        <div class="form-group full-width-grid" style="margin-bottom:20px;">
-            <label for="remarks">
-                Enter Remarks <span class="required">*</span>
-            </label>
-            <textarea rows="4" id="remarks" formControlName="remarks" placeholder="Enter Remarks" autocomplete="off">
-      </textarea>
-        </div>
-    </form>
+  <!-- ===================== PAGE HEADING ===================== -->
+  <div class="page-heading-bar">
+    <i class="fa-solid fa-gavel" style="color:#5a8bb8;font-size:18px;"></i>
+    <h2 class="page-main-title">निर्णय का वर्गीकरण</h2>
+    <span class="page-title-sub">Decision Classification</span>
+  </div>
 
-    <!-- File Uploads -->
-    <div class="document-upload-row">
 
-        <!-- Charge Sheet First Page Thumbnail -->
-        <div class="form-group">
-            <label for="chargeSheetDocs">
-                Upload Charge Sheet First Page Thumbnail
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="chargeSheetDocs" (change)="onFileChange($event, fileType.chargeSheetDocs)">
-            <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">
-                {{ files[fileType.chargeSheetDocs]?.error }}
-            </span>
-        </div>
+  <!-- ===================== DECISION TYPE & REASON ===================== -->
+  <div class="form-grid mt-4">
 
-        <!-- Full Charge Sheet PDF -->
-        <div class="form-group">
-            <label for="fullChargeSheetDocs">
-                Upload Full Charge Sheet PDF
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="fullChargeSheetDocs" (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
-            <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">
-                {{ files[fileType.fullChargeSheetDocs]?.error }}
-            </span>
-        </div>
-
-        <!-- Other Docs -->
-        <div class="form-group">
-            <label for="otherDocs">
-                Upload Other Doc. (If any)
-                <span class="required">*</span>
-            </label>
-            <input type="file" id="otherDocs" (change)="onFileChange($event, fileType.otherDocs)">
-            <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">
-                {{ files[fileType.otherDocs]?.error }}
-            </span>
-        </div>
-
-       
+    <!-- Decision Type: API loaded on page init; triggers reason dropdown on change -->
+    <div class="form-group">
+      <label>Decision Type <span class="required">*</span></label>
+      <ng-select
+        [items]="decisionTypeDropdown"
+        bindLabel="text"
+        bindValue="value"
+        formControlName="decisionType"
+        placeholder="Select Decision Type"
+        [clearable]="true"
+        [searchable]="false"
+        (change)="getDecisionReasonDropdown($event?.value)">
+      </ng-select>
     </div>
-<div>
+
+    <!-- Decision Reason: populated after Decision Type is selected -->
+    <div class="form-group">
+      <label>Decision Reason <span class="required">*</span></label>
+      <ng-select
+        [items]="decisionReasonDropdown"
+        bindLabel="text"
+        bindValue="value"
+        formControlName="decisionReason"
+        placeholder="{{ caseSubmitForm.get('decisionType')?.value ? 'Select Decision Reason' : 'Select Decision Type first' }}"
+        [clearable]="true"
+        [searchable]="false"
+        [disabled]="!caseSubmitForm.get('decisionType')?.value">
+      </ng-select>
+    </div>
+
+  </div>
+
+
+  <!-- ===================== SUMMARY & SECTIONS ===================== -->
+  <div class="form-grid mt-4">
+    <div class="form-group full-width-grid">
+      <label>Brief Summary of Judgment / निर्णय का संक्षेप</label>
+      <textarea rows="3" formControlName="briefSummary"
+        placeholder="Enter brief summary of judgment..."></textarea>
+    </div>
+  </div>
+  <div class="form-grid mt-2">
+    <div class="form-group full-width-grid">
+      <label>Sections for which Convicted / दोषसिद्धि धाराएँ</label>
+      <textarea rows="2" formControlName="convictedSections"
+        placeholder="Enter sections for which convicted..."></textarea>
+    </div>
+  </div>
+
+
+  <!-- ===================== SENTENCE DETAILS ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-scale-balanced" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">Sentence Details</h3>
+        <span class="count-badge" *ngIf="sentenceList.length">{{ sentenceList.length }}</span>
+      </div>
+      <p class="section-subtitle">Add one or more sentence entries for this decision.</p>
+    </div>
+
+    <!-- Input Row -->
+    <div class="person-input-row sentence-input-row">
+
+      <div class="form-group">
+        <label>Section <span class="required">*</span></label>
+        <input type="text" placeholder="Enter Section"
+          [(ngModel)]="sentenceTemp.section"
+          [ngModelOptions]="{standalone: true}"
+          class="person-input">
+      </div>
+
+      <div class="form-group">
+        <label>Sentence Type <span class="required">*</span></label>
+        <input type="text" placeholder="Enter Sentence Type"
+          [(ngModel)]="sentenceTemp.sentenceType"
+          [ngModelOptions]="{standalone: true}"
+          class="person-input">
+      </div>
+
+      <div class="form-group">
+        <label>Period <span class="required">*</span></label>
+        <input type="text" placeholder="Enter Period"
+          [(ngModel)]="sentenceTemp.period"
+          [ngModelOptions]="{standalone: true}"
+          class="person-input">
+      </div>
+
+      <div class="form-group">
+        <label>Fine</label>
+        <input type="text" placeholder="Enter Fine"
+          [(ngModel)]="sentenceTemp.fine"
+          [ngModelOptions]="{standalone: true}"
+          class="person-input">
+      </div>
+
+      <div class="form-group">
+        <label>Remarks</label>
+        <input type="text" placeholder="Enter Remarks"
+          [(ngModel)]="sentenceTemp.remarks"
+          [ngModelOptions]="{standalone: true}"
+          class="person-input">
+      </div>
+
+      <!-- Add mode -->
+      <div class="person-btn-cell" *ngIf="!isEditingSentence">
+        <button type="button" class="btn-add-inline" (click)="addSentence()">
+          <i class="fa-solid fa-plus"></i> Add
+        </button>
+      </div>
+
+      <!-- Edit mode -->
+      <div class="person-btn-cell edit-mode-btns" *ngIf="isEditingSentence">
+        <button type="button" class="btn-list-update-icon" (click)="addSentence()" title="Update">
+          <i class="fa-solid fa-check"></i>
+        </button>
+        <button type="button" class="btn-list-cancel" (click)="cancelSentenceEdit()" title="Cancel">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sentence Table -->
+    @if (sentenceList.length) {
+    <div class="inline-grid-wrapper mt-4">
+      <table class="inline-grid-table">
+        <thead>
+          <tr>
+            <th style="width:55px;">Sr No.</th>
+            <th>Section</th>
+            <th>Sentence Type</th>
+            <th>Period</th>
+            <th>Fine</th>
+            <th>Remarks</th>
+            <th style="width:130px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of sentenceList; track $index) {
+          <tr [class.editing-row]="editingSentenceIndex === $index">
+            <td>{{ $index + 1 }}</td>
+            <td class="text-left">{{ item.section }}</td>
+            <td>{{ item.sentenceType }}</td>
+            <td>{{ item.period }}</td>
+            <td>{{ item.fine }}</td>
+            <td class="text-left">{{ item.remarks }}</td>
+            <td>
+              <div class="inline-tbl-actions">
+                <button type="button" class="tbl-btn-edit"
+                        (click)="editSentence($index)" title="Edit">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button type="button" class="tbl-btn-delete"
+                        (click)="confirmRemoveSentence($index)" title="Delete">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+  </div>
+  <!-- ===================== END SENTENCE DETAILS ===================== -->
+
+
+  <!-- ===================== विशुद्ध CONSTET CASE ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-file-circle-check" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">विशुद्ध CONSTET CASE</h3>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>विशुद्ध CONSTET CASE? <span class="required">*</span></label>
+        <ng-select
+          [items]="yesNoDropdown"
+          bindLabel="text"
+          bindValue="value"
+          formControlName="isConsteCase"
+          placeholder="Select"
+          [clearable]="true"
+          [searchable]="false">
+        </ng-select>
+      </div>
+
+      <div class="form-group">
+        <label>प्रस्तुत रूलिंग की संख्या</label>
+        <input type="text" formControlName="rulingCount"
+          placeholder="Enter numeric value"
+          class="numeric-input"
+          (keypress)="onlyNumeric($event)">
+      </div>
+
+      <div class="form-group">
+        <label>किशन भाई के निर्देश अनुसार कार्यवाही?</label>
+        <ng-select
+          [items]="yesNoDropdown"
+          bindLabel="text"
+          bindValue="value"
+          formControlName="kishanBhaiProceeding"
+          placeholder="Select"
+          [clearable]="true"
+          [searchable]="false">
+        </ng-select>
+      </div>
+    </div>
+  </div>
+  <!-- ===================== END विशुद्ध CONSTET CASE ===================== -->
+
+
+  <!-- ===================== DISPATCH & APPEAL ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-paper-plane" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">Dispatch &amp; Appeal</h3>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Dispatch Register No.</label>
+        <input type="text" formControlName="dispatchRegNo"
+          placeholder="Enter Dispatch Register No.">
+      </div>
+      <div class="form-group">
+        <label>Dispatch Date</label>
+        <app-date-picker formControlName="dispatchDate"></app-date-picker>
+      </div>
+      <div class="form-group">
+        <label>Appeal Proposed? <span class="required">*</span></label>
+        <ng-select
+          [items]="yesNoDropdown"
+          bindLabel="text"
+          bindValue="value"
+          formControlName="appealProposed"
+          placeholder="Select"
+          [clearable]="true"
+          [searchable]="false">
+        </ng-select>
+      </div>
+    </div>
+
+    <!-- Appeal sub-fields: visible only when appealProposed === 'yes' -->
+    <div class="appeal-sub-section mt-4"
+      *ngIf="caseSubmitForm.get('appealProposed')?.value === 'yes'">
+
+      <div class="appeal-sub-header">
+        <i class="fa-solid fa-chevron-right" style="color:#5a8bb8;font-size:12px;"></i>
+        <span class="section-subtitle" style="font-weight:600;">Appeal Details</span>
+      </div>
+
+      <div class="form-grid mt-2">
+        <div class="form-group">
+          <label>Date of Recommendation</label>
+          <app-date-picker formControlName="dateOfRecommendation"></app-date-picker>
+        </div>
+        <div class="form-group">
+          <label>Dispatch Register No. (for appeal file)</label>
+          <input type="text" formControlName="appealDispatchRegNo"
+            placeholder="Enter Dispatch Register No.">
+        </div>
+        <div class="form-group">
+          <label>Grounds for Appeal</label>
+          <ng-select
+            [items]="groundsForAppealDropdown"
+            bindLabel="text"
+            bindValue="value"
+            formControlName="groundsForAppeal"
+            placeholder="Select Ground"
+            [clearable]="true"
+            [searchable]="false">
+          </ng-select>
+        </div>
+        <div class="form-group">
+          <label>Specifications / Notes</label>
+          <input type="text" formControlName="appealNotes"
+            placeholder="Enter specifications or notes">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ===================== END DISPATCH & APPEAL ===================== -->
+
+
+  <!-- ===================== LINKED CASE INFO ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-link" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">Linked Case Info <span class="optional-tag">(if any)</span></h3>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Linked CNR
+          <span class="section-subtitle">(if appeal or connected trial)</span>
+        </label>
+        <input type="text" formControlName="linkedCnr"
+          placeholder="Enter Linked CNR Number">
+      </div>
+      <div class="form-group">
+        <label>Transferred / Clubbed from Case No.</label>
+        <input type="text" formControlName="transferredCaseNo"
+          placeholder="Enter Case No.">
+      </div>
+      <div class="form-group">
+        <label>Remarks</label>
+        <input type="text" formControlName="linkedCaseRemarks"
+          placeholder="Enter Remarks">
+      </div>
+    </div>
+  </div>
+  <!-- ===================== END LINKED CASE INFO ===================== -->
+
+
+  <!-- ===================== CERTIFIED COPY ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-stamp" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">Certified Copy</h3>
+      </div>
+      <p class="section-subtitle">
+        Application requesting an official copy (प्रतिलिपि / certified copy) of any document, order,
+        judgment, FIR, or record from a court or government office.
+      </p>
+    </div>
+
+    <div class="form-grid mt-2">
+      <div class="form-group">
+        <label>Application Date</label>
+        <span class="field-hint">Enter प्रतिलिपि प्रार्थना पत्र दिनांक (Date of requesting Application for Certified Copy) (if any)</span>
+        <app-date-picker formControlName="certifiedCopyAppDate"></app-date-picker>
+      </div>
+
+      <div class="form-group">
+        <label>Receiving Date</label>
+        <span class="field-hint">Enter प्रतिलिपि प्राप्ति तिथि (Date of receiving Application for Certified Copy) (if any)</span>
+        <app-date-picker formControlName="certifiedCopyReceiveDate"></app-date-picker>
+      </div>
+    </div>
+
+    <div class="form-grid mt-2">
+      <div class="form-group full-width-grid">
+        <label for="judgementCopyDoc">
+          Upload Judgement Copy
+          <span class="section-subtitle">(Non-Mandatory)</span>
+        </label>
+        <span class="field-hint">&nbsp;</span>
+        <div class="file-upload-row">
+          <input type="file"
+                 id="judgementCopyDoc"
+                 accept="application/pdf"
+                 (change)="onFileChange($event)">
+          <button
+            *ngIf="judgementFile?.file && !judgementFile?.error"
+            type="button"
+            class="btn-preview-file"
+            title="Preview File"
+            (click)="viewFile()">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+          <button
+            *ngIf="judgementFile?.file"
+            type="button"
+            class="btn-remove-file"
+            title="Remove File"
+            (click)="confirmDeleteFile()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <span class="form-hint">Only PDF, max 5MB</span>
+        <span *ngIf="judgementFile?.error" class="form-error">{{ judgementFile?.error }}</span>
+        <span *ngIf="judgementFile?.file && !judgementFile?.error" class="form-success">
+          <i class="fa-solid fa-check-circle"></i> {{ judgementFile!.file.name }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+  <!-- ===================== END CERTIFIED COPY ===================== -->
+
+
+  <!-- ===================== REMARKS ===================== -->
+  <div class="offence-section mt-4">
+    <div class="person-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-comment-dots" style="color:#5a8bb8;font-size:15px;"></i>
+        <h3 class="section-title">Remarks</h3>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group full-width-grid">
+        <label for="remarks">Enter Remarks <span class="required">*</span></label>
+        <textarea rows="4" id="remarks" formControlName="remarks"
+          placeholder="Enter Remarks" autocomplete="off">
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <!-- ===================== END REMARKS ===================== -->
+
+</form>

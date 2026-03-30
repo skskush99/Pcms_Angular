@@ -90,6 +90,20 @@ export class FirChargesSheetComponent implements OnInit, OnChanges {
     if (changes['cctnsData']?.currentValue) this._patchFromCctns(changes['cctnsData'].currentValue);
   }
 
+  // ===================== SPACE NORMALIZATION HELPER =====================
+  /** 
+   * ✅ Normalize spaces in strings to fix dropdown matching issues
+   * Converts "BNS / BNSS" → "bns/bnss" and "BNS/BNSS" → "bns/bnss"
+   * Removes ALL spaces (leading, trailing, internal) for reliable comparison
+   */
+  private normalizeString(str: string | undefined): string {
+    if (!str) return '';
+    return str
+      .trim()                              // ✅ Remove leading/trailing spaces
+      .replace(/\s+/g, '')                // ✅ Remove ALL internal spaces
+      .toLowerCase();                     // ✅ Case insensitive
+  }
+
   // ===================== CCTNS AUTO-FILL =====================
   private _patchFromCctns(data: any): void {
     if (!data) return;
@@ -184,23 +198,38 @@ export class FirChargesSheetComponent implements OnInit, OnChanges {
     });
   }
 
-  /** Edit offence row → match Classification/Act/Section by name in loaded dropdowns */
+  /** 
+   * ✅ FIXED: Edit offence row → match Classification/Act/Section by name
+   * NOW with space normalization to handle "BNS/BNSS" vs "BNS / BNSS"
+   */
   editCctnsOffence(item: any): void {
-    // Match Classification by text name
+    // ✅ Normalize spaces in CCTNS data
+    const normalizedCls = this.normalizeString(item._raw_cls);
+    
+    // ✅ Match Classification by text name (with space normalization)
     const clsMatch = this.classificationDropdown.find(
-      d => d.text?.toLowerCase().trim() === item._raw_cls?.toLowerCase().trim()
+      d => this.normalizeString(d.text) === normalizedCls
     );
+    
     if (clsMatch) {
       this.chargeSheetForm.patchValue({ classification: clsMatch.value });
+      
       // Load Acts dropdown, then match Act
       this.api.get(this.url.getCrimeActDropdown(), { CrimeClsId: clsMatch.value }).subscribe({
         next: (res: any) => {
           this.actsDropdown = res.data || [];
+          
+          // ✅ Normalize spaces in CCTNS Act data
+          const normalizedAct = this.normalizeString(item._raw_act);
+          
+          // ✅ Match Act by text name (with space normalization)
           const actMatch = this.actsDropdown.find(
-            d => d.text?.toLowerCase().trim() === item._raw_act?.toLowerCase().trim()
+            d => this.normalizeString(d.text) === normalizedAct
           );
+          
           if (actMatch) {
             this.chargeSheetForm.patchValue({ acts: actMatch.value });
+            
             // Load Sections dropdown, then match Section
             this.api.get(this.url.getCrimeSubActDropdown(), {
               CrimeActId: actMatch.value,
@@ -208,25 +237,39 @@ export class FirChargesSheetComponent implements OnInit, OnChanges {
             }).subscribe({
               next: (res2: any) => {
                 this.sectionsDropdown = res2.data || [];
+                
+                // ✅ Normalize spaces in CCTNS Section data
+                const normalizedSec = this.normalizeString(item._raw_sec);
+                
+                // ✅ Match Section by text name (with space normalization)
                 const secMatch = this.sectionsDropdown.find(
-                  d => d.text?.toLowerCase().trim() === item._raw_sec?.toLowerCase().trim()
+                  d => this.normalizeString(d.text) === normalizedSec
                 );
+                
                 if (secMatch) {
                   this.chargeSheetForm.patchValue({ sections: secMatch.value });
+                  // ✅ Success - all three filled
+                  this.notify.showNotification('success', 'Classification, Act & Section auto-filled successfully');
                 } else {
-                  this.notify.showNotification('info', `Section "${item._raw_sec}" not found — select manually`);
+                  this.notify.showNotification('info', `Section "${item._raw_sec}" not found — select manually. (Available: ${this.sectionsDropdown.map(s => s.text).join(', ')})`);
                 }
               },
-              error: () => {}
+              error: () => {
+                this.notify.showNotification('error', constants.apiError);
+              }
             });
           } else {
-            this.notify.showNotification('info', `Act "${item._raw_act}" not found — select manually`);
+            this.notify.showNotification('info', `Act "${item._raw_act}" not found — select manually. (Available: ${this.actsDropdown.map(a => a.text).join(', ')})`);
           }
         },
-        error: () => {}
+        error: () => {
+          this.notify.showNotification('error', constants.apiError);
+        }
       });
     } else {
-      this.notify.showNotification('info', `Classification "${item._raw_cls}" not found — select manually`);
+      // ✅ Show available classifications for debugging
+      const availableClassifications = this.classificationDropdown.map(c => c.text).join(', ');
+      this.notify.showNotification('info', `Classification "${item._raw_cls}" not found — select manually.\n\nAvailable: ${availableClassifications}`);
     }
   }
 

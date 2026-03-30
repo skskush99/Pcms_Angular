@@ -94,21 +94,21 @@ export class UrlService {
   // MASTER URL's
 
 
-  getUserMenu(){
+  getUserMenu() {
     return `${this.masterUrl}/UserLogin/GetUserMenuList`
   }
-  
-  
-  addEditUserMenu(){
+
+
+  addEditUserMenu() {
     return `${this.masterUrl}/MenuMapping/AddEditMenu`
   }
-  
-  
+
+
   // addEditUserMenu(){
   //   return `${this.masterUrl}/MenuMapping/AddEditMenu`
   // }
 
-  mapUserBySa(){
+  mapUserBySa() {
     return `${this.masterUrl}/Users/MappedBySA`
   }
 
@@ -475,16 +475,44 @@ export class UrlService {
   getGetReasonList() {
     return `${this.masterUrl}/CaseDecisionReason/GetReason`
   }
-
   activeDeactivedecisionReason() {
     return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
   }
 
-    searchCctns() {
+  searchCctns() {
     return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
   }
 
-    getPoliceStationDropdownall() {
+  getPoliceStationDropdownall() {
     return `${this.masterUrl}/PoliceThana/AllPStationDropdown`
   }
+
+  // GetOffenceListByComplaintId(id: number) {
+  //   return `${this.caseUrl}/ComplaintRegister/GetOffenceListByComplaintId?ComplaintRegId=${id}`;
+  // }
+
+  GetOffenceListByComplaintId(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/GetOffence?OffenceClassifGroupNo=${id}`
+  }
+
+
+  GetPersonListByComplaintId(id: number) {
+    return `${this.caseUrl}/ComplaintRegister/GetPersonAgainst?ComplaintRegId=${id}`;
+  }
+
+
+
+  getFileUrl(filename: string) {
+    return `${this.caseUrl}/${filename}`;
+  }
+
+  GetDisposalDetailsList() {
+    return `${this.caseUrl}/DierRegistrations/DisposalList`
+  }
+
+  getReasonDropdown(id: number) {
+    return `${this.masterUrl}/CaseDecisionReason/GetReasonDropdown?DecisionTypeId=${id}`;
+  }
+
+
 }
