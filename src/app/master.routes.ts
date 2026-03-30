@@ -128,6 +128,42 @@ export const routes: Routes = [
     loadComponent: () => import('../views/master/fir-status/add-fir-status/add-fir-status.component').then(m => m.AddFirStatusComponent),
     canActivate: []
     },
+    {
+    path: 'nodal-officer',
+    loadComponent: () => import('../views/master/nodal-officer/nodal-officer.component').then(m => m.NodalOfficerComponent),   
+    canActivate: []
+    },
+    {
+    path: 'add-nodal-officer',
+    loadComponent: () => import('../views/master/nodal-officer/add-nodal-officer/add-nodal-officer.component').then(m => m.AddNodalOfficerComponent),
+    canActivate: []
+    },
+    {
+    path: 'case-decision-type',
+    loadComponent: () => import('../views/master/case-decision-type/case-decision-type.component').then(m => m.CaseDecisionTypeComponent),   
+    canActivate: []
+    },
+    {
+    path: 'add-case-decision',
+    loadComponent: () => import('../views/master/case-decision-type/add-case-decision/add-case-decision.component').then(m => m.AddCaseDecisionComponent),
+    canActivate: []
+    },
+    {
+    path: 'case-decision-reason',
+    loadComponent: () => import('../views/master/case-decision-reason/case-decision-reason.component').then(m => m.CaseDecisionReasonComponent),   
+    canActivate: []
+    },
+    {
+    path: 'add-case-decision-reason',
+    loadComponent: () => import('../views/master/case-decision-reason/add-case-decision-reason/add-case-decision-reason.component').then(m => m.AddCaseDecisionReasonComponent),
+    canActivate: []
+    },    
+    {
+    path: 'raj-master-data',
+    loadComponent: () => import('../views/master/raj-master-data/raj-master-data.component').then(m => m.RajMasterDataComponent),
+    canActivate: []
+    },
+   
 ]
 
 

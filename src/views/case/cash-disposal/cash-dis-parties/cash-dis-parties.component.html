@@ -1,0 +1,285 @@
+<!-- ===================== ACCUSED SECTION ===================== -->
+<div class="person-section">
+
+  <form [formGroup]="accusedForm">
+
+    <!-- Section Header -->
+    <div class="person-header" style="display:flex; align-items:center; justify-content:space-between;">
+      <h3 class="section-title">अभियुक्त विवरण (Accused)</h3>
+
+      <!-- Govt. Accused checkbox -->
+      <div class="inline-checkbox">
+        <label class="inline-checkbox-label">Govt. Accused</label>
+        <input type="checkbox" formControlName="govtAccused" class="inline-checkbox-input" />
+      </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="person-card">
+      <div class="form-grid">
+
+        <!-- Name -->
+        <div class="form-group">
+          <label for="accusedName">Name <span class="required">*</span></label>
+          <input type="text" id="accusedName"
+            formControlName="accusedName"
+            placeholder="Enter Name"
+            autocomplete="off">
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label for="accusedAddress">Address <span class="required">*</span></label>
+          <input type="text" id="accusedAddress"
+            formControlName="accusedAddress"
+            placeholder="Enter Address"
+            autocomplete="off">
+        </div>
+
+        <!-- Age + Gender -->
+       
+
+          <div class="form-group">
+            <label>Age <span class="required">*</span></label>
+            <input type="text"
+              formControlName="accusedAge"
+              placeholder="Enter Age"
+              (keypress)="restrictKeys.onlyNumber($event)"
+              autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label>Gender <span class="required">*</span></label>
+            <ng-select
+              [items]="genderDropdown"
+              bindLabel="text"
+              bindValue="value"
+              [compareWith]="compareWithFunc"
+              placeholder="Select Gender"
+              formControlName="accusedGender"
+              class="custom-ng-select"
+              appendTo="body">
+            </ng-select>
+          </div>
+
+      
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status <span class="required">*</span></label>
+          <ng-select
+            [items]="statusDropdown"
+            bindLabel="text"
+            bindValue="value"
+            [compareWith]="compareWithFunc"
+            placeholder="Select Status"
+            formControlName="accusedStatus"
+            class="custom-ng-select"
+            appendTo="body">
+          </ng-select>
+        </div>
+
+        <!-- Remark -->
+        <div class="form-group">
+          <label for="accusedRemark">Remark <span class="required">*</span></label>
+          <input type="text" id="accusedRemark"
+            formControlName="accusedRemark"
+            placeholder="Enter Remark"
+            autocomplete="off">
+        </div>
+
+        <!-- Add Button -->
+        <div class="addbtn">
+          <button type="button" class="btn-add-inline" (click)="addAccused()">
+            <i class="fa-solid fa-plus"></i> Save Accused
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Accused Table -->
+      @if (accusedList.length) {
+        <div class="grid-table-wrapper mt-3">
+          <table>
+            <thead>
+              <tr style="background-color:#3a6ea5;">
+                <th style="color:#000000; font-weight:700;">Sr No.</th>
+                <th style="color:#000000; font-weight:700;">Name</th>
+                <th style="color:#000000; font-weight:700;">Address</th>
+                <th style="color:#000000; font-weight:700;">Age / Gender</th>
+                <th style="color:#000000; font-weight:700;">Status</th>
+                <th style="color:#000000; font-weight:700;">Remark</th>
+                <th style="color:#000000; font-weight:700;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of accusedList; track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td style="text-align:start;">{{ item?.AccuseName }}</td>
+                  <td>{{ item?.Address }}</td>
+                  <td>{{ item?.age }} / {{ item?.Gender == 1 ? 'M' : item?.Gender == 2 ? 'F' : 'O' }}</td>
+                  <td>{{ item?.FIRStatusId }}</td>
+                  <td>{{ item?.remark }}</td>
+                  <td>
+                    <div class="tbl-action-cell">
+                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
+                        (click)="editAccused(item)" title="Edit"></i>
+                      <i class="fa-solid fa-trash tbl-icon-delete"
+                        (click)="removeAccused(item?.AccusedId)" title="Delete"></i>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  </form>
+</div>
+
+
+<!-- ===================== VICTIM / WITNESS SECTION ===================== -->
+<div class="person-section">
+
+  <form [formGroup]="victimWitnessForm">
+
+    <!-- Section Header with Victim/Witness radio toggle -->
+    <div class="person-header" style="display:flex; align-items:center; gap:32px;">
+      <h3 class="section-title">पीड़ित / परिवादी विवरण (Victim)</h3>
+
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" formControlName="isVictim" [value]="1" />
+          <span>Victim</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" formControlName="isVictim" [value]="2" />
+          <span>Witness</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="person-card">
+      <div class="form-grid">
+
+        <!-- Name -->
+        <div class="form-group">
+          <label for="victimWitnessName">Name <span class="required">*</span></label>
+          <input type="text" id="victimWitnessName"
+            formControlName="victimWitnessName"
+            placeholder="Enter Name"
+            autocomplete="off">
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label for="victimWitnessAddress">Address <span class="required">*</span></label>
+          <input type="text" id="victimWitnessAddress"
+            formControlName="victimWitnessAddress"
+            placeholder="Enter Address"
+            autocomplete="off">
+        </div>
+      
+          <div class="form-group">
+            <label for="victimWitnessAge">Age <span class="required">*</span></label>
+            <input type="text" id="victimWitnessAge"
+              formControlName="victimWitnessAge"
+              placeholder="Enter Age"
+              autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label>Gender <span class="required">*</span></label>
+            <ng-select
+              [items]="genderDropdown"
+              bindLabel="text"
+              bindValue="value"
+              [compareWith]="compareWithFunc"
+              placeholder="Select Gender"
+              formControlName="victimWitnessGender"
+              class="custom-ng-select"
+              appendTo="body">
+            </ng-select>
+          </div>
+
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status <span class="required">*</span></label>
+          <ng-select
+            [items]="statusDropdown"
+            bindLabel="text"
+            bindValue="value"
+            [compareWith]="compareWithFunc"
+            placeholder="Select Status"
+            formControlName="victimWitnessStatus"
+            class="custom-ng-select"
+            appendTo="body">
+          </ng-select>
+        </div>
+
+        <!-- Remark -->
+        <div class="form-group">
+          <label for="victimWitnessRemark">Remark <span class="required">*</span></label>
+          <input type="text" id="victimWitnessRemark"
+            formControlName="victimWitnessRemark"
+            placeholder="Enter Remark"
+            autocomplete="off">
+        </div>
+
+        <!-- Save Button -->
+        <div class="addbtn">
+          <button type="button" class="btn-add-inline" (click)="addVictimWitness()">
+            <i class="fa-solid fa-plus"></i>
+            Save {{ victimWitnessForm.value.isVictim == 1 ? 'Victim' : 'Witness' }}
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Victim/Witness Table -->
+      @if (victimWitnessList.length) {
+        <div class="grid-table-wrapper mt-3">
+          <table>
+            <thead>
+              <tr style="background-color:#3a6ea5;">
+                <th style="color:#000000; font-weight:700;">Sr No.</th>
+                <th style="color:#000000; font-weight:700;">Name</th>
+                <th style="color:#000000; font-weight:700;">Address</th>
+                <th style="color:#000000; font-weight:700;">Age / Gender</th>
+                <th style="color:#000000; font-weight:700;">Status</th>
+                <th style="color:#000000; font-weight:700;">Remark</th>
+                <th style="color:#000000; font-weight:700;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of victimWitnessList; track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td style="text-align:start;">{{ item?.Name }}</td>
+                  <td>{{ item?.Address }}</td>
+                  <td>{{ item?.age }} / {{ item?.Gender == 1 ? 'M' : item?.Gender == 2 ? 'F' : 'O' }}</td>
+                  <td>{{ item?.Status }}</td>
+                  <td>{{ item?.remark }}</td>
+                  <td>
+                    <div class="tbl-action-cell">
+                      <i class="fa-solid fa-pen-to-square tbl-icon-edit"
+                        (click)="editVictimWitness(item)" title="Edit"></i>
+                      <i class="fa-solid fa-trash tbl-icon-delete"
+                        (click)="removeVictimWitness(item?.Id)" title="Delete"></i>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  </form>
+</div>

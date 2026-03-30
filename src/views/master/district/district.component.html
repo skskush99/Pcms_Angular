@@ -1,97 +1,153 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-6 overflow-hidden">
-      <!-- Header with Toggle Button -->
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          <h2 class="text-lg font-bold text-white">District Filter</h2>
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FILTER SECTION ===================== -->
+    <div class="filter-card mb-5">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <h3 class="filter-header-title">District Filter</h3>
         </div>
-        <app-button [label]="buttonText" bgType="6" class="btn" (clicked)="toggleForm()"></app-button>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid" [ngClass]="isFormCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          {{ buttonText }}
+        </button>
       </div>
 
       <!-- Filter Form -->
       <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
-        <form [formGroup]="districtFilterForm" class="p-6">
-          <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-5">
-           
-      <!-- Division -->
-      <div class="form-group">
-        <label for="division" class="block text-sm font-semibold text-gray-700 mb-2.5">
-          Division 
-        </label>
+        <div class="filter-card-body">
+          <form [formGroup]="districtFilterForm">
+            <div class="form-grid">
 
-        <ng-select 
-        [items]="divisionDropdown"
-        bindLabel="text"
-        bindValue="value"
-        placeholder="Select Division"
-        formControlName="division"
-        class="custom-ng-select"
-        id="division"
-        >
-        </ng-select>
-      </div>
+              <!-- Division -->
+              <div class="form-group">
+                <label for="division">
+                  <i class="fa-solid fa-map filter-label-icon"></i>
+                  Division
+                </label>
+                <ng-select
+                  [items]="divisionDropdown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select Division"
+                  formControlName="division"
+                  class="custom-ng-select"
+                  id="division"
+                  appendTo="body">
+                </ng-select>
+              </div>
 
-            <!-- Search Button -->
-            <div class="flex items-end gap-3">
-              <app-button label="Search" bgType="4" (clicked)="onSearch()"></app-button>
-              <app-button label="Reset" bgType="5" (clicked)="resetFilter()"></app-button>
+              <!-- Search / Reset Buttons -->
+              <div class="filter-btn-group">
+                <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Search
+                </button>
+                <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Reset
+                </button>
+              </div>
+
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
+
     </div>
+    <!-- END FILTER SECTION -->
 
-    <!-- Results Table Section -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <p class="text-lg font-bold text-white">District List</p>
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-table-list filter-header-icon"></i>
+          <h3 class="filter-header-title">District List</h3>
         </div>
-        <div class="flex gap-3 text-sm">
-          <app-button (clicked)="exportExcel()" label="Export To Excel" bgType="7"></app-button>
-          <app-button (clicked)="exportPDF()" label="Print" bgType="7"></app-button>
-          @if(permissionByRole?.isAddPermission){
-          <app-button (clicked)="addDistrict()" label="Add District" bgType="3"></app-button>
-        }
+
+        <div class="flex items-center gap-2">
+      
+          <!-- Add District -->
+          @if(permissionByRole?.isAddPermission) {
+          <button type="button" class="filter-toggle-btn" (click)="addDistrict()">
+            <i class="fa-solid fa-plus"></i>
+            Add District
+          </button>
+          }
         </div>
       </div>
 
-      <div class="p-6">
-        <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
-          <ag-grid-angular class="ag-theme-quartz" style="height: 500px; width: 100%;" 
-            [rowData]="districtList"
-            [columnDefs]="colDef"
-            [pagination]="false">
-          </ag-grid-angular>
-        </div>
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="districtList"
+          [columnDefs]="colDef"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
 
-        <div class="flex items-center justify-between mt-6 px-2 py-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div class="flex items-center gap-3">
-            <label for="pageSize" class="text-sm font-semibold text-gray-700">Show:</label>
-            <select (change)="onPageSizeChanged($event)" id="pageSize"
-              class="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="30">30</option>
               <option value="50">50</option>
               <option value="9999999">All</option>
             </select>
-            <span class="text-sm text-gray-600 font-medium">entries</span>
           </div>
-          <app-pagination 
-            [currentPage]="currentPage" 
-            [limit]="pageSize" 
-            [total]="totalRecords"
-            (changePage)="changePage($event)">
-          </app-pagination>
         </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF download -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="exportExcel()">
+            <img src="assets/excel-file.png" alt="excel">
+             Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+             Export To PDF
+          </button>
+        </div>
+
       </div>
+      <!-- END BOTTOM ACTION BAR -->
+
     </div>
-  <!-- </div> -->
+    <!-- END TABLE SECTION -->
+
+  </div>
 </div>

@@ -1,88 +1,93 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-     
- <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+<div class="forms">
+  <div class="complain-form">
 
-          <!-- Header Section -->
-          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-              <div class="flex items-center gap-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                 </svg>
-                 <h2 class="text-lg font-bold text-white">Crime Classification List</h2>
-              </div>
-              <div class="flex justify-end gap-3">
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
 
-                <!-- Print Button Section -->
-               
-                <!-- <button (click)="exportExcel()"
-                    class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200">
-                    Export To Excel
-                </button> -->
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-list filter-header-icon"></i>
+          <h3 class="filter-header-title">Crime Classification List</h3>
+        </div>
 
-                <!-- <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200" (click)="exportPDF()">
-                    Print
-                  </button> -->
-
-                <!-- @if(permissionByRole?.isAddPermission) { -->
-              <button 
-                  class="px-5 py-2.5 bg-gradient-to-r from-[#4CAF50] to-[#229726] hover:from-[#45a049] hover:to-[#1e8521] text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm flex items-center gap-2"
-                  (click)="addNewAdminDept()">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                  </svg>
-                  Add New Crime Classification
-              </button>
-            <!-- } -->
-            </div>
-          </div>
-
-          <!-- Main Content -->
-          <div class="p-6">
-             
-
-              <!-- Grid Section -->
-              <div class="ag-grid-container rounded-lg overflow-hidden border border-gray-200 shadow-inner">
-                  <ag-grid-angular (gridReady)="onGridReady($event)"
-                      style="height: 500px; width: 100%;"
-                      class="ag-theme-quartz"
-                      (columnHeaderClicked)="onColumnHeaderClicked($event)"
-                      
-                       [rowData]="crimeClassificationList"
-                      [columnDefs]="colDef"
-                      [pagination]="false"
-                        
-                      >
-                      
-                  </ag-grid-angular>
-              </div>
-
-              <!-- Pagination Section -->
-              <div class="flex items-center justify-between mt-6 px-2 py-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <!-- Page Size Selector -->
-                  <div class="flex items-center gap-3">
-                      <label for="pageSize" class="text-sm font-semibold text-gray-700">Show:</label>
-                      <select 
-                          id="pageSize" 
-                          (change)="onPageSizeChanged($event)"
-                          class="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none appearance transition-all duration-200 hover:border-gray-300 shadow-sm">
-                          <option value="10">10</option>
-                          <option value="20">20</option>
-                          <option value="30">30</option>
-                          <option value="50">50</option>
-                          <option value="9999999">All</option>
-                      </select>
-                      <span class="text-sm text-gray-600 font-medium">entries</span>
-                  </div>
-
-                  <!-- Custom Pagination Component -->
-                  <app-pagination 
-                      [currentPage]="currentPage" 
-                      [limit]="pageSize" 
-                      [total]="totalRecords" 
-                      (changePage)="changePage($event)">
-                  </app-pagination>
-              </div>
-          </div>
+        <div class="flex items-center gap-2">
+          <!-- ✅ Add Crime Classification -->
+          <button type="button" class="filter-toggle-btn" (click)="addNewAdminDept()">
+            <i class="fa-solid fa-plus"></i>
+            Add Crime Classification
+          </button>
+        </div>
       </div>
-  <!-- </div> -->
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="crimeClassificationList"
+          [columnDefs]="colDef"
+          (gridReady)="onGridReady($event)"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- ✅ Right: Excel + PDF download buttons -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="exportExcel()">
+            <img src="assets/excel-file.png" alt="excel">
+            Export To Excel
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+            Export To PDF
+          </button>
+        </div>
+
+      </div>
+      <!-- END BOTTOM ACTION BAR -->
+
+    </div>
+    <!-- END TABLE SECTION -->
+
+  </div>
 </div>

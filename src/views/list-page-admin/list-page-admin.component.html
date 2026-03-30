@@ -1,210 +1,197 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-  <!-- <div class="rounded-3xl p-3 bg-[#496D7E] min-h-[90vh]"> -->
+<div class="forms">
+  <div class="complain-form">
 
+    <!-- ===================== FILTER CARD ===================== -->
+    <div class="filter-card mb-4">
 
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 mb-6 overflow-hidden">
-      <!-- Header with Toggle Button -->
-       <!-- Header with Toggle Button -->
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          <h2 class="text-lg font-bold text-white">Permission Mapping Request Filter</h2>
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <span class="filter-header-title">Permission Mapping Request Filter</span>
         </div>
-        <button type="button" (click)="toggleForm()"
-          class="bg-white/20 backdrop-blur-sm border-2 border-white/50 text-white px-6 py-2.5 rounded-lg hover:bg-white/30 hover:border-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid fa-filter"></i>
           {{ buttonText }}
         </button>
       </div>
 
-      <!-- Filter Form -->
-      <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
-        <form [formGroup]="permissionMappingFilterForm" class="p-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-           
+      <!-- Filter Body -->
+      <div class="filter-card-body" [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <form [formGroup]="permissionMappingFilterForm">
+          <div class="form-grid">
 
-           
-          
-          
-      <!-- Role -->
-      <div class="form-group">
-        <label for="role" class="block text-sm font-semibold text-gray-700 mb-2 ">
-          Role 
-        </label>
-
-        <ng-select 
-        [items]="roleDropdown"
-        bindLabel="text"
-        bindValue="value"
-        placeholder="Select Role"
-        formControlName="role"
-        class="text-red-500"
-        >
-        </ng-select>
-      </div>
-      
-      
-      <!-- Department -->
-      <div class="form-group">
-        <label for="dept" class="block text-sm font-semibold text-gray-700 mb-2 ">
-          Department 
-        </label>
-
-        <ng-select 
-        [items]="deptDropdown"
-        bindLabel="text"
-        bindValue="value"
-        placeholder="Select Department"
-        formControlName="dept"
-        class="text-red-500"
-        >
-        </ng-select>
-      </div>
-      
-      
-      <!-- Level -->
-      <div class="form-group">
-        <label for="level" class="block text-sm font-semibold text-gray-700 mb-2 ">
-          Level 
-        </label>
-
-        <ng-select 
-        [items]="levelDropdown"
-        bindLabel="text"
-        bindValue="value"
-        placeholder="Select Level"
-        formControlName="level"
-        class="text-red-500"
-        >
-        </ng-select>
-      </div>
-      
-      
-      <!-- Office -->
-      <div class="form-group">
-        <label for="office" class="block text-sm font-semibold text-gray-700 mb-2 ">
-          Office 
-        </label>
-
-        <ng-select 
-        [items]="officeDropdown"
-        bindLabel="text"
-        [virtualScroll]="true"
-        bindValue="value"
-        placeholder="Select Office"
-        formControlName="office"
-        class="text-red-500"
-        >
-        </ng-select>
-      </div>
-
-
-
-    <div class="form-group">
-        <label for="sso" class="block text-sm font-semibold text-gray-700 mb-2">SSO ID<sup
-            class="text-red-500 text-base  ml-0.5">*</sup></label>
-        <input type="text"  id="sso"
-            formControlName="sso" placeholder="Enter SSO ID"
-            autocomplete="off"
-            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-[#496D7E] focus:border-transparent outline-none">
-                       
-    </div>
-         
-         
-         
-          <!-- District -->
-      <div class="form-group">
-        <label for="" class="block text-sm font-semibold text-gray-700 mb-2 ">
-          District 
-        </label>
-
-        <ng-select 
-        [items]="districtDropdown"
-        bindLabel="text"
-        bindValue="value"
-        placeholder="Select District"
-        formControlName="district"
-        class="text-red-500"
-        >
-        </ng-select>
-          </div>
-
-
-
-    
-          <div class="form-group">
-        <label for="userName" class="block text-sm font-semibold text-gray-700 mb-2">User Name<sup
-            class="text-red-500 text-base  ml-0.5">*</sup></label>
-        <input type="text"  id="userName"
-            formControlName="userName" placeholder="Enter User Name"
-            autocomplete="off"
-            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-[#496D7E] focus:border-transparent outline-none">
-                       
-    </div>
-
-
-            <!-- Search Button -->
-            <div class="flex items-end gap-4">
-              <!-- <button type="button" (click)="onSearch()"
-                class="px-6 py-2.5 bg-[#1ab394] hover:bg-[#169c82] text-white font-medium rounded-md transition-colors duration-200 shadow-sm">
-                Search
-              </button> -->
-              <app-button label="Search" bgType="4" (clicked)="onSearch()"></app-button>
-              <!-- <button type="button" (click)="resetFilter()"
-                class="px-6 py-2.5 bg-[#1ab394] hover:bg-[#169c82] text-white font-medium rounded-md transition-colors duration-200 shadow-sm">
-                Reset
-              </button> -->
-
-              <app-button label="Reset" bgType="4" (clicked)="resetFilter()"></app-button>
-              
+            <!-- Role -->
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-user-shield filter-label-icon"></i>
+                Role
+              </label>
+              <ng-select
+                [items]="roleDropdown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select Role"
+                formControlName="role"
+                class="custom-ng-select"
+                appendTo="body">
+              </ng-select>
             </div>
+
+            <!-- Department -->
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-building filter-label-icon"></i>
+                Department
+              </label>
+              <ng-select
+                [items]="deptDropdown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select Department"
+                formControlName="dept"
+                class="custom-ng-select"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- Level -->
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-layer-group filter-label-icon"></i>
+                Level
+              </label>
+              <ng-select
+                [items]="levelDropdown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select Level"
+                formControlName="level"
+                class="custom-ng-select"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- Office -->
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-building-columns filter-label-icon"></i>
+                Office
+              </label>
+              <ng-select
+                [items]="officeDropdown"
+                bindLabel="text"
+                bindValue="value"
+                [virtualScroll]="true"
+                placeholder="Select Office"
+                formControlName="office"
+                class="custom-ng-select"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- SSO ID -->
+            <div class="form-group">
+              <label for="sso">
+                <i class="fa-solid fa-id-card filter-label-icon"></i>
+                SSO ID
+              </label>
+              <input
+                type="text"
+                id="sso"
+                formControlName="sso"
+                placeholder="Enter SSO ID"
+                autocomplete="off"
+                class="filter-select">
+            </div>
+
+            <!-- District -->
+            <div class="form-group">
+              <label>
+                <i class="fa-solid fa-map-location-dot filter-label-icon"></i>
+                District
+              </label>
+              <ng-select
+                [items]="districtDropdown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select District"
+                formControlName="district"
+                class="custom-ng-select"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- User Name -->
+            <div class="form-group">
+              <label for="userName">
+                <i class="fa-solid fa-user filter-label-icon"></i>
+                User Name
+              </label>
+              <input
+                type="text"
+                id="userName"
+                formControlName="userName"
+                placeholder="Enter User Name"
+                autocomplete="off"
+                class="filter-select">
+            </div>
+
+            <!-- Search / Reset -->
+            <div class="filter-btn-group">
+              <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+              </button>
+              <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                <i class="fa-solid fa-rotate-left"></i>
+                Reset
+              </button>
+            </div>
+
           </div>
         </form>
       </div>
     </div>
+    <!-- END FILTER CARD -->
 
-    <!-- Results Table Section -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-          <p class="text-lg font-bold text-white">Permission Mapping Request List</p>
+    <!-- ===================== TABLE CARD ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-list-check filter-header-icon"></i>
+          <h3 class="filter-header-title">Permission Mapping Request List</h3>
         </div>
-        <div class="flex gap-3">
-          <!-- <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200" >
-            Export To Excel
-          </button> -->
-          <!-- <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200" >
-            Print
-          </button> -->
-          <app-button label="Export To Excel" bgType="7"></app-button>
-          <!-- @if (permissionByRole?.isAddPermission) { -->
-          <!-- <button class="bg-[#f7a54a] hover:bg-[#f59633] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-            (click)="addOffice()">
-            Add New Office
-          </button> -->
-          <!-- <app-button label="Add New Office" bgType="3" ></app-button> -->
-        <!-- } -->
-        </div>
+        <!-- <div class="download-buttons">
+          <button type="button" (click)="exportExcel()" class="download-btn excel flex items-center gap-2">
+            <i class="fa-solid fa-file-excel"></i>
+            Excel
+          </button>
+        </div> -->
       </div>
 
-      <div class="p-5">
-        <ag-grid-angular class="ag-theme-quartz" style="height: 500px; width: 100%;" 
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
           [rowData]="permissionMappingRequestList"
           [columnDefs]="colDef"
           [pagination]="false">
         </ag-grid-angular>
+      </div>
 
-        <div class="flex items-center justify-between px-5 border-t border-gray-200">
-          <div class="flex items-center space-x-2">
-            <select (change)="onPageSizeChanged($event)" 
-              class="border border-gray-300 rounded-md px-3 py-1.5 focus:ring-2 focus:ring-[#496D7E] focus:border-transparent outline-none">
+      <!-- Action Bar -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page Size -->
+        <div class="pagination-section">
+          <span class="total-record">Total Records: {{ totalRecords }}</span>
+          <div class="page-size">
+            Show:
+            <select [(ngModel)]="pageSize" (change)="onPageSizeChanged($event)" class="filter-select">
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="30">30</option>
@@ -212,14 +199,32 @@
               <option value="9999999">All</option>
             </select>
           </div>
-          <app-pagination 
-            [currentPage]="currentPage" 
-            [limit]="pageSize" 
-            [total]="totalRecords"
-            (changePage)="changePage($event)">
-          </app-pagination>
         </div>
+
+        <!-- Center: Pagination -->
+        <div class="pagination">
+          <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+
+        <!-- Right: Export -->
+        <div class="download-buttons">
+          <button type="button" (click)="exportExcel()" class="download-btn excel flex items-center gap-2">
+            <i class="fa-solid fa-file-excel"></i>
+            Export To Excel
+          </button>
+          <button type="button" (click)="exportPDF()" class="download-btn pdf flex items-center gap-2">
+            <i class="fa-solid fa-file-pdf"></i>
+            Export To PDF
+          </button>
+        </div>
+
       </div>
+      <!-- END ACTION BAR -->
+
     </div>
-  <!-- </div> -->
+    <!-- END TABLE CARD -->
+
+  </div>
 </div>

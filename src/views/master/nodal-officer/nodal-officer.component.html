@@ -1,0 +1,152 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FILTER SECTION ===================== -->
+    <div class="filter-card mb-5">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <h3 class="filter-header-title">Nodal Officer Filter</h3>
+        </div>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid" [ngClass]="isFormCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          {{ buttonText }}
+        </button>
+      </div>
+
+      <!-- Filter Form -->
+      <div [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <div class="filter-card-body">
+          <form [formGroup]="NodalOfficerListForm">
+            <div class="form-grid">
+
+              <!-- Nodal Officer -->
+              <div class="form-group">
+                <label for="NodalOfficerClassification">
+                  <i class="fa-solid fa-user-tie filter-label-icon"></i>
+                  Nodal Officer
+                </label>
+                <ng-select
+                  [items]="NodalOfficersDropdown"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Select Nodal Officer"
+                  formControlName="NodalOfficerClassification"
+                  class="custom-ng-select"
+                  id="NodalOfficerClassification"
+                  appendTo="body">
+                </ng-select>
+              </div>
+
+              <!-- Search / Reset Buttons -->
+              <div class="filter-btn-group">
+                <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Search
+                </button>
+                <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Reset
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <!-- END FILTER SECTION -->
+
+    <!-- ===================== TABLE SECTION ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header Row -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-users filter-header-icon"></i>
+          <h3 class="filter-header-title">Nodal Officer List</h3>
+        </div>
+
+        <div class="flex items-center gap-2">
+       
+          <!-- Add Nodal Officer -->
+          <button type="button" class="filter-toggle-btn" (click)="addNodalOfficer()">
+            <i class="fa-solid fa-plus"></i>
+            Add Nodal Officer
+          </button>
+        </div>
+      </div>
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper mb-4">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="nodalofficerpicList"
+          [columnDefs]="colDef"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- ===================== BOTTOM ACTION BAR ===================== -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page size -->
+        <div class="pagination-section">
+          <div class="total-record">
+            Total Records: <strong>{{ totalRecords }}</strong>
+          </div>
+          <div class="page-size">
+            Show:
+            <select
+              id="pageSize"
+              (change)="onPageSizeChanged($event)"
+              [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Prev / Page X of Y / Next -->
+        <div class="pagination">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1">
+            <i class="fa-solid fa-chevron-left" style="font-size: 11px;"></i> Prev
+          </button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages">
+            Next <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </button>
+        </div>
+
+        <!-- Right: Excel + PDF -->
+        <div class="download-buttons">
+          <button class="download-btn excel" (click)="exportExcel()">
+            <img src="assets/excel-file.png" alt="excel">
+            Export To Excel 
+          </button>
+          <button class="download-btn pdf" (click)="exportPDF()">
+            <img src="assets/pdf.png" alt="pdf">
+            Export To PDF
+          </button>
+        </div>
+
+      </div>
+      <!-- END BOTTOM ACTION BAR -->
+
+    </div>
+    <!-- END TABLE SECTION -->
+
+  </div>
+</div>

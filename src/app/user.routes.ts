@@ -8,8 +8,6 @@ export const routes: Routes = [
         loadComponent : () => import('../views/list-page-admin/list-page-admin.component').then(m => m.ListPageAdminComponent),
         canActivate : []
     }
-
-
 ]
 
 

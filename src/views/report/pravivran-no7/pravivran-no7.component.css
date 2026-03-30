@@ -1,0 +1,200 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  padding: 15px;
+}
+
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;  
+   min-width: 1621px;
+  width: fit-content; 
+   border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+
+.report-heading h1 {
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.format-title {
+  text-align: center;
+  margin: 15px 0;
+  font-weight: bold;
+  font-size: 18px;
+  color: #1e3a8a;
+}
+
+/* Scroll */
+.grid-scroll {
+  max-height: 650px;
+  overflow: auto;
+  border: 1px solid #e5e7eb;
+  margin-top: 15px;
+  background: #ffffff;
+}
+
+/* Grid */
+.report-grid {
+  display: grid;
+  grid-template-columns:
+    80px
+    140px
+    140px
+    180px
+    180px
+    100px
+    100px
+    100px
+    100px
+    100px
+    100px
+    100px
+    100px
+    100px;
+  min-width: 1000px;
+}
+
+/* Cells */
+.cell {
+  border: 1px solid #cfd8e3;
+  padding: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header {
+  background: #dbeafe;
+  font-weight: 700;
+}
+
+.data {
+  background: #ffffff;
+}
+
+/* Alternate rows */
+.report-grid .data:nth-child(28n + 15),
+.report-grid .data:nth-child(28n + 16),
+.report-grid .data:nth-child(28n + 17),
+.report-grid .data:nth-child(28n + 18),
+.report-grid .data:nth-child(28n + 19),
+.report-grid .data:nth-child(28n + 20),
+.report-grid .data:nth-child(28n + 21),
+.report-grid .data:nth-child(28n + 22),
+.report-grid .data:nth-child(28n + 23),
+.report-grid .data:nth-child(28n + 24),
+.report-grid .data:nth-child(28n + 25),
+.report-grid .data:nth-child(28n + 26),
+.report-grid .data:nth-child(28n + 27),
+.report-grid .data:nth-child(28n + 28) {
+  background: #f8fafc;
+}
+
+
+/* ACTION BAR */
+
+/* .action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 20px;
+} */
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.total-record {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-left: 5px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.download-btn.excel {
+  background: #16a34a;
+}
+
+.download-btn.pdf {
+  background: #dc2626;
+}
+
+.download-btn img {
+  width: 18px;
+  height: 18px;
+}

@@ -1,0 +1,108 @@
+<div class="report-wrapper">
+
+    <div class="report-heading">
+        <h1 class="single-line-heading">
+            निर्णीत मुकदमों में अभियोजन असफल होने के कारणों का मासिक विवेचन प्रविरण अभियोजन प्रविवरण नं. 2
+        </h1>
+        <p>अभियोजन असफल होने के कारण</p>
+    </div>
+
+    <div class="grid-scroll">
+        <div class="table-container">
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>क्र.सं</th>
+                        <th>संभाग</th>
+                        <th>जिला</th>
+                        <th>अपराध वर्ग</th>
+                        <th>घटना असत्य</th>
+                        <th>असत्य साक्ष्य</th>
+                        <th>साक्षी प्रतिकूल</th>
+                        <th>साक्ष्य न मिला</th>
+                        <th>राज्य साक्ष्य नहीं</th>
+                        <th>पूरा साक्ष्य नहीं</th>
+                        <th>परीक्षण नहीं</th>
+                        <th>दोष सिद्ध अपर्याप्त</th>
+                        <th>अभिलेख अपर्याप्त</th>
+                        <th>संदेह लाभ</th>
+                        <th>पूर्व निर्णय नहीं</th>
+                        <th>अन्य कारण</th>
+                        <th>वि.वि.</th>
+                        <th>योग</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let row of pagedData; let i = index" [class.alt-row]="i % 2 !== 0">
+
+                        <td>{{row.serial}}</td>
+                        <td>{{row.division}}</td>
+                        <td>{{row.district}}</td>
+                        <td>{{row.crimeType}}</td>
+                        <td>{{row.r1}}</td>
+                        <td>{{row.r2}}</td>
+                        <td>{{row.r3}}</td>
+                        <td>{{row.r4}}</td>
+                        <td>{{row.r5}}</td>
+                        <td>{{row.r6}}</td>
+                        <td>{{row.r7}}</td>
+                        <td>{{row.r8}}</td>
+                        <td>{{row.r9}}</td>
+                        <td>{{row.r10}}</td>
+                        <td>{{row.r11}}</td>
+                        <td>{{row.r12}}</td>
+                        <td>{{row.review}}</td>
+                        <td class="total-col"><strong>{{row.total}}</strong></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- ===== ACTION BAR ===== -->
+
+    <div class="action-bar">
+
+        <div class="pagination-section">
+            <div class="total-record">
+                Total Records : <strong>{{ reportData.length }}</strong>
+            </div>
+
+            <div class="page-size">
+                Show:
+                <select [(ngModel)]="pageSize" (change)="changePageSize()">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">◀ Prev</button>
+            <span>Page {{currentPage}} of {{totalPages}}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next ▶</button>
+        </div>
+
+        <div class="download-buttons">
+            <button class="download-btn excel" (click)="downloadExcel()">
+                <img src="assets/excel-file.png" alt="excel">
+                 Export To Excel
+            </button>
+            <button class="download-btn pdf" (click)="downloadPDF()">
+                <img src="assets/pdf.png" alt="pdf">
+                Export To PDF
+            </button>
+        </div>
+
+    </div>
+
+</div>

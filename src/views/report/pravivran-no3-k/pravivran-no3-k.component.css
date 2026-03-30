@@ -1,0 +1,221 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 12px;
+}
+
+ .report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;  
+   min-width: 1660px;
+  width: fit-content; 
+   border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+}
+
+.single-line-heading {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+
+
+.format-title {
+  text-align: center;
+  margin: 12px 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e3a8a;
+}
+
+.report-heading h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.report-heading p {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* Scroll */
+.grid-scroll {
+  max-height: 700px;
+  overflow: auto;
+  border: 1px solid #cbd5e1;
+}
+
+/* GRID - Column Size Maintained */
+.report-grid {
+  display: grid;
+
+  grid-template-columns:
+    70px
+    80px
+    100px
+    120px
+    120px
+    100px
+    100px
+    100px
+    120px
+    120px
+    120px
+    120px
+    60px
+    70px
+    70px
+    70px
+    120px;
+
+  grid-auto-rows: 60px;
+  min-width: 1500px;
+}
+
+
+
+
+/* Cell */
+.cell {
+  border: 1px solid #919cab;
+  padding: 6px 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Row span controls */
+.span3 {
+  grid-row: span 3;
+}
+
+.equal-height {
+  grid-row: span 2;
+}
+
+/* Header styles */
+.header {
+  background: #dbeafe;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.sub {
+  background: #dbeafe;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.group {
+  background: #dbeafe;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.mini {
+  background: #dbeafe;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.data {
+  background: #ffffff;
+}
+
+/* ✅ Alternate Row Color - 17 Columns */
+/* 17 column × 2 rows = 34 */
+.report-grid .data:nth-child(34n + 18),
+.report-grid .data:nth-child(34n + 19),
+.report-grid .data:nth-child(34n + 20),
+.report-grid .data:nth-child(34n + 21),
+.report-grid .data:nth-child(34n + 22),
+.report-grid .data:nth-child(34n + 23),
+.report-grid .data:nth-child(34n + 24),
+.report-grid .data:nth-child(34n + 25),
+.report-grid .data:nth-child(34n + 26),
+.report-grid .data:nth-child(34n + 27),
+.report-grid .data:nth-child(34n + 28),
+.report-grid .data:nth-child(34n + 29),
+.report-grid .data:nth-child(34n + 30),
+.report-grid .data:nth-child(34n + 31),
+.report-grid .data:nth-child(34n + 32),
+.report-grid .data:nth-child(34n + 33),
+.report-grid .data:nth-child(34n + 34) {
+  background-color: #f8fafc;
+}
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.download-btn.excel { background: #16a34a; }
+.download-btn.pdf { background: #dc2626; }
+
+.download-btn img {
+  width: 18px;
+}
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-left: 5px;
+}

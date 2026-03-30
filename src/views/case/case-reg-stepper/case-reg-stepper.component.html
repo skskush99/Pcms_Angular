@@ -1,49 +1,85 @@
-<div class="tabs text-sm bg-white p-2  rounded-md m-3 "> 
-    <div class="switchTabs flex items-center   my-4 justify-between " >
-        
-        @for (item of formsName; track $index) {
-        <button class="z-20 bg-white py-2 w-40 text-center rounded-md outline-non border-[#73A0CB] border- text-[#73A0CB] flex flex-col items-center " (click)="toggleForm($index + 1)" ><p class="h-6 w-6 rounded-full inline-flex items-center justify-center" [ngClass]="{'active' : currentForm == $index + 1 , 'form-complete' : $index + 1 < currentForm , 'border-1 border-[#73A0CB]' : $index +1 > currentForm}">{{$index + 1}}</p> <span [ngClass]="{'text-[#008000]' : currentForm > $index + 1 }">{{item}}</span></button>
-            @if ($index < formsName.length - 1) {
-            <div class="flex-1 h-0.5 bg-gray-300 w-full"></div>
-            }
-        }
-        <!-- <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(2)" [ngClass]="{'active' : currentForm == 2 }">FIR & Charge Sheet</button>
-        <div class="flex-1 h-px bg-gray-400"></div>
-        <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(3)" [ngClass]="{'active' : currentForm == 3 }">Parties</button>
-        <div class="flex-1 h-px bg-gray-400"></div>
-        <button class="z-20 bg-white py-2 w-40 text-center rounded-md shadow-md border-[#73A0CB] border-2 text-[#73A0CB] " (click)="toggleForm(4)" [ngClass]="{'active' : currentForm == 4 }">Review & Submit</button> -->
-        
-        <!-- <div class="border-1  border-gray-400 absolute w-full z-10"></div> -->
-    </div>
-
+<!-- ===================== STEPPER TABS ===================== -->
+<div class="stepper-tabs">
+  <div class="stepper-row">
+    @for (item of formsName; track $index) {
+      <button type="button" class="stepper-step"
+        [class.stepper-active]="currentForm === $index + 1"
+        [class.stepper-done]="$index + 1 < currentForm">
+        <span class="stepper-circle">
+          <i *ngIf="$index + 1 < currentForm" class="fa-solid fa-check" style="font-size:0.65rem;"></i>
+          <span *ngIf="$index + 1 >= currentForm">{{ $index + 1 }}</span>
+        </span>
+        <span class="stepper-label">{{ item }}</span>
+      </button>
+      @if ($index < formsName.length - 1) {
+        <div class="stepper-line" [class.stepper-line-done]="$index + 1 < currentForm"></div>
+      }
+    }
+  </div>
 </div>
-    <div class="forms py-4 px-3 mx-3 bg-white rounded-lg">
 
-        @if (currentForm == 1) {
-            <app-case-identification ></app-case-identification>
-        }
-        
-        
-        @if (currentForm == 2) {
-            <app-fir-charges-sheet ></app-fir-charges-sheet>
-        }
-        
-        
-        
-        @if (currentForm == 3) {
-            <app-case-parties ></app-case-parties>
-        }
-        
-        
-        @if (currentForm == 4) {
-            <app-case-review-submit ></app-case-review-submit>
-        }
+<!-- ===================== STEP CONTENT ===================== -->
+<div class="forms">
+  <div class="complain-form">
 
-        <div class="formControls flex items-center justify-between mt-5">
-            <button class="rounded-2xl w-28 py-1.5 border-1 border-[#E2E8F0] bg-inherit flex items-center justify-center gap-2" [disabled]="currentForm == 1" [ngClass]="{' cursor-not-allowed' : currentForm == 1}" (click)="formPrev()"><i class="fa-solid fa-arrow-left"></i>Previous</button>
-            <button class="rounded-2xl w-28 py-1.5 border-1 border-[#E2E8F0] text-white bg-[#719FCA] flex justify-center items-center gap-2" [disabled]="currentForm == formsName.length" [ngClass]="{' cursor-not-allowed' : currentForm == formsName.length}" (click)="formNext()">Next<i class="fa-solid fa-arrow-right"></i></button>
-        </div>
+    @if (currentForm == 1) {
+      <app-case-identification
+        [caseId]="caseId"
+        (caseIdentification)="saveAndNext($event)"
+        (cctnsDataReceived)="onCctnsDataReceived($event)"
+        (regTypeChanged)="onRegTypeChanged($event)">
+      </app-case-identification>
+    }
+
+    @if (currentForm == 2) {
+      <app-fir-charges-sheet
+        [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
+        (firChargeSheetC)="saveAndNext($event)">
+      </app-fir-charges-sheet>
+    }
+
+    @if (currentForm == 3) {
+      <app-case-parties
+        [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
+        (caseParty)="saveAndNext($event)">
+      </app-case-parties>
+    }
+
+    @if (currentForm == 4) {
+      <app-case-review-submit
+        [caseId]="caseId"
+        [cctnsData]="cctnsData"
+        [regType]="regType"
+        (caseSubmitted)="navigateToCaseList()">
+      </app-case-review-submit>
+    }
+
+    <!-- ===================== NAVIGATION BUTTONS ===================== -->
+    <div class="form-actions">
+      @if (currentForm === 1) {
+        <button type="button" class="btn-clear" (click)="navigateToCaseList()">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+      }
+      @if (currentForm > 1) {
+        <button type="button" class="btn-clear" (click)="formPrev()">
+          <i class="fa-solid fa-arrow-left"></i> Previous
+        </button>
+      }
+      <button type="button" class="btn-submit"
+        [disabled]="currentForm === 1 && !step1Unlocked"
+        [style.opacity]="currentForm === 1 && !step1Unlocked ? '0.5' : '1'"
+        [style.cursor]="currentForm === 1 && !step1Unlocked ? 'not-allowed' : 'pointer'"
+        (click)="formNext()">
+        {{ currentForm === formsName.length ? 'Submit' : 'Save & Next' }}
+        <i *ngIf="currentForm !== formsName.length" class="fa-solid fa-arrow-right"></i>
+        <i *ngIf="currentForm === formsName.length" class="fa-solid fa-paper-plane"></i>
+      </button>
     </div>
 
-
-
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="report-wrapper">
+
+  <!-- TABLE -->
+  <div class="grid-scroll">
+
+    <div class="report-heading">
+      <h1 class="single-line-heading">FORMAT – A</h1>
+      <p>
+        विधानसभा आम चुनाव 2013, 2018 एवं 2023 तथा लोकसभा आम चुनाव 2014, 2019 एवं 2024
+        के दौरान दायर आपराधिक प्रकरणों की माह मई 2025 तक की अद्यतन सूचना
+      </p>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- HEADER -->
+      <div class="cell header">S.No</div>
+      <div class="cell header">Name of Division</div>
+      <div class="cell header">Name of District</div>
+      <div class="cell header">Total No. of FIR Filed<br>(4 = 5 + 6 + 7)</div>
+      <div class="cell header">Closure / Final Report</div>
+      <div class="cell header">Pending in Police Dept.</div>
+      <div class="cell header">Chargesheet Filed</div>
+      <div class="cell header">Court Judgement</div>
+      <div class="cell header">Cases Pending in Court</div>
+      <div class="cell header">Conviction</div>
+      <div class="cell header">Acquitted</div>
+
+      <!-- DATA -->
+      <ng-container *ngFor="let row of pagedData">
+        <div class="cell data" *ngFor="let col of row">
+          {{ col }}
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="pagination-section">
+
+      <div class="total-record">
+        Total Records : <strong>{{ reportData.length }}</strong>
+      </div>
+
+      <div class="page-size">
+        Show:
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        ◀ Prev
+      </button>
+
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next ▶
+      </button>
+    </div>
+
+    <div class="download-buttons">
+      <button class="download-btn excel" (click)="downloadExcel()">
+        <img src="assets/excel-file.png" alt="excel">
+         Export To Excel
+      </button>
+      <button class="download-btn pdf" (click)="downloadPDF()">
+        <img src="assets/pdf.png" alt="pdf">
+         Export To PDF
+      </button>
+    </div>
+
+  </div>
+
+</div>

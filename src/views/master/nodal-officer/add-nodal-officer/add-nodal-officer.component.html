@@ -1,0 +1,150 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FORM CARD ===================== -->
+    <div class="person-card">
+
+      <!-- Header -->
+      <div class="section-header mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-user-tie filter-header-icon"></i>
+          <h3 class="filter-header-title">
+            {{ editCrimeActData ? 'Edit / Update' : 'Add' }} Nodal Officer
+          </h3>
+        </div>
+
+        <!-- Back Button -->
+        <button type="button" class="filter-toggle-btn" (click)="onCancel()">
+          <i class="fa-solid fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
+
+      <!-- Form Body -->
+      <form [formGroup]="addCrimeActForm">
+        <div class="form-grid">
+
+          <!-- Nodal Officer English Name -->
+          <div class="form-group">
+            <label for="crimeActEnglish">
+              <i class="fa-solid fa-font filter-label-icon"></i>
+              Nodal Officer English Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="crimeActEnglish"
+              formControlName="crimeActEnglish"
+              placeholder="Enter Nodal Officer English Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addCrimeActForm.get('crimeActEnglish')?.hasError('required') && addCrimeActForm.get('crimeActEnglish')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Nodal Officer English Name is required
+            </div>
+          </div>
+
+          <!-- Nodal Officer Hindi Name -->
+          <div class="form-group">
+            <label for="crimeActHindi">
+              <i class="fa-solid fa-language filter-label-icon"></i>
+              Nodal Officer Hindi Name
+            </label>
+            <input
+              type="text"
+              id="crimeActHindi"
+              formControlName="crimeActHindi"
+              placeholder="Enter Nodal Officer Hindi Name"
+              autocomplete="off"
+              class="filter-select">
+          </div>
+
+          <!-- Nodal Officer Short Name -->
+          <div class="form-group">
+            <label for="crimeActShort">
+              <i class="fa-solid fa-tag filter-label-icon"></i>
+              Nodal Officer Short Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="crimeActShort"
+              formControlName="crimeActShort"
+              placeholder="Enter Nodal Officer Short Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addCrimeActForm.get('crimeActShort')?.hasError('required') && addCrimeActForm.get('crimeActShort')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Nodal Officer Short Name is required
+            </div>
+          </div>
+
+          <!-- Nodal Officer Description -->
+          <div class="form-group">
+            <label for="crmieActDesc">
+              <i class="fa-solid fa-align-left filter-label-icon"></i>
+              Nodal Officer Description
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <textarea
+              id="crmieActDesc"
+              formControlName="crmieActDesc"
+              placeholder="Enter Nodal Officer Description"
+              autocomplete="off"
+              rows="2"
+              class="filter-select">
+            </textarea>
+            <div *ngIf="addCrimeActForm.get('crmieActDesc')?.hasError('required') && addCrimeActForm.get('crmieActDesc')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Nodal Officer Description is required
+            </div>
+          </div>
+
+          <!-- Nodal Officer Dropdown -->
+          <div class="form-group">
+            <label for="classification">
+              <i class="fa-solid fa-users filter-label-icon"></i>
+              Nodal Officer
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <ng-select
+              [items]="NodalOfficersDropdown"
+              bindLabel="text"
+              bindValue="value"
+              [compareWith]="compareWithFunc"
+              placeholder="Select Nodal Officer"
+              formControlName="classification"
+              class="custom-ng-select"
+              id="classification"
+              appendTo="body">
+            </ng-select>
+            <div *ngIf="addCrimeActForm.get('classification')?.hasError('required') && addCrimeActForm.get('classification')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Nodal Officer is required
+            </div>
+          </div>
+
+          <!-- Save / Cancel Buttons -->
+          <div class="filter-btn-group">
+            <button type="button" (click)="onSave()" class="btn-submit flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i>
+              Save
+            </button>
+            <button type="button" (click)="onCancel()" class="btn-clear flex items-center gap-2">
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+    <!-- END FORM CARD -->
+
+  </div>
+</div>

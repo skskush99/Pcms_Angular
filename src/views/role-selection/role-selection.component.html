@@ -1,31 +1,12 @@
-<div class="p-4">
+<!-- <div class="p-4">
     <div
     class="heading rounded-md my-4 py-2 border-[#cccccc] border-1 flex items-center justify-between bg-white"
   >
     <p class="mx-4 font-semibold text-lg">Select User To Login.</p>
   </div>
-  <!-- <ag-grid-angular (gridReady)="onGridReady($event)"
-    style="height: 500px"
-    class="ag-theme-quartz"
-    [defaultColDef]="defaultColDef" 
-(columnHeaderClicked)="onColumnHeaderClicked($event)" [rowData]="rowData"
-    [columnDefs]="colDefs"
-    [pagination]="true"
-    [paginationPageSize]="pageSize"
-  >
-  </ag-grid-angular> -->
 
-  <!-- Main Content -->
 <div class="p-4 bg-white">
-  <!-- Print Button Section -->
-  <!-- <div class="flex justify-end mb-4 ">
-      <button 
-          class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200">
-          Print
-      </button>
-  </div> -->
 
-  <!-- Grid Section -->
   <div class="ag-grid-container">
       <ag-grid-angular 
           style="height: 500px; width: 100%;"
@@ -36,32 +17,43 @@
       </ag-grid-angular>
   </div>
 
-  <!-- Pagination Section -->
-  <!-- <div class="flex items-center justify-between mt-4 px-2">
-      <div class="flex items-center space-x-2">
-          <select 
-              id="pageSize" 
-              (change)="onPageSizeChanged($event)"
-              class="px-3 py-2 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-[#496D7E] focus:border-transparent outline-none appearance">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="50">50</option>
-          </select>
+
+</div>
+</div> -->
+
+
+<!-- ===================== ROLE SELECTION ===================== -->
+<div class="forms">
+
+  <!-- Page Card -->
+  <div class="page-card">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <div class="card-header-title">
+        <i class="fa-solid fa-user-shield"></i>
+        Select User To Login
+      </div>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper">
+        <ag-grid-angular
+          style="height: 500px; width: 100%;"
+          class="ag-theme-quartz"
+          [rowData]="rowData"
+          [columnDefs]="colDefs"
+          [pagination]="false">
+        </ag-grid-angular>
       </div>
 
-      <app-pagination 
-          [currentPage]="currentPage" 
-          [limit]="pageSize" 
-          [total]="totalRecords" 
-          (changePage)="changePage($event)">
-      </app-pagination>
-  </div> -->
+    </div>
+  </div>
+
 </div>
-</div>
-
-
-
 
 
 

@@ -8,7 +8,9 @@ export class UrlService {
 
   authUrl: string = environment.authUrl;
   appUrl: string = environment.appUrl;
-  masterUrl : string = environment.masterUrl;
+  masterUrl: string = environment.masterUrl;
+  ecUrl: string = environment.ecUrl
+  caseUrl: string = environment.caseManagementUrl;
   // masterUrl: string = environment.masterUrl;
   // masterUrlWithouOcelet: string = environment.masterUrlWithoutOcelet;
   // caseManagementUrl : string = environment.caseManagementUrl;
@@ -22,16 +24,25 @@ export class UrlService {
 
   constructor() { }
 
-  getSSOLoginUrl(){
+  getSSOLoginUrl() {
     return `${this.authUrl}/gateway/SSOAuthNew`;
   }
 
-  getLoginLogs(){
+  getLoginLogs() {
     return `${this.appUrl}/UserLogin/LoginLogs`;
   }
 
-  getUserDetailsFromSSO(){
+  getUserDetailsFromSSO() {
     return `${this.authUrl}/gateway/SsoProfileDt`
+  }
+
+
+
+  // ECourt URL's
+
+
+  searchCaseByCNRECourt(cnr: string) {
+    return `${this.ecUrl}/api/EcourtService/GetDetailByCNR/SearchByCnr?CinNo=${cnr}`;
   }
 
 
@@ -39,69 +50,84 @@ export class UrlService {
   // AUTH URL's Without Token
 
 
-  getLevelAuthDropdown(){
+  getLevelAuthDropdown() {
     return `${this.authUrl}/gateway/LevelDropdown`
   }
-  
-  
-  getRoleAuthDropdown(){
+
+
+  getRoleAuthDropdown() {
     return `${this.authUrl}/gateway/RolesDropdown`
   }
-  
-  
-  getDivisionAuthDropdown(){
+
+
+  getDivisionAuthDropdown() {
     return `${this.authUrl}/gateway/DivisionsDropdown`
   }
-  
-  
-  getDistrictAuthDropdown(){
+
+
+  getDistrictAuthDropdown() {
     return `${this.authUrl}/gateway/DistrictsDropdown`
   }
-  
-  
-  getOfficeAuthDropdown(){
+
+
+  getOfficeAuthDropdown() {
     return `${this.authUrl}/gateway/OfficesDropdown`
   }
-  
-  
-  getDesignationAuthDropdown(){
+
+
+  getDesignationAuthDropdown() {
     return `${this.authUrl}/gateway/DesignationDropdown`
   }
-  
-  
-  getCourtAuthDropdown(){
+
+
+  getCourtAuthDropdown() {
     return `${this.authUrl}/gateway/CourtNamesDropdown`
   }
 
-  addUserMappingReq(){
+  addUserMappingReq() {
     return `${this.authUrl}/gateway/AddEditUserMapReq`
   }
 
-  
-  
+
+
 
   // MASTER URL's
+
+
+  getUserMenu(){
+    return `${this.masterUrl}/UserLogin/GetUserMenuList`
+  }
+  
+  
+  addEditUserMenu(){
+    return `${this.masterUrl}/MenuMapping/AddEditMenu`
+  }
+  
+  
+  // addEditUserMenu(){
+  //   return `${this.masterUrl}/MenuMapping/AddEditMenu`
+  // }
 
   mapUserBySa(){
     return `${this.masterUrl}/Users/MappedBySA`
   }
 
 
-  getPermissionMappingList(){
-   return `${this.masterUrl}/Users/UserMapReqList` 
+  getPermissionMappingList() {
+    return `${this.masterUrl}/Users/UserMapReqList`
   }
 
 
-  getRolesDropdown(){
+  getRolesDropdown() {
     return `${this.masterUrl}/Roles/GetDropdown`
   }
 
 
-  getadminDeptList(){
+  getadminDeptList() {
     return `${this.masterUrl}/AdminDepartment/Get`
   }
 
-  addEditAdminDept(){
+  addEditAdminDept() {
     return `${this.masterUrl}/AdminDepartment/AddEdit`
   }
 
@@ -113,7 +139,7 @@ export class UrlService {
     return `${this.masterUrl}/AdminDepartment/ActiveDeactive`
   }
 
-  
+
   getOfficeList() {
     return `${this.masterUrl}/Offices/Get`
   }
@@ -193,7 +219,7 @@ export class UrlService {
     return `${this.masterUrl}/CourtTypes/AddEdit`
   }
 
-    getCourtsList() {
+  getCourtsList() {
     return `${this.masterUrl}/CourtNames/GetList`
   }
 
@@ -209,134 +235,256 @@ export class UrlService {
     return `${this.masterUrl}/CourtNames/GetDropdown`
   }
 
-  getPoliceRangeList(){
+  getPoliceRangeList() {
     return `${this.masterUrl}/PoliceThana/GetPRange`
   }
-  
-  
-  getPoliceRangeDropdown(){
+
+
+  getPoliceRangeDropdown() {
     return `${this.masterUrl}/PoliceThana/PRangeDropdown`
   }
 
-  getPoliceDistrictList(){
+  getPoliceDistrictList() {
     return `${this.masterUrl}/PoliceThana/GetPDistrict`
   }
-  
-  
-  getPoliceDistrictDropdown(){
+
+
+  getPoliceDistrictDropdown() {
     return `${this.masterUrl}/PoliceThana/PDistrictDropdown`
   }
 
-  getPoliceCircleList(){
+  getPoliceCircleList() {
     return `${this.masterUrl}/PoliceThana/GetPCircle`
   }
-  
-  
-  getPoliceCircleDropdown(){
+
+
+  getPoliceCircleDropdown() {
     return `${this.masterUrl}/PoliceThana/PCircleDropdown`
   }
 
-  getPoliceStationList(){
+  getPoliceStationList() {
     return `${this.masterUrl}/PoliceThana/GetPStation`
   }
-  
-  
-  getPoliceStationDropdown(){
+
+
+  getPoliceStationDropdown() {
     return `${this.masterUrl}/PoliceThana/PStationDropdown`
   }
-  
-  
-  getLevelList(){
+
+
+  getLevelList() {
     return `${this.masterUrl}/Level/Get`
   }
-  
-  
-  getLevelDropdown(){
+
+
+  getLevelDropdown() {
     return `${this.masterUrl}/Level/Dropdown`
   }
-  
-  
-  addEditLevel(){
+
+
+  addEditLevel() {
     return `${this.masterUrl}/Level/AddEdit`
   }
-  
-  
-  activeDeactiveLevel(){
+
+
+  activeDeactiveLevel() {
     return `${this.masterUrl}/Level/ActiveDeactive`
   }
 
 
-  getCrimeClassificationList(){
+  getCrimeClassificationList() {
     return `${this.masterUrl}/CrimeClassification/Get`
   }
-  
-  
-  getCrimeClassificationDropdown(){
+
+
+  getCrimeClassificationDropdown() {
     return `${this.masterUrl}/CrimeClassification/Dropdown`
   }
 
-  addEditCrimeClassification(){
+  addEditCrimeClassification() {
     return `${this.masterUrl}/CrimeClassification/AddEdit`
   }
-  
-  
-  activeDeactiveCrimeClassification(){
+
+
+  activeDeactiveCrimeClassification() {
     return `${this.masterUrl}/CrimeClassification/ActiveDeactive`
   }
-  
-  
-  getCrimeActList(){
+
+
+  getCrimeActList() {
     return `${this.masterUrl}/CrimeAct/Get`
   }
-  
-  
-  getCrimeActDropdown(){
+
+
+  getCrimeActDropdown() {
     return `${this.masterUrl}/CrimeAct/Dropdown`
   }
 
-  addEditCrimeAct(){
+  addEditCrimeAct() {
     return `${this.masterUrl}/CrimeAct/AddEdit`
   }
-  
-  
-  activeDeactiveCrimeAct(){
+  activeDeactiveCrimeAct() {
     return `${this.masterUrl}/CrimeAct/ActiveDeactive`
   }
-  
-  
-  getCrimeSubActList(){
+  getCrimeSubActList() {
     return `${this.masterUrl}/CrimeSubAct/Get`
   }
-  
-  
-  getCrimeSubActDropdown(){
+  getCrimeSubActDropdown() {
     return `${this.masterUrl}/CrimeSubAct/Dropdown`
   }
-
-  addEditSubCrimeAct(){
+  addEditSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/AddEdit`
   }
-  
-  
-  activeDeactiveSubCrimeAct(){
+  activeDeactiveSubCrimeAct() {
     return `${this.masterUrl}/CrimeSubAct/ActiveDeactive`
   }
-  
-  
-  getFirStatusList(){
+  getFirStatusList() {
     return `${this.masterUrl}/FirStatus/Get`
   }
-  
-  getFirStatusDropdown(){
+  getFirStatusDropdown() {
     return `${this.masterUrl}/FirStatus/Dropdown`
   }
-
-  addEditFirStatus(){
+  addEditFirStatus() {
     return `${this.masterUrl}/FirStatus/AddEdit`
   }
-  
-  activeDeactiveFirStatus(){
+  activeDeactiveFirStatus() {
     return `${this.masterUrl}/FirStatus/ActiveDeactive`
   }
+  // Nodel Officer Details  // Start// 
+  getNodalOfficer() {
+    return `${this.masterUrl}/NodalOfficer/Get`
+  }
+  getNodalOfficerDropdown() {
+    return `${this.masterUrl}/NodalOfficer/GetDropdown`
+  }
+  addEditNodalOfficer() {
+    return `${this.masterUrl}/NodalOfficer/AddEdit`
+  }
+  activeDeactiveNodalOfficer() {
+    return `${this.masterUrl}/NodalOfficer/ActiveDeactive`
+  }
+  // Nodel Officer Details  // End // 
 
+  // Register Complaint (No FIR logged) // Start// 
+
+  AddEditPersonAgainst() {
+    return `${this.caseUrl}/ComplaintRegister/AddEditPersonAgainst`
+  }
+  DeletePersonAgainst(id: number | string) {
+    // debugger
+    return `${this.caseUrl}/ComplaintRegister/DeletePersonAgainst?PersonAgainstId=${id}`
+  }
+  //Final Save Complaint //  
+  saveComplaint() {
+    return `${this.caseUrl}/ComplaintRegister/AddEditComplaint`
+  }
+
+  DierRegistrationsEditOffence() {
+    return `${this.caseUrl}/DierRegistrations/AddEditOffence`
+  }
+  DeleteDierOffence(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteOffence?offenceClassifId=${id}`
+  }
+  // Case management Url's
+  getCaseList() {
+    return `${this.caseUrl}/DierRegistrations/DierList`
+  }
+  regCaseIdentification() {
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps1`
+  }
+  regChargeSheet() {
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps2`
+  }
+  regCaseParties() {
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps3`
+  }
+  submitReviewCase() {
+    return `${this.caseUrl}/DierRegistrations/AddEditDierSteps4`
+  }
+  addFirChargeSheetAdhikari() {
+    return `${this.caseUrl}/DierRegistrations/AddEditInvestigation`
+  }
+  getChargeSheetAdhikariList(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/GetInvestigation?InvestGroupNo=${id}`
+  }
+  deleteChargeSheetAdhikari(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteInvestigation?InvestId=${id}`
+  }
+  addEditCaseAccused() {
+    return `${this.caseUrl}/DierRegistrations/AddEditAccused`
+  }
+  getCaseAccusedList(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/GetAccused?AccusedGroupNo=${id}`
+  }
+  deleteCaseAccused(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteAccused?AccusedId=${id}`
+  }
+  addEditCaseVictimWitness() {
+    return `${this.caseUrl}/DierRegistrations/AddEditVictimWitness`
+  }
+  getCaseVictimWitnessList(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/GetVictimWitness?GroupNo=${id}`
+  }
+  deleteCaseVictimWitness(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteVictimWitness?Id=${id}`
+  }
+
+
+  addEditClassificationOffence() {
+    return `${this.caseUrl}/DierRegistrations/AddEditOffence`
+  }
+
+
+  getClassificationOffence(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/GetOffence?OffenceClassifGroupNo=${id}`
+  }
+
+
+  deleteClassificationOffence(id: number | string) {
+    return `${this.caseUrl}/DierRegistrations/DeleteOffence?OffenceClassifId=${id}`
+  }
+
+  GetComplaintDetailsList() {
+    return `${this.caseUrl}/ComplaintRegister/ComplaintList`
+  }
+
+  // GetComplaintDetailsList(reqParam: any){
+  //   return `${this.caseUrl}/ComplaintRegister/GetComplaintList?pageNo=${reqParam.pageNo}&pageSize=${reqParam.pageSize}&sortBy=${reqParam.sortBy}&isSortByDesc=${reqParam.isSortByDesc}`;
+  // }
+
+  GetCaseDecisionlist() {
+    return `${this.masterUrl}/CaseDecisionType/GetType`
+  }
+
+  addEditDecision() {
+    return `${this.masterUrl}/CaseDecisionType/AddEditType`
+  }
+
+  activeDeactiveDecisionlist() {
+    return `${this.masterUrl}/CaseDecisionType/ActiveDeactiveType`
+  }
+
+  getDecisionTypeDropDownlist() {
+    return `${this.masterUrl}/CaseDecisionType/GetTypeDropdown`
+  }
+
+  addEditDecisionReason() {
+    return `${this.masterUrl}/CaseDecisionReason/AddEditReason`
+  }
+
+  getGetReasonList() {
+    return `${this.masterUrl}/CaseDecisionReason/GetReason`
+  }
+
+  activeDeactivedecisionReason() {
+    return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
+  }
+
+    searchCctns() {
+    return `${this.masterUrl}/CaseDecisionReason/ActiveDeactiveReason`
+  }
+
+    getPoliceStationDropdownall() {
+    return `${this.masterUrl}/PoliceThana/AllPStationDropdown`
+  }
 }

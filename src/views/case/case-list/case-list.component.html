@@ -1,0 +1,184 @@
+<div class="forms">
+  <div class="complain-form">
+
+    <!-- ===================== FILTER CARD ===================== -->
+    <div class="filter-card mb-4">
+
+      <!-- Filter Header -->
+      <div class="filter-card-header" (click)="toggleForm()">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-filter filter-header-icon"></i>
+          <span class="filter-header-title">Case List Filter</span>
+        </div>
+        <button type="button" class="filter-toggle-btn">
+          <i class="fa-solid fa-filter"></i>
+          {{ buttonText }}
+        </button>
+      </div>
+
+      <!-- Filter Body -->
+      <div class="filter-card-body" [@slideInOut]="animationState" [hidden]="isFormCollapsed">
+        <form [formGroup]="caseFilterForm">
+          <div class="form-grid">
+
+            <!-- District -->
+            <div class="form-group">
+              <label for="DistrictId">
+                <i class="fa-solid fa-map-location-dot filter-label-icon"></i>
+                District
+              </label>
+              <ng-select
+                [items]="districtDropDown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select District"
+                formControlName="DistrictId"
+                class="custom-ng-select"
+                id="DistrictId"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- Police Station -->
+            <div class="form-group">
+              <label for="PSName">
+                <i class="fa-solid fa-building-shield filter-label-icon"></i>
+                Police Station
+              </label>
+              <ng-select
+                [items]="thanaDropdown"
+                bindLabel="text"
+                bindValue="value"
+                [virtualScroll]="true"
+                placeholder="Select Police Station"
+                formControlName="PSName"
+                class="custom-ng-select"
+                id="PSName"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- FIR Number -->
+            <div class="form-group">
+              <label for="FIRNo">
+                <i class="fa-solid fa-hashtag filter-label-icon"></i>
+                FIR Number
+              </label>
+              <input
+                type="text"
+                id="FIRNo"
+                formControlName="FIRNo"
+                placeholder="Enter FIR Number"
+                autocomplete="off">
+            </div>
+
+            <!-- FIR Year -->
+            <div class="form-group">
+              <label for="FIRYear">
+                <i class="fa-solid fa-calendar filter-label-icon"></i>
+                FIR Year
+              </label>
+              <ng-select
+                [items]="firYearDropdown"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Select FIR Year"
+                formControlName="FIRYear"
+                class="custom-ng-select"
+                id="FIRYear"
+                appendTo="body">
+              </ng-select>
+            </div>
+
+            <!-- Search / Reset -->
+            <div class="filter-btn-group">
+              <button type="button" (click)="onSearch()" class="btn-search flex items-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+              </button>
+              <button type="button" (click)="resetFilter()" class="btn-clear flex items-center gap-2">
+                <i class="fa-solid fa-rotate-left"></i>
+                Reset
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- END FILTER CARD -->
+
+    <!-- ===================== TABLE CARD ===================== -->
+    <div class="person-card">
+
+      <!-- Table Header -->
+      <div class="section-header mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-folder-open filter-header-icon"></i>
+          <h3 class="filter-header-title">Pending Case List</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" (click)="addCase()" class="filter-toggle-btn flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i>
+            Add Case
+          </button>
+        </div>
+      </div>
+
+      <!-- AG Grid -->
+      <div class="grid-table-wrapper">
+        <ag-grid-angular
+          class="ag-theme-quartz"
+          style="height: 500px; width: 100%;"
+          [rowData]="caseList"
+          [columnDefs]="colDef"
+          (columnHeaderClicked)="onColumnHeaderClicked($event)"
+          [pagination]="false">
+        </ag-grid-angular>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+
+        <!-- Left: Total + Page Size -->
+        <div class="pagination-section">
+          <span class="total-record">Total Records: {{ totalRecords }}</span>
+          <div class="page-size">
+            Show:
+            <select [(ngModel)]="pageSize" (change)="onPageSizeChanged($event)" class="filter-select">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="9999999">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Center: Pagination -->
+        <div class="pagination">
+          <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+
+        <!-- Right: Export -->
+        <div class="download-buttons">
+          <button type="button" (click)="exportExcel()" class="download-btn excel flex items-center gap-2">
+            <i class="fa-solid fa-file-excel"></i>
+            Export To Excel
+          </button>
+          <button type="button" (click)="exportPDF()" class="download-btn pdf flex items-center gap-2">
+            <i class="fa-solid fa-file-pdf"></i>
+            Export To PDF
+          </button>
+        </div>
+
+      </div>
+      <!-- END ACTION BAR -->
+
+    </div>
+    <!-- END TABLE CARD -->
+
+  </div>
+</div>

@@ -1,0 +1,152 @@
+.report-wrapper {
+  background: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 15px;
+}
+
+.report-heading {
+  text-align: center;
+  background: linear-gradient(to right, #6b9bc8, #759fce);
+  color: white;
+  padding: 15px;
+  min-width: 1631px;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid #919cab;
+
+  h1 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  p {
+    margin: 5px 0 0 0;
+    font-size: 13px;
+  }
+}
+
+.grid-scroll {
+  max-height: 600px;
+  overflow: auto;
+  border: 1px solid #e5e7eb;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns:
+    80px
+    160px
+    160px
+    280px
+    220px
+    150px
+    350px
+    230px;
+  min-width: 1500px;
+}
+
+.cell {
+  border: 1px solid #d1d5db;
+  padding: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header {
+  background: #e0ecff;
+  font-weight: 600;
+}
+
+.data {
+  background: #ffffff;
+}
+
+/* ACTION BAR */
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  gap: 20px;
+}
+
+.pagination-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Pagination */
+.pagination button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-weight: 600;
+}
+
+/* Total Record */
+.total-record {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Page Size */
+.page-size select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-left: 5px;
+}
+
+/* Downloads */
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.download-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.download-btn.excel {
+  background: #16a34a;
+}
+
+.download-btn.pdf {
+  background: #dc2626;
+}

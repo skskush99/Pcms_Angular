@@ -1,60 +1,118 @@
-<div class="py-4 px-2.5">
-    <p class="font-400 text-xl tracking-wider">Remarks & Uploads</p>
+<!-- ===================== REMARKS & UPLOADS ===================== -->
+<div>
 
-    <div class="remarkForm grid grid-cols-1 md:grid-cols-3 gap-4">
+    <h3 class="section-title" style="margin-bottom:20px;">Remarks & Uploads</h3>
 
-        
-        <div class="form-group col-span-full">
-            <label for="firNo" class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Enter Remarks<sup class="text-red-500 text-lg font-semibold">*</sup>
+    <!-- Remarks -->
+    <form [formGroup]="caseSubmitForm">
+        <div class="form-group full-width-grid" style="margin-bottom:20px;">
+            <label for="remarks">Enter Remarks <span class="required">*</span></label>
+            <textarea rows="4" id="remarks" formControlName="remarks" placeholder="Enter Remarks" autocomplete="off"></textarea>
+        </div>
+    </form>
+
+    <!-- File Uploads -->
+    <div class="document-upload-row">
+
+        <div class="form-group">
+            <label for="chargeSheetDocs">
+              {{ isFR ? 'FR First Page' : 'Upload Charge Sheet First Page Thumbnail' }}
+              <span class="required">*</span>
+              @if (isFR) { <span class="section-subtitle">(Mandatory)</span> }
             </label>
-            <textarea rows="4" type="text" id="firNo"
-            formControlName="firNo" 
-            placeholder="Enter Remarks"
-            autocomplete="off"
-            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">  
-            </textarea>      
+            <div class="file-upload-row">
+                <input type="file" id="chargeSheetDocs" accept="application/pdf" (change)="onFileChange($event, fileType.chargeSheetDocs)">
+                <button *ngIf="files[fileType.chargeSheetDocs]?.file && !files[fileType.chargeSheetDocs]?.error" type="button" class="btn-preview-file" title="Preview File" (click)="previewFile(fileType.chargeSheetDocs)"><i class="fa-solid fa-eye"></i></button>
+                <button *ngIf="files[fileType.chargeSheetDocs]?.file" type="button" class="btn-remove-file" title="Remove File" (click)="removeFile(fileType.chargeSheetDocs)"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <span class="form-hint">Only PDF, max 5MB</span>
+            <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">{{ files[fileType.chargeSheetDocs]?.error }}</span>
+            <span *ngIf="files[fileType.chargeSheetDocs]?.file && !files[fileType.chargeSheetDocs]?.error" class="form-success"><i class="fa-solid fa-check-circle"></i> {{ files[fileType.chargeSheetDocs]!.file.name }}</span>
         </div>
 
+        <div class="form-group">
+            <label for="fullChargeSheetDocs">
+              {{ isFR ? 'Full FR PDF' : 'Upload Full Charge Sheet PDF' }}
+              @if (!isFR) { <span class="required">*</span> }
+              @if (isFR) { <span class="section-subtitle">(Optional)</span> }
+            </label>
+            <div class="file-upload-row">
+                <input type="file" id="fullChargeSheetDocs" accept="application/pdf" (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
+                <button *ngIf="files[fileType.fullChargeSheetDocs]?.file && !files[fileType.fullChargeSheetDocs]?.error" type="button" class="btn-preview-file" title="Preview File" (click)="previewFile(fileType.fullChargeSheetDocs)"><i class="fa-solid fa-eye"></i></button>
+                <button *ngIf="files[fileType.fullChargeSheetDocs]?.file" type="button" class="btn-remove-file" title="Remove File" (click)="removeFile(fileType.fullChargeSheetDocs)"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <span class="form-hint">Only PDF, max 5MB</span>
+            <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">{{ files[fileType.fullChargeSheetDocs]?.error }}</span>
+            <span *ngIf="files[fileType.fullChargeSheetDocs]?.file && !files[fileType.fullChargeSheetDocs]?.error" class="form-success"><i class="fa-solid fa-check-circle"></i> {{ files[fileType.fullChargeSheetDocs]!.file.name }}</span>
+        </div>
 
-                    <div class="form-group ">
-                        <label for="firNo" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Upload Charge sheet First Page Thumbnail<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="file" id="firNo"
-                        formControlName="firNo" 
-                        placeholder="Enter FIR संख्या (CCTNS)"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">        
-                    </div>
-                    
-                    
-                    <div class="form-group ">
-                        <label for="firNo" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Upload Full Charge sheet PDF<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="file" id="firNo"
-                        formControlName="firNo" 
-                        placeholder="Enter FIR संख्या (CCTNS)"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">        
-                    </div>
-                    
-                    
-                    <div class="form-group ">
-                        <label for="firNo" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                        Upload Other Doc. (If any)<sup class="text-red-500 text-lg font-semibold">*</sup>
-                        </label>
-                        <input type="file" id="firNo"
-                        formControlName="firNo" 
-                        placeholder="Enter FIR संख्या (CCTNS)"
-                        autocomplete="off"
-                        class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">        
-                    </div>
+        <div class="form-group">
+            <label for="otherDocs">
+              {{ isFR ? 'Upload Doc.' : 'Upload Other Doc. (If any)' }}
+              @if (isFR) { <span class="section-subtitle">(Optional)</span> }
+            </label>
+            <div class="file-upload-row">
+                <input type="file" id="otherDocs" accept="application/pdf" (change)="onFileChange($event, fileType.otherDocs)">
+                <button *ngIf="files[fileType.otherDocs]?.file && !files[fileType.otherDocs]?.error" type="button" class="btn-preview-file" title="Preview File" (click)="previewFile(fileType.otherDocs)"><i class="fa-solid fa-eye"></i></button>
+                <button *ngIf="files[fileType.otherDocs]?.file" type="button" class="btn-remove-file" title="Remove File" (click)="removeFile(fileType.otherDocs)"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <span class="form-hint">Only PDF, max 5MB</span>
+            <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">{{ files[fileType.otherDocs]?.error }}</span>
+            <span *ngIf="files[fileType.otherDocs]?.file && !files[fileType.otherDocs]?.error" class="form-success"><i class="fa-solid fa-check-circle"></i> {{ files[fileType.otherDocs]!.file.name }}</span>
+        </div>
 
-
-                <div class="quickSummary">
-                    Quick summary here.......
-                </div>      
     </div>
+
+    <!-- ===================== CCTNS FILE ROOM DETAILS ===================== -->
+    @if (fileRoomDetails.length && !isFR) {
+    <div class="person-section">
+        <div class="person-header">
+            <h3 class="section-title">
+                <i class="fa-solid fa-folder-open" style="color:#5a8bb8; margin-right:8px;"></i>
+                CCTNS File Room Documents
+                <span class="section-subtitle" style="margin-left:8px;">({{ fileRoomDetails.length }} files)</span>
+            </h3>
+        </div>
+
+        <!-- Scroller wrapper — activates when >10 rows -->
+        <div class="grid-table-wrapper">
+            <div [style.max-height]="fileRoomDetails.length > 10 ? '360px' : 'none'"
+                 [style.overflow-y]="fileRoomDetails.length > 10 ? 'auto' : 'visible'">
+                <table>
+                    <thead style="position: sticky; top:0; z-index:2;">
+                        <tr style="background: linear-gradient(to right, #5a8bb8, #6b9bc8, #759fce);">
+                            <th style="color:#000000; font-weight:700; white-space:nowrap;">Sr No.</th>
+                            <th style="color:#000000; font-weight:700; white-space:nowrap;">File Name</th>
+                            <th style="color:#000000; font-weight:700; white-space:nowrap;">Module</th>
+                            <th style="color:#000000; font-weight:700; white-space:nowrap;">Reg. Date</th>                            
+                            <th style="color:#000000; font-weight:700; white-space:nowrap;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (file of fileRoomDetails; track $index) {
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td style="text-align:start;">
+                                <i class="fa-solid fa-file-pdf" style="color:#dc2626; margin-right:6px;"></i>
+                                {{ file.fileName }}
+                            </td>
+                            <td>{{ file.moduleName }}</td>
+                            <td>{{ file.regDate }}</td>                           
+                            <td>
+                                <div class="tbl-action-cell">
+                                    <i class="fa-solid fa-eye tbl-icon-edit"
+                                       title="View Document"
+                                       (click)="openFileRoomDoc(file)"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    }
+
 </div>

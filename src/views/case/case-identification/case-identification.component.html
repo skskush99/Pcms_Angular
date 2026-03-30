@@ -1,171 +1,120 @@
-<div class=" ">
-    <form [formGroup]="caseIdentificationForm">
-        <div class="grid grid-cols-12 gap-3">
+<form [formGroup]="caseIdentificationForm">
 
-            <div class="col-span-full flex flex-col gap-2.5 mb-4">
-                <div>
-                    <p class="text-base font-semibold">Register Type<sup class="text-red-500 text-lg font-semibold">*</sup></p>
-                </div>
-                <div class="flex items-center">
-                <div class="mx-5 flex items-center gap-2 col-span-1 border-[#E2E8F0] border-2 p-2 rounded-3xl  w-fit">
-                    <input
-                    type="radio"
-                    formControlName="regType"
-                    value="diar"
-                    class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]"
-                    />
-                    <label class="text-sm "
-                    >Diar Register</label
-                    >  
-                </div>
-                
-                
-                <div class="mx-5 flex items-center gap-2 col-span-1 border-[#E2E8F0] border-2 p-2 rounded-3xl  w-fit">
-                    <input
-                    type="radio"
-                    formControlName="regType"
-                    value="dispose"
-                    class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]"
-                    />
-                    <label class="text-sm "
-                    >Final Dispose</label
-                    >  
-                </div>
-                </div>
-            </div>
+    <!-- ===== REGISTER TYPE ===== -->
+    <div class="ci-field-block">
+        <p class="ci-field-label">Register Type <span class="required">*</span></p>
+        <div class="radio-group radio-group-bordered">
+            <label class="radio-option">
+                <input type="radio" formControlName="regType" value="1" (change)="onRegTypeChange()" />
+                <span>Diar Register</span>
+            </label>
+            <label class="radio-option">
+                <input type="radio" formControlName="regType" value="2" (change)="onRegTypeChange()" />
+                <span>Final Register (FR)</span>
+            </label>
+        </div>
+    </div>
 
-
-
-            <div class="col-span-full ">
-                <p class="text-base font-semibold">Search Case Via<sup class="text-red-500 text-lg font-semibold">*</sup></p>
-            
-
-                <div
-                class="flex flex-wrap gap-8  items-center px-5 py-3 border-b border-gray-200 "
-                >
-                <div class="flex items-center gap-2 col-span-1 border-[#E2E8F0] border-2 p-2 rounded-3xl ">
-                    <input
-                    type="radio"
-                    formControlName="searchCaseVia"
-                    value="fir"
-                    class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]"
-                    />
-                    <label class="text-sm " for="fir"
-                    >FIR Details</label
-                    >
-                    
-                </div>
-
-                <div class="flex items-center gap-2 col-span-1 border[#E2E8F0] border-2 p-2 rounded-3xl ">
-                    <input
-                    type="radio"
-                    formControlName="searchCaseVia"
-                    value="cnr"
-                    
-                    class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]"
-                    />
-                    <label class="text-sm " for="cnr"
-                    >CIS / CNR Details</label
-                    >
-                    
-                </div>
-                
-                
-                @if (caseIdentificationForm.value.regType == 'dispose') {
-                <div class="flex items-center gap-2 col-span-1 border[#E2E8F0] border-2 p-2 rounded-3xl ">
-                    <input
-                    type="radio"
-                    formControlName="searchCaseVia"
-                    value="dierRegNo"
-                    
-                    class="w-4 h-4 text-[#496D7E] border-gray-300 focus:ring-[#496D7E]"
-                    />
-                    <label class="text-sm " for="cnr"
-                    >Dier Register No.</label
-                    >
-                    
-                </div>
+    <!-- ===== SEARCH CASE VIA ===== -->
+    <div class="ci-field-block" style="margin-top:20px;">
+        <p class="ci-field-label">Search Case Via <span class="required">*</span></p>
+        <div class="radio-group radio-group-bordered">
+            <label class="radio-option">
+                <input type="radio" formControlName="searchCaseVia" value="1" />
+                <span>FIR Details</span>
+            </label>
+            <label class="radio-option">
+                <input type="radio" formControlName="searchCaseVia" value="2" />
+                <span>CIS / CNR Details</span>
+            </label>
+            @if (caseIdentificationForm.value.regType == 'dispose') {
+            <label class="radio-option">
+                <input type="radio" formControlName="searchCaseVia" value="3" />
+                <span>Dier Register No.</span>
+            </label>
             }
-                </div>
-            </div>
+        </div>
+    </div>
 
+    <!-- ===== FIR DETAILS ===== -->
+    @if (caseIdentificationForm.value.searchCaseVia == '1') {
+    <div class="ci-fields-card">
+        <div class="form-grid">
 
-
-            @if (caseIdentificationForm.value.searchCaseVia == 'fir') {
             <!-- Thana -->
-            <div class="form-group col-span-full ">
-                <label for="division" class="block text-base font-semibold text-gray-700 mb-2">
-                Thana<sup class="text-red-500 text-lg font-semibold">*</sup>
-                </label>
-
-                <ng-select 
-                [items]="thanaDropdown"
-                bindLabel="text"
-                bindValue="value"
-                placeholder="Select Thana"
-                formControlName="thana"
-                class="custom-ng-select"
-                id="thana"
-                >
+            <div class="form-group">
+                <label>Thana <span class="required">*</span></label>
+                <ng-select [items]="thanaDropdown" bindLabel="text" bindValue="value" [virtualScroll]="true"
+                    placeholder="Select Thana" formControlName="thana" class="custom-ng-select" appendTo="body">
                 </ng-select>
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('thana')?.touched && caseIdentificationForm.get('thana')?.errors?.['required']">
+                    Thana is required
+                </span>
             </div>
 
+            <!-- FIR No -->
+            <div class="form-group">
+                <label for="firNo">FIR No. <span class="required">*</span></label>
+                <input type="text" id="firNo" formControlName="firNo"
+                    placeholder="Enter FIR No. (max 4 digits)"
+                    autocomplete="off" maxlength="4"
+                    (keypress)="onFirNoKeyPress($event)">
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('firNo')?.touched && caseIdentificationForm.get('firNo')?.errors?.['required']">
+                    FIR No. is required
+                </span>
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('firNo')?.touched && caseIdentificationForm.get('firNo')?.errors?.['pattern']">
+                    FIR No. must contain digits only
+                </span>
+            </div>
 
-        <div class="col-span-full grid grid-cols-2 gap-4 ">
+            <!-- Year of FIR -->
+            <div class="form-group">
+                <label>Year of FIR <span class="required">*</span></label>
+                <ng-select [items]="firYearDropdown" bindLabel="text" bindValue="value"
+                    placeholder="Select Year of FIR"
+                    formControlName="firYear" class="custom-ng-select" appendTo="body">
+                </ng-select>
+                <span class="form-error"
+                    *ngIf="caseIdentificationForm.get('firYear')?.touched && caseIdentificationForm.get('firYear')?.errors?.['required']">
+                    Year of FIR is required
+                </span>
+            </div>
 
-                    <div class="form-group ">
-                            <label for="firNo" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            FIR No.<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="firNo"
-                            formControlName="firNo" 
-                            placeholder="Enter FIR No."
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                            
-                    </div>
-                    
-                    
-                    <div class="form-group">
-                            <label for="firYear" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            Year of FIR<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <ng-select 
-                                [items]="firYearDropdown"
-                                bindLabel="text"
-                                bindValue="value"
-                                placeholder="Select Year of FIR"
-                                formControlName="firYear"
-                                class="custom-ng-select"
-                                id="firYear"
-                                >
-                            </ng-select>
-                    </div>
+            <!-- CCTNS Button — hidden for Final Register (FR) -->
+            <div *ngIf="isFirDetailsFilled() && !isFR"
+                style="grid-column: 1 / -1; display:flex; justify-content:flex-end; margin-top:4px;">
+                <button type="button" class="btn-search"
+                    [disabled]="cctnsSuccess"
+                    [style.opacity]="cctnsSuccess ? '0.5' : '1'"
+                    [style.cursor]="cctnsSuccess ? 'not-allowed' : 'pointer'"
+                    (click)="onCctnsSearch()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    {{ cctnsSuccess ? 'CCTNS (Fetched ✓)' : 'CCTNS' }}
+                </button>
+            </div>
 
         </div>
+    </div>
 
+
+    } @else {
+    <div class="ci-fields-card">
+        <div class="cnr-search-row">
+            <div class="form-group cnr-input">
+                <label for="cisCnr">CIS / CNR No. <span class="required">*</span></label>
+                <input type="text" id="cisCnr" formControlName="cisCnr"
+                    placeholder="Enter CIS or CNR No." autocomplete="off">
+            </div>
+            <div class="cnr-btn">
+                <button type="button" class="btn-search" (click)="searnCnrCis()">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
     }
-    @else {
-        <div class="col-span-full grid grid-cols-12">
-                    <div class="form-group col-span-10">
-                            <label for="cisCnr" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                            CIS / CNR No.<sup class="text-red-500 text-lg font-semibold">*</sup>
-                            </label>
-                            <input type="text" id="cisCnr"
-                            formControlName="firNo" 
-                            placeholder="Enter CIS or CNR No."
-                            autocomplete="off"
-                            class="w-full px-2 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                            
-                    </div>
-                    <div class="col-span-2 place-self-end">
-                        <button class="bg-[#659bcd] hover:bg-[#3f81c0] text-white rounded-lg px-3 py-2">
-                           <i class="fa-solid fa-magnifying-glass"></i> Search By CIS/CNR
-                        </button>
-                    </div>
-        </div>
-    }
 
-        </div>
-    </form>
-</div>
+</form>

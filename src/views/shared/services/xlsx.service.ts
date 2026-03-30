@@ -56,8 +56,8 @@ export class XlsxService {
     // Headings
     const headings = [
       "Government of Rajasthan",
-      'Prosecution Department',
-      '(Prosecution Case Management System)',
+      "Prosecution Department",
+      "(Prosecution Case Management System)",
       worksheetName + ' ' + formattedDate
     ];
     const headerKeys = Object.keys(columnHeaders);
@@ -983,6 +983,15 @@ printComponent(tableId: string) {
       document.body.appendChild(hiddFrame);
     }
   }
+
+  exportAsExcelFile(json: any[], fileName: string): void {
+  const worksheet = XLSX.utils.json_to_sheet(json);
+  const workbook = {
+    Sheets: { 'Sheet1': worksheet },
+    SheetNames: ['Sheet1']
+  };
+  XLSX.writeFile(workbook, fileName + '.xlsx');
+}
 
 
 }

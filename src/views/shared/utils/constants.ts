@@ -7,7 +7,10 @@ let constants = {
     atleastOneAccusedReq : "Atleast 1 Accused entry is required",
     atLeastOneVictimReq : "Atleast 1 Victim entry is required",
     ALL_MANDATE : "All Fields Are Mandatory",
+    allFilesMandate : "Please Upload All Required Files",
     allFieldsReq : "Please Fill All Fields To Add",
+    cnrNotAvail : "Please Enter CNR No. To Search Case",
+    FileSizeExceeding : "File Size is Greater than permitted",
     sortingOrder : ['asc' , 'desc'],
     backTOSSO : "https://ssotest.rajasthan.gov.in/sso",
 }

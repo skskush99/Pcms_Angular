@@ -1,0 +1,58 @@
+<!-- ===================== REMARKS & UPLOADS ===================== -->
+<div>
+
+    <h3 class="section-title" style="margin-bottom:20px;">Remarks & Uploads</h3>
+
+    <!-- Remarks -->
+    <form [formGroup]="caseSubmitForm">
+        <div class="form-group full-width-grid" style="margin-bottom:20px;">
+            <label for="remarks">
+                Enter Remarks <span class="required">*</span>
+            </label>
+            <textarea rows="4" id="remarks" formControlName="remarks" placeholder="Enter Remarks" autocomplete="off">
+      </textarea>
+        </div>
+    </form>
+
+    <!-- File Uploads -->
+    <div class="document-upload-row">
+
+        <!-- Charge Sheet First Page Thumbnail -->
+        <div class="form-group">
+            <label for="chargeSheetDocs">
+                Upload Charge Sheet First Page Thumbnail
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="chargeSheetDocs" (change)="onFileChange($event, fileType.chargeSheetDocs)">
+            <span *ngIf="files[fileType.chargeSheetDocs]?.error" class="form-error">
+                {{ files[fileType.chargeSheetDocs]?.error }}
+            </span>
+        </div>
+
+        <!-- Full Charge Sheet PDF -->
+        <div class="form-group">
+            <label for="fullChargeSheetDocs">
+                Upload Full Charge Sheet PDF
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="fullChargeSheetDocs" (change)="onFileChange($event, fileType.fullChargeSheetDocs)">
+            <span *ngIf="files[fileType.fullChargeSheetDocs]?.error" class="form-error">
+                {{ files[fileType.fullChargeSheetDocs]?.error }}
+            </span>
+        </div>
+
+        <!-- Other Docs -->
+        <div class="form-group">
+            <label for="otherDocs">
+                Upload Other Doc. (If any)
+                <span class="required">*</span>
+            </label>
+            <input type="file" id="otherDocs" (change)="onFileChange($event, fileType.otherDocs)">
+            <span *ngIf="files[fileType.otherDocs]?.error" class="form-error">
+                {{ files[fileType.otherDocs]?.error }}
+            </span>
+        </div>
+
+       
+    </div>
+<div>

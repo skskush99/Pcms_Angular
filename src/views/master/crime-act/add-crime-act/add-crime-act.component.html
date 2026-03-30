@@ -1,156 +1,150 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 px-4 lg:px-6 py-6">
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          <!-- Header -->
-          <div class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-[#759fce] via-[#6b9bc8] to-[#759fce] border-b border-white/20">
-              <div class="flex items-center gap-3">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                 </svg>
-                 <h2 class="text-xl font-bold text-white">{{editCrimeActData ? 'Edit/Update' : 'Add'}} Office</h2>
-              </div>
-              <button class="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-2.5 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110" (click)="onCancel()">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-              </button>
-          </div>
+<div class="forms">
+  <div class="complain-form">
 
-          <!-- Form -->
-          <div>
-              <form [formGroup]="addCrimeActForm" class="p-6">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <!-- Crime Act English Name -->
-                      <div class="form-group">
-                        <label for="officeEng" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                          Crime Act English Name
-                          <sup class="text-red-500 text-base ml-0.5">*</sup>
-                        </label>
-                        <input type="text" id="crimeActEnglish"
-                            formControlName="crimeActEnglish" 
-                            placeholder="Enter Crime Act English Name"
-                            autocomplete="off"
-                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                        <div *ngIf="addCrimeActForm.get('crimeActEnglish')?.hasError('required') && addCrimeActForm.get('crimeActEnglish')?.touched"
-                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Crime Act English Name is required
-                        </div>
-                        <!-- <div *ngIf="addCrimeActForm.get('officeEng')?.hasError('pattern') && addCrimeActForm.get('officeEng')?.touched"
-                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Crime Act English Name should only contain alphabets
-                        </div> -->
-                      </div>
+    <!-- ===================== FORM CARD ===================== -->
+    <div class="person-card">
 
-                      
+      <!-- Header -->
+      <div class="section-header mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-scale-balanced filter-header-icon"></i>
+          <h3 class="filter-header-title">
+            {{ editCrimeActData ? 'Edit / Update' : 'Add' }} Crime Act
+          </h3>
+        </div>
 
-                      <!-- Crime Act Hindi Name -->
-                      <div class="form-group">
-                          <label for="crimeActHindi" class="block text-sm font-semibold text-gray-700 mb-2.5">Crime Act Hindi Name</label>
-                          <input type="text" autocomplete="off" 
-                              id="crimeActHindi"
-                              formControlName="crimeActHindi"
-                              placeholder="Enter Crime Act Hindi Name"
-                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                          <div *ngIf="addCrimeActForm.get('crimeActHindi')?.hasError('required') && addCrimeActForm.get('crimeActHindi')?.touched" 
-                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              Crime Act Hindi Name is required
-                          </div>
-                      </div>
-                      
-                      
-                      <!-- Crime Act Short Name -->
-                      <div class="form-group">
-                          <label for="crimeActShort" class="block text-sm font-semibold text-gray-700 mb-2.5">Crime Act Short Name</label>
-                          <input type="text" autocomplete="off" 
-                              id="crimeActShort"
-                              formControlName="crimeActShort"
-                              placeholder="Enter Crime Act Short Name"
-                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                          <div *ngIf="addCrimeActForm.get('crimeActShort')?.hasError('required') && addCrimeActForm.get('crimeActShort')?.touched" 
-                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              Crime Act Short Name is required
-                          </div>
-                      </div>
-                      
-                      
-                      <!-- Crime Act Description -->
-                      <div class="form-group">
-                          <label for="crmieActDesc" class="block text-sm font-semibold text-gray-700 mb-2.5">Crime Act Description</label>
-                          <textarea type="text" autocomplete="off" 
-                              id="crmieActDesc"
-                              rows="2"
-                              formControlName="crmieActDesc"
-                              placeholder="Enter Crime Act Description"
-                              class="w-full px-4 py-2.5 bg-white border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#496D7E] focus:border-[#496D7E] outline-none transition-all duration-200 hover:border-gray-300 shadow-sm">
-                            </textarea>
-                              <div *ngIf="addCrimeActForm.get('crmieActDesc')?.hasError('required') && addCrimeActForm.get('crmieActDesc')?.touched" 
-                              class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              Crime Act Description is required
-                          </div>
-                      </div>
-
-         
-         
-                    <!-- District -->
-                    <div class="form-group">
-                        <label for="district" class="block text-sm font-semibold text-gray-700 mb-2.5">
-                        Crime Classification
-                        <sup class="text-red-500 text-base ml-0.5">*</sup>
-                        </label>
-
-                        <ng-select 
-                        [items]="crimeClassificationDropdown"
-                        bindLabel="text"
-                        bindValue="value"
-                        [compareWith]="compareWithFunc"
-                        placeholder="Select Crime Classification"
-                        formControlName="classification"
-                        class="custom-ng-select"
-                        id="district"
-                        >
-                        </ng-select>
-                        <div *ngIf="addCrimeActForm.get('classification')?.hasError('required') && addCrimeActForm.get('classification')?.touched" 
-                            class="mt-1.5 text-sm text-red-600 font-medium flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Crime Classification is required
-                        </div>
-                    </div>
-                    <div class="flex justify-end pt-8  gap-4">
-        
-                        <app-button (clicked)="onSave()" bgType="4" label="Save"></app-button>
-                        <app-button (clicked)="onCancel()" bgType="5" label="Cancel"></app-button>
-                    </div>
-</div>
-<div>
-      <!-- Action Buttons -->
-      
-
-                  </div>
-              </form>
-          </div>
+        <!-- Back Button -->
+        <button type="button" class="filter-toggle-btn" (click)="onCancel()">
+          <i class="fa-solid fa-arrow-left"></i>
+          Back
+        </button>
       </div>
-  <!-- </div> -->
+
+      <!-- Form Body -->
+      <form [formGroup]="addCrimeActForm">
+        <div class="form-grid">
+
+          <!-- Crime Act English Name -->
+          <div class="form-group">
+            <label for="crimeActEnglish">
+              <i class="fa-solid fa-font filter-label-icon"></i>
+              Crime Act English Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="crimeActEnglish"
+              formControlName="crimeActEnglish"
+              placeholder="Enter Crime Act English Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addCrimeActForm.get('crimeActEnglish')?.hasError('required') && addCrimeActForm.get('crimeActEnglish')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Act English Name is required
+            </div>
+          </div>
+
+          <!-- Crime Act Hindi Name -->
+          <div class="form-group">
+            <label for="crimeActHindi">
+              <i class="fa-solid fa-language filter-label-icon"></i>
+              Crime Act Hindi Name
+            </label>
+            <input
+              type="text"
+              id="crimeActHindi"
+              formControlName="crimeActHindi"
+              placeholder="Enter Crime Act Hindi Name"
+              autocomplete="off"
+              class="filter-select">
+          </div>
+
+          <!-- Crime Act Short Name -->
+          <div class="form-group">
+            <label for="crimeActShort">
+              <i class="fa-solid fa-tag filter-label-icon"></i>
+              Crime Act Short Name
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <input
+              type="text"
+              id="crimeActShort"
+              formControlName="crimeActShort"
+              placeholder="Enter Crime Act Short Name"
+              autocomplete="off"
+              class="filter-select">
+            <div *ngIf="addCrimeActForm.get('crimeActShort')?.hasError('required') && addCrimeActForm.get('crimeActShort')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Act Short Name is required
+            </div>
+          </div>
+
+          <!-- Crime Act Description -->
+          <div class="form-group">
+            <label for="crmieActDesc">
+              <i class="fa-solid fa-align-left filter-label-icon"></i>
+              Crime Act Description
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <textarea
+              id="crmieActDesc"
+              formControlName="crmieActDesc"
+              placeholder="Enter Crime Act Description"
+              autocomplete="off"
+              rows="2"
+              class="filter-select">
+            </textarea>
+            <div *ngIf="addCrimeActForm.get('crmieActDesc')?.hasError('required') && addCrimeActForm.get('crmieActDesc')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Act Description is required
+            </div>
+          </div>
+
+          <!-- Crime Classification -->
+          <div class="form-group">
+            <label for="classification">
+              <i class="fa-solid fa-layer-group filter-label-icon"></i>
+              Crime Classification
+              <sup class="text-red-500 text-base ml-0.5">*</sup>
+            </label>
+            <ng-select
+              [items]="crimeClassificationDropdown"
+              bindLabel="text"
+              bindValue="value"
+              [compareWith]="compareWithFunc"
+              placeholder="Select Crime Classification"
+              formControlName="classification"
+              class="custom-ng-select"
+              id="classification"
+              appendTo="body">
+            </ng-select>
+            <div *ngIf="addCrimeActForm.get('classification')?.hasError('required') && addCrimeActForm.get('classification')?.touched"
+              class="form-error">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Crime Classification is required
+            </div>
+          </div>
+
+          <!-- Save / Cancel Buttons -->
+          <div class="filter-btn-group">
+            <button type="button" (click)="onSave()" class="btn-submit flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i>
+              Save
+            </button>
+            <button type="button" (click)="onCancel()" class="btn-clear flex items-center gap-2">
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+    <!-- END FORM CARD -->
+
+  </div>
 </div>
-
-
-
-
-<!-- <div class="bg-gray-200 w-[300px] h-[20px]">
-    <app-date-picker></app-date-picker>
-</div> -->
